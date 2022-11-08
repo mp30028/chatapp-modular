@@ -5,7 +5,7 @@
     <artifactId>chatapp-modular</artifactId>
     <version>1.0.0</version>
   </parent>
-  <artifactId>chatapp-utils</artifactId>
-  <name>chatapp-utils</name>
-  <description>Common utility classes shared by all chatapp modules</description>
+  <artifactId>utils</artifactId>
+  <name>utils</name>
+  <description>Generic utility functions</description>
 </project>

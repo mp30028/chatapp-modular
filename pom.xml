@@ -25,12 +25,9 @@
 	</properties>
 
     <modules>
-<!--         <module>chatapp-ui</module> -->
-<!--         <module>persons-api</module> -->
-<!--         <module>conversation-api</module> -->
     	<module>persons-api</module>
     	<module>chats-api</module>
-    	<module>chatapp-utils</module>
+    	<module>utils</module>
     </modules>
 
 

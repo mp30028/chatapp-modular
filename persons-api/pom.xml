@@ -11,7 +11,7 @@
   <dependencies>
 	<dependency>
 		<groupId>com.zonesoft</groupId>
-		<artifactId>chatapp-utils</artifactId>
+		<artifactId>utils</artifactId>
 		<version>1.0.0</version>
 	</dependency>
   </dependencies>  
