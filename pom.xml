@@ -29,6 +29,8 @@
 <!--         <module>persons-api</module> -->
 <!--         <module>conversation-api</module> -->
     	<module>persons-api</module>
+    	<module>chats-api</module>
+    	<module>chatapp-utils</module>
     </modules>
 
 
@@ -85,8 +87,9 @@
 	      <artifactId>mongodb</artifactId>
 	      <scope>test</scope>
 	    </dependency>
-    
-		
+
+
+
 	</dependencies>
 
 	<dependencyManagement>

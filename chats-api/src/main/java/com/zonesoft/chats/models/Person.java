@@ -1,14 +1,11 @@
-package com.zonesoft.persons.models;
+package com.zonesoft.chats.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import static com.zonesoft.utils.ToStringHelpers.*;
 
 
-@Document(collection = "persons")
 public class Person {
 	
-	@Id private String id;
+	private String id;
 
 
 	private String moniker;

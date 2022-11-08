@@ -5,14 +5,16 @@
     <artifactId>chatapp-modular</artifactId>
     <version>1.0.0</version>
   </parent>
-  <artifactId>persons-api</artifactId>
-  <name>persons-api</name>
-  <description>REST API to manage persons</description>
-  <dependencies>
+  <artifactId>chats-api</artifactId>
+  <name>chats-api</name>
+  <description>REST API to manage chats</description>
+  
+   <dependencies>
 	<dependency>
 		<groupId>com.zonesoft</groupId>
 		<artifactId>chatapp-utils</artifactId>
 		<version>1.0.0</version>
 	</dependency>
-  </dependencies>  
+  </dependencies> 
+  
 </project>
