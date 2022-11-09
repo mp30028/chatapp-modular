@@ -94,25 +94,25 @@ public class Conversation {
 
 	public class Participant {
 		
-		@DBRef private final Person person;
+		@DBRef private final String personId;
 		private final OffsetDateTime participationStart;
 		private OffsetDateTime participationEnd = null;
 		
 		
-		public Participant(Person person) {
+		public Participant(String personId) {
 			super();
-			this.person = person;
+			this.personId = personId;
 			this.participationStart = OffsetDateTime.now();
 		}
 		
-		public Participant(Person person, OffsetDateTime participationStart) {
+		public Participant(String personId, OffsetDateTime participationStart) {
 			super();
-			this.person = person;
+			this.personId = personId;
 			this.participationStart = participationStart;
 		}
 			
-		public Person getPerson() {
-			return person;
+		public String getPersonId() {
+			return personId;
 		}
 		
 		
@@ -132,7 +132,7 @@ public class Conversation {
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
 			lb(sb);
-				n(sb); t(sb); v(sb, "\"person\": "); v(sb,this.person);  c(sb);
+				n(sb); t(sb); v(sb, "\"personId\": "); v(sb,this.personId);  c(sb);
 				n(sb); t(sb); v(sb, "\"participationStart\": "); qv(sb,this.participationStart);  c(sb);
 				n(sb); t(sb); v(sb, "\"participationEnd\": "); qv(sb,this.participationEnd); 
 				n(sb);
