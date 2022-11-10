@@ -1,6 +1,6 @@
 package com.zonesoft.persons.repositories;
 
-import static com.zonesoft.persons.data_generators.GeneratorCore.*;
+import static com.zonesoft.utils.data_generators.Generator.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 

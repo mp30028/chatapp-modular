@@ -25,7 +25,7 @@ import com.zonesoft.persons.services.PersonService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static com.zonesoft.persons.data_generators.GeneratorCore.*;
+import static com.zonesoft.utils.data_generators.Generator.*;
 
 class RouterConfigurationTest {
 	

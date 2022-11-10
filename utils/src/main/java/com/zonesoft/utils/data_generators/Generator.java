@@ -1,10 +1,10 @@
-package com.zonesoft.persons.data_generators;
+package com.zonesoft.utils.data_generators;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GeneratorCore {
+public class Generator {
 	
 	public enum Gender {
 		MALE,
