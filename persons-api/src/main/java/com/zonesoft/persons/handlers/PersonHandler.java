@@ -1,5 +1,7 @@
 package com.zonesoft.persons.handlers;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,4 +79,13 @@ public class PersonHandler {
     		  				.body(Mono.empty(), Void.class)
     		  	);
     }
+    
+    public Mono<ServerResponse> findByMoniker(ServerRequest request) {
+        Optional<String> moniker = request.queryParam("moniker");
+        return ServerResponse
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(service.findByMoniker(moniker.get()), Person.class);
+    }
+    
 }

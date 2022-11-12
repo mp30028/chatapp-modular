@@ -169,5 +169,29 @@ class RouterConfigurationTest {
 			.isAccepted();
 	}
 	
+	@Test
+	void test_get_personByMoniker_returnsOK_withFoundPersons() {
+		int selectedPersonIndex = selectARandomPersonsIndex();
+		Person selectedPerson = PERSONS.get(selectedPersonIndex);
+		LOGGER.debug("selectedPerson = {}", selectedPerson);
+		when(service.findByMoniker(selectedPerson.getMoniker())).thenReturn(Flux.just(selectedPerson));
+		client
+			.get()
+			.uri(uriBuilder -> uriBuilder.path("/api/persons").queryParam("moniker", selectedPerson.getMoniker()).build())
+			.header("Content-Type", "application/json")
+			.exchange()
+			.expectStatus()
+			.isOk()
+			.expectBody()
+			
+			.jsonPath("$[0].id").isEqualTo(selectedPerson.getId())
+			.jsonPath("$.length()").isEqualTo(1)
+			.consumeWith(r -> LOGGER.debug("get_persons: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
+			
+//			.jsonPath("$.id")
+//			.isEqualTo(selectedPerson.getId())
+//			.consumeWith(r -> LOGGER.debug("test_get_personByMoniker_returnsOK_withFoundPersons: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
+	}
+	
 }
 

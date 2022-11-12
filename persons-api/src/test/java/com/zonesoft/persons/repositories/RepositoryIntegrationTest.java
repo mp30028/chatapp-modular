@@ -90,5 +90,15 @@ class RepositoryIntegrationTest{
 		assertEquals(createdPerson.toString(), findResult.toString());
 	}
 	
+	@Test
+	void test_FindByMoniker_GivenAValidMoniker_ReturnsValidPersons() {
+		personRepository.deleteAll().block();
+		List<Person> createdPersons = createAndInsertPersons();
+		int selectedIndex = generateRandomInt(0, createdPersons.size()-1);
+		String monikerToFind = createdPersons.get(selectedIndex).getMoniker();
+		List<Person> searchResults = personRepository.findByMoniker(monikerToFind).collectList().block();
+		LOGGER.debug("test_FindByMoniker_GivenAValidMoniker_ReturnsValidPersons: monikerToFind = {}, searchResults = {}",monikerToFind, searchResults);
+	}
+	
 
 }

@@ -1,0 +1,38 @@
+[
+    {
+    "firstname": "Gillian",
+    "id": "b575baf9-8430-4c58-a361-04ad17bac353",
+    "lastname": "WILSON",
+    "moniker": "Scara"
+    },
+    {
+    "firstname": "Craig",
+    "id": "62616753-4d06-499e-8816-4ccdead06533",
+    "lastname": "PATERSON",
+    "moniker": "Nosey"
+    },
+    {
+    "firstname": "Brian",
+    "id": "bcd81d0c-861b-4535-be7e-72b7cd901b14",
+    "lastname": "FRASER",
+    "moniker": "Carp"
+    },
+    {
+    "firstname": "Tracy",
+    "id": "0f8f1b5a-10c1-4659-948e-3c6f13eb736b",
+    "lastname": "REID",
+    "moniker": "Scatterbrain"
+    },
+    {
+    "firstname": "Ian",
+    "id": "061ad04b-eaff-4cbb-ba53-a910e4ac5368",
+    "lastname": "CAMERON",
+    "moniker": "Monster"
+    },
+    {
+    "firstname": "Stuart",
+    "id": "bcc2d6e3-3d96-4cab-b327-6ea6133673f4",
+    "lastname": "GRAY",
+    "moniker": "Froggy"
+    }
+]

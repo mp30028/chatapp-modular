@@ -4,6 +4,9 @@ package com.zonesoft.persons.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
+import org.springframework.web.reactive.function.server.RequestPredicate;
+import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
@@ -23,10 +26,16 @@ public class RouterConfiguration {
     @Bean
 	public RouterFunction<ServerResponse> routes(PersonHandler handler) {
     	LOGGER.debug("From RouterConfiguration.routes");
-        return route(GET("/api/persons").and(accept(MediaType.APPLICATION_JSON)), handler::findAll)
+        return
+        		route(GET("/api/persons").and(isParameterPresent("moniker")).and(contentType(MediaType.APPLICATION_JSON)), handler::findByMoniker)
+        		.andRoute(GET("/api/persons").and(accept(MediaType.APPLICATION_JSON)), handler::findAll)
                 .andRoute(GET("/api/persons/{id}").and(contentType(MediaType.APPLICATION_JSON)), handler::findById)
                 .andRoute(POST("/api/persons").and(accept(MediaType.APPLICATION_JSON)), handler::insert)
                 .andRoute(PUT("/api/persons/{id}").and(contentType(MediaType.APPLICATION_JSON)), handler::update)
                 .andRoute(DELETE("/api/persons/{id}").and(accept(MediaType.APPLICATION_JSON)), handler::deleteById);
     }
+    
+    public static RequestPredicate isParameterPresent(String name) {
+    	  return RequestPredicates.queryParam(name, p -> StringUtils.hasText(p));
+    	}
 }
