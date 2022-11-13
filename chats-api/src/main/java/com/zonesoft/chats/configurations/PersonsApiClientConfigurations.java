@@ -35,6 +35,11 @@ public class PersonsApiClientConfigurations {
     @Value("${com.zonesoft.persons.webclient.path}")
     private String PATH;
     
+    @Value("${com.zonesoft.persons.webclient.client-name}")
+    private String CLIENT_NAME;
+    
+    @Value("${com.zonesoft.persons.webclient.client-type}")
+    private String CLIENT_TYPE ;
 
     @Bean
     public String baseUrl() {
@@ -59,8 +64,8 @@ public class PersonsApiClientConfigurations {
 	  return WebClient.builder()
 	    .baseUrl(baseUrl())
 	    .clientConnector(new ReactorClientHttpConnector(httpClient))
-	    .defaultCookie("web-client-name", "chats-api")
-	    .defaultCookie("web-client-type", "internal")
+	    .defaultCookie("client-name", CLIENT_NAME)
+	    .defaultCookie("client-type", CLIENT_TYPE)
 	    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 	    .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
 

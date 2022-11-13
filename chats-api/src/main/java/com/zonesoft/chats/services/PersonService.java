@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.zonesoft.chats.configurations.PersonsApiClientConfigurations;
 
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @Service
 public class PersonService {
@@ -19,9 +18,18 @@ public class PersonService {
 	
 	@Autowired private PersonsApiClientConfigurations configs;
 	
-	public Mono<String> findByMoniker(String moniker){
-		return null;
-		
+	
+	public String testMeOut() {
+		String response = configs.apiClient()
+				.get()
+				.uri(uriBuilder -> uriBuilder.path(configs.path()).build())
+				.retrieve()
+				.bodyToFlux(Person.class)
+				.map(p -> {LOGGER.debug("fetchAll: result={}",p); return p.getId();})
+				.collectList()
+				.block()
+				.toString();
+			return response;
 	}
 	
 	public Flux<String> fetchByMoniker(String moniker){
@@ -51,6 +59,10 @@ class Person{
 	private String moniker;
 	private String firstname;
 	private String lastname;
+	
+	public Person() {
+		super();
+	}
 
 	public Person(String id, String moniker, String firstname, String lastname) {
 		super();
