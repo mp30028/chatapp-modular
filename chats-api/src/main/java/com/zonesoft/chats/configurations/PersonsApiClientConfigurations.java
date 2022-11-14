@@ -1,10 +1,11 @@
 package com.zonesoft.chats.configurations;
 
 import java.util.List;
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,6 +23,8 @@ import reactor.netty.http.client.HttpClient;
 public class PersonsApiClientConfigurations {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PersonsApiClientConfigurations.class);
+	
+	private static WebClient webClientInstance = null;
     
     @Value("${com.zonesoft.persons.webclient.protocol}")
     private String PROTOCOL;
@@ -46,6 +49,7 @@ public class PersonsApiClientConfigurations {
 	}
 
 	public void setPort(int port) {
+		webClientInstance = null;
 		PORT = Integer.toString(port);
 	}
     
@@ -59,26 +63,43 @@ public class PersonsApiClientConfigurations {
     	return PATH;
     }
 	
+//    public static ThreadSafeSingleton getInstanceUsingDoubleLocking() {
+//        if (instance == null) {
+//            synchronized (ThreadSafeSingleton.class) {
+//                if (instance == null) {
+//                    instance = new ThreadSafeSingleton();
+//                }
+//            }
+//        }
+//        return instance;
+//    } 
+    
+    
 	public WebClient getApiClient() {
-
-	  HttpClient httpClient = HttpClient.create()
-	    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000) // millis
-	    .doOnConnected(connection ->
-	      connection
-	        .addHandlerLast(new ReadTimeoutHandler(2)) // seconds
-	        .addHandlerLast(new WriteTimeoutHandler(2))); //seconds
-
-	  return WebClient.builder()
-	    .baseUrl(getBaseUrl())
-	    .clientConnector(new ReactorClientHttpConnector(httpClient))
-	    .defaultCookie("client-name", CLIENT_NAME)
-	    .defaultCookie("client-type", CLIENT_TYPE)
-	    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-	    .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-
-	    .filter(logRequest())
-	    .filter(logResponse())
-	    .build();
+		if (Objects.isNull(webClientInstance)) {
+			synchronized(PersonsApiClientConfigurations.class) {
+				if (Objects.isNull(webClientInstance)) {
+				  HttpClient httpClient = HttpClient.create()
+				    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000) // millis
+				    .doOnConnected(connection ->
+				      connection
+				        .addHandlerLast(new ReadTimeoutHandler(2)) // seconds
+				        .addHandlerLast(new WriteTimeoutHandler(2))); //seconds
+			
+				  PersonsApiClientConfigurations.webClientInstance = WebClient.builder()
+				    .baseUrl(getBaseUrl())
+				    .clientConnector(new ReactorClientHttpConnector(httpClient))
+				    .defaultCookie("client-name", CLIENT_NAME)
+				    .defaultCookie("client-type", CLIENT_TYPE)
+				    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				    .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+				    .filter(logRequest())
+				    .filter(logResponse())
+				    .build();
+				}
+			}
+		}
+		return PersonsApiClientConfigurations.webClientInstance;
 	}
 	
 	private ExchangeFilterFunction logRequest() {
