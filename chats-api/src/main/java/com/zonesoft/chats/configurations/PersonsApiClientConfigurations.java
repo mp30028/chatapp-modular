@@ -41,18 +41,25 @@ public class PersonsApiClientConfigurations {
     @Value("${com.zonesoft.persons.webclient.client-type}")
     private String CLIENT_TYPE ;
 
-    @Bean
-    public String baseUrl() {
+	public int getPort() {
+		return Integer.parseInt(PORT);
+	}
+
+	public void setPort(int port) {
+		PORT = Integer.toString(port);
+	}
+    
+    
+    public String getBaseUrl() {
     	return PROTOCOL + "://" + DOMAIN + ":" + PORT;
     }
     
-    @Bean
-    public String path() {
+    
+    public String getPath() {
     	return PATH;
     }
 	
-	@Bean
-	public WebClient apiClient() {
+	public WebClient getApiClient() {
 
 	  HttpClient httpClient = HttpClient.create()
 	    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2_000) // millis
@@ -62,7 +69,7 @@ public class PersonsApiClientConfigurations {
 	        .addHandlerLast(new WriteTimeoutHandler(2))); //seconds
 
 	  return WebClient.builder()
-	    .baseUrl(baseUrl())
+	    .baseUrl(getBaseUrl())
 	    .clientConnector(new ReactorClientHttpConnector(httpClient))
 	    .defaultCookie("client-name", CLIENT_NAME)
 	    .defaultCookie("client-type", CLIENT_TYPE)

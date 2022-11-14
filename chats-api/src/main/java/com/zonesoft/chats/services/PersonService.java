@@ -15,27 +15,18 @@ import reactor.core.publisher.Flux;
 public class PersonService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PersonService.class);
+	private PersonsApiClientConfigurations configs;
 	
-	@Autowired private PersonsApiClientConfigurations configs;
-	
-	
-	public String testMeOut() {
-		String response = configs.apiClient()
-				.get()
-				.uri(uriBuilder -> uriBuilder.path(configs.path()).build())
-				.retrieve()
-				.bodyToFlux(Person.class)
-				.map(p -> {LOGGER.debug("fetchAll: result={}",p); return p.getId();})
-				.collectList()
-				.block()
-				.toString();
-			return response;
+	@Autowired
+	public PersonService(PersonsApiClientConfigurations configs) {
+		super();
+		this.configs = configs;
 	}
 	
 	public Flux<String> fetchByMoniker(String moniker){
-		Flux<String> response = configs.apiClient()
+		Flux<String> response = configs.getApiClient()
 			.get()
-			.uri(uriBuilder -> uriBuilder.path(configs.path()).queryParam("moniker", moniker).build())
+			.uri(uriBuilder -> uriBuilder.path(configs.getPath()).queryParam("moniker", moniker).build())
 			.retrieve()
 			.bodyToFlux(Person.class)
 			.map(p -> {LOGGER.debug("fetchByMoniker: result={}",p); return p.getId();});
@@ -43,9 +34,9 @@ public class PersonService {
 	}
 
 	public Flux<String> fetchAll(){
-		Flux<String> response = configs.apiClient()
+		Flux<String> response = configs.getApiClient()
 			.get()
-			.uri(uriBuilder -> uriBuilder.path(configs.path()).build())
+			.uri(uriBuilder -> uriBuilder.path(configs.getPath()).build())
 			.retrieve()
 			.bodyToFlux(Person.class)
 			.map(p -> {LOGGER.debug("fetchAll: result={}",p); return p.getId();});

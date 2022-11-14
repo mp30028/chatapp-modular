@@ -26,9 +26,9 @@ public class PersonsServiceIntegrationTest {
 	
 	@Test
 	void test_get_persons_returnsOK_withPersonsList() {
-		Flux<Person> response = configs.apiClient()
+		Flux<Person> response = configs.getApiClient()
 			.get()
-			.uri(uriBuilder -> uriBuilder.path(configs.path()).build())
+			.uri(uriBuilder -> uriBuilder.path(configs.getPath()).build())
 			.header("Content-Type", "application/json")
 			.retrieve()
 			.bodyToFlux(Person.class);
