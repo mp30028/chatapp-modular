@@ -62,19 +62,7 @@ public class PersonsApiClientConfigurations {
     public String getPath() {
     	return PATH;
     }
-	
-//    public static ThreadSafeSingleton getInstanceUsingDoubleLocking() {
-//        if (instance == null) {
-//            synchronized (ThreadSafeSingleton.class) {
-//                if (instance == null) {
-//                    instance = new ThreadSafeSingleton();
-//                }
-//            }
-//        }
-//        return instance;
-//    } 
-    
-    
+	 
 	public WebClient getApiClient() {
 		if (Objects.isNull(webClientInstance)) {
 			synchronized(PersonsApiClientConfigurations.class) {
