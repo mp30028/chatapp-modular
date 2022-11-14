@@ -37,6 +37,8 @@ class PersonServiceWiremockTest {
     @BeforeEach
     public void beforeEachTest() {
     	webClientConfigs.setPort(WIREMOCK_SERVER.port());
+    	webClientConfigs.setDomain("localhost");
+    	webClientConfigs.setProtocol("http");
         this.service = new PersonService(webClientConfigs);
     }
 	

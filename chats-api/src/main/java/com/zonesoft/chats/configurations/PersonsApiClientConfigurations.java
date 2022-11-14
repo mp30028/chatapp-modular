@@ -27,41 +27,71 @@ public class PersonsApiClientConfigurations {
 	private static WebClient webClientInstance = null;
     
     @Value("${com.zonesoft.persons.webclient.protocol}")
-    private String PROTOCOL;
+    private String protocol;
     
     @Value("${com.zonesoft.persons.webclient.domain}")
-    private String DOMAIN;
+    private String domain;
     
     @Value("${com.zonesoft.persons.webclient.port}")
-    private String PORT;
+    private String port;
     
     @Value("${com.zonesoft.persons.webclient.path}")
-    private String PATH;
+    private String path;
     
     @Value("${com.zonesoft.persons.webclient.client-name}")
-    private String CLIENT_NAME;
+    private String clientName;
     
     @Value("${com.zonesoft.persons.webclient.client-type}")
-    private String CLIENT_TYPE ;
+    private String clientType ;
 
+    private static void resetWebClientInstance() {
+		if (Objects.nonNull(webClientInstance)) {
+			synchronized(PersonsApiClientConfigurations.class) {
+				webClientInstance = null;
+			}
+		}
+    }
+    
 	public int getPort() {
-		return Integer.parseInt(PORT);
+		return Integer.parseInt(port);
 	}
 
-	public void setPort(int port) {
-		webClientInstance = null;
-		PORT = Integer.toString(port);
+	public void setPort(int p) {
+		this.port = Integer.toString(p);
+		resetWebClientInstance();
 	}
     
     
-    public String getBaseUrl() {
-    	return PROTOCOL + "://" + DOMAIN + ":" + PORT;
-    }
-    
-    
+    public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+		resetWebClientInstance();
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
+		resetWebClientInstance();
+	}
+	
     public String getPath() {
-    	return PATH;
+    	return path;
     }
+	
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getBaseUrl() {
+    	return this.protocol + "://" + this.domain + ":" + this.port;
+    }
+    
 	 
 	public WebClient getApiClient() {
 		if (Objects.isNull(webClientInstance)) {
@@ -77,8 +107,8 @@ public class PersonsApiClientConfigurations {
 				  PersonsApiClientConfigurations.webClientInstance = WebClient.builder()
 				    .baseUrl(getBaseUrl())
 				    .clientConnector(new ReactorClientHttpConnector(httpClient))
-				    .defaultCookie("client-name", CLIENT_NAME)
-				    .defaultCookie("client-type", CLIENT_TYPE)
+				    .defaultCookie("client-name", clientName)
+				    .defaultCookie("client-type", clientType)
 				    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				    .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
 				    .filter(logRequest())
