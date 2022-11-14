@@ -9,23 +9,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import com.zonesoft.chats.configurations.PersonsApiClientConfigurations;
 import com.zonesoft.chats.models.Conversation;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
-@Testcontainers()
-@DataMongoTest
+@SpringBootTest
+//@Testcontainers()
+//@DataMongoTest
+//@ContextConfiguration(classes = {PersonsApiClientConfigurations.class, ConversationRepository.class})
+//@TestPropertySource(value="classpath:application.properties")
 class ConversationRepositoryTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationRepositoryTest.class);
@@ -45,14 +51,16 @@ class ConversationRepositoryTest {
 	}
 	
 	@Autowired ConversationRepository repository;
+	@Autowired PersonsApiClientConfigurations personsApiConfigs;
 	
 	private Flux<String> fetchParticipantPersonIds(){
-		WebClient client = WebClient.builder()
-				  .baseUrl("http://localhost:8080")
-				  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) 
-				  .defaultUriVariables(Collections.singletonMap("url", "http://localhost:8080"))
-				  .build();
-		client.get().exchangeToFlux(null);
+
+//		WebClient client = WebClient.builder()
+//				  .baseUrl("http://localhost:8080")
+//				  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) 
+//				  .defaultUriVariables(Collections.singletonMap("url", "http://localhost:8080"))
+//				  .build();
+//		client.get().exchangeToFlux(null);
 		return null;
 	}
 	
@@ -63,6 +71,11 @@ class ConversationRepositoryTest {
 //		generateNickname(), generateFirstName(generateGender()), generateLastName());
 //		Mono<Person> createdPerson =  personRepository.insert(person);
 		return createdConversation;
+	}
+	
+	@Test
+	void simpleTest() {
+		assertNotNull(personsApiConfigs);
 	}
 	
 //	private List<Person>  createAndInsertPersons() {
