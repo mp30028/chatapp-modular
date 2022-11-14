@@ -53,43 +53,61 @@ public class PersonsApiClientConfigurations {
     }
     
 	public int getPort() {
-		return Integer.parseInt(port);
+		synchronized(PersonsApiClientConfigurations.class) {
+			return Integer.parseInt(port);
+		}
 	}
 
 	public void setPort(int p) {
-		this.port = Integer.toString(p);
+		synchronized(PersonsApiClientConfigurations.class) {
+			this.port = Integer.toString(p);
+		}
 		resetWebClientInstance();
 	}
     
     
     public String getProtocol() {
-		return protocol;
+    	synchronized(PersonsApiClientConfigurations.class) {
+    		return protocol;
+    	}
 	}
 
 	public void setProtocol(String protocol) {
-		this.protocol = protocol;
+		synchronized(PersonsApiClientConfigurations.class) {
+			this.protocol = protocol;
+		}
 		resetWebClientInstance();
 	}
 
 	public String getDomain() {
-		return domain;
+		synchronized(PersonsApiClientConfigurations.class) {
+			return domain;
+		}
 	}
 
 	public void setDomain(String domain) {
-		this.domain = domain;
+		synchronized(PersonsApiClientConfigurations.class) {
+			this.domain = domain;
+		}
 		resetWebClientInstance();
 	}
 	
     public String getPath() {
-    	return path;
+    	synchronized(PersonsApiClientConfigurations.class) {
+    		return path;
+    	}
     }
 	
 	public void setPath(String path) {
-		this.path = path;
+		synchronized(PersonsApiClientConfigurations.class) {
+			this.path = path;
+		}
 	}
 
 	public String getBaseUrl() {
-    	return this.protocol + "://" + this.domain + ":" + this.port;
+		synchronized(PersonsApiClientConfigurations.class) {
+			return this.protocol + "://" + this.domain + ":" + this.port;
+		}
     }
     
 	 
@@ -105,7 +123,7 @@ public class PersonsApiClientConfigurations {
 				        .addHandlerLast(new WriteTimeoutHandler(2))); //seconds
 			
 				  PersonsApiClientConfigurations.webClientInstance = WebClient.builder()
-				    .baseUrl(getBaseUrl())
+				    .baseUrl(this.protocol + "://" + this.domain + ":" + this.port)
 				    .clientConnector(new ReactorClientHttpConnector(httpClient))
 				    .defaultCookie("client-name", clientName)
 				    .defaultCookie("client-type", clientType)
