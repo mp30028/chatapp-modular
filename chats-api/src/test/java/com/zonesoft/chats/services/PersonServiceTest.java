@@ -17,6 +17,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.zonesoft.chats.configurations.PersonsApiClientConfigurations;
+import com.zonesoft.chats.models.Person;
 
 import reactor.core.publisher.Flux;
 import static com.zonesoft.utils.data_generators.Generator.*;

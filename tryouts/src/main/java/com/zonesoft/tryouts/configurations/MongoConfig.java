@@ -1,4 +1,4 @@
-package com.zonesoft.persons.configurations;
+package com.zonesoft.tryouts.configurations;
 
 import java.util.Arrays;
 

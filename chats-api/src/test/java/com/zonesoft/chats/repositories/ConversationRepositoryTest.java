@@ -2,35 +2,24 @@ package com.zonesoft.chats.repositories;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Collections;
-
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import com.zonesoft.chats.configurations.PersonsApiClientConfigurations;
 import com.zonesoft.chats.models.Conversation;
+import static com.zonesoft.chats.data_generators.ConversationGenerator.*;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-@SpringBootTest
-//@Testcontainers()
-//@DataMongoTest
-//@ContextConfiguration(classes = {PersonsApiClientConfigurations.class, ConversationRepository.class})
+//@SpringBootTest
+@Testcontainers()
+@DataMongoTest
+//@ContextConfiguration(classes = {MongoConfig.class})
 //@TestPropertySource(value="classpath:application.properties")
 class ConversationRepositoryTest {
 
@@ -51,42 +40,17 @@ class ConversationRepositoryTest {
 	}
 	
 	@Autowired ConversationRepository repository;
-	@Autowired PersonsApiClientConfigurations personsApiConfigs;
 	
-	private Flux<String> fetchParticipantPersonIds(){
+	
 
-//		WebClient client = WebClient.builder()
-//				  .baseUrl("http://localhost:8080")
-//				  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) 
-//				  .defaultUriVariables(Collections.singletonMap("url", "http://localhost:8080"))
-//				  .build();
-//		client.get().exchangeToFlux(null);
-		return null;
-	}
-	
-	private Mono<Conversation> createAndInsertSingleConversation() {
-		Conversation conversation = new Conversation();
-		conversation.getParticipants().add(null);
-		Mono<Conversation> createdConversation = repository.insert(conversation);
-//		generateNickname(), generateFirstName(generateGender()), generateLastName());
-//		Mono<Person> createdPerson =  personRepository.insert(person);
-		return createdConversation;
-	}
 	
 	@Test
 	void simpleTest() {
-		assertNotNull(personsApiConfigs);
+		Conversation conversation = generateConversation();
+		LOGGER.debug("simpleTest: pre-insert conversation={}", conversation );
+		Conversation savedConversation = repository.insert(conversation).block();
+		Long count = repository.count().block();
+		assertEquals(1L, count);
+//		LOGGER.debug("simpleTest: post-inset savedConversation={}", savedConversation );
 	}
-	
-//	private List<Person>  createAndInsertPersons() {
-//		final int MAX_PERSONS = 7;
-//		final int MIN_PERSONS = 2;
-//		int numberOfPersons = generateRandomInt(MIN_PERSONS, MAX_PERSONS);
-//		List<Person> createdPersons = new ArrayList<>();
-//		for (int j=0; j < numberOfPersons; j++) {
-//			Person createdPerson = createAndInsertSinglePerson().block(); // Wait until person is created
-//			createdPersons.add(createdPerson);
-//		}
-//		return createdPersons;
-//	}
 }

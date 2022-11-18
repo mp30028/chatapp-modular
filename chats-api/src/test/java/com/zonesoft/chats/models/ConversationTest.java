@@ -4,14 +4,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class ConversationTest extends Conversation {
+import static com.zonesoft.utils.data_generators.Generator.*;
+
+class ConversationTest {
 
 	@Test
 	void test_InstantiatingConversation() {
-		Conversation conversation = new Conversation();
+		Conversation conversation = new Conversation(generateUUID());
 		assertNotNull(conversation);
-		assertNotNull(conversation.getMessages());
-		assertNotNull(conversation.getParticipants());
+		assertNotNull(conversation.messages());
+		assertNotNull(conversation.participants());
 	}
 
 }

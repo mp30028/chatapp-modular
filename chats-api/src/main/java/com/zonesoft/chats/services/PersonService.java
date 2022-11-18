@@ -1,6 +1,6 @@
 package com.zonesoft.chats.services;
 
-import static com.zonesoft.utils.ToStringHelpers.*;
+//import static com.zonesoft.utils.ToStringHelpers.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zonesoft.chats.configurations.PersonsApiClientConfigurations;
+import com.zonesoft.chats.models.Person;
 
 import reactor.core.publisher.Flux;
 
@@ -45,67 +46,64 @@ public class PersonService {
 	
 }
 
-class Person{
-	private String id;
-	private String moniker;
-	private String firstname;
-	private String lastname;
-	
-	public Person() {
-		super();
-	}
-
-	public Person(String id, String moniker, String firstname, String lastname) {
-		super();
-		this.id =id;
-		this.moniker = moniker;
-		this.firstname = firstname;
-		this.lastname = lastname;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getMoniker() {
-		return moniker;
-	}
-
-	public void setMoniker(String moniker) {
-		this.moniker = moniker;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		lb(sb);
-			n(sb); t(sb); v(sb, "\"id\": "); qv(sb,this.id); c(sb);
-			n(sb); t(sb); v(sb, "\"moniker\": "); qv(sb,this.moniker); c(sb);
-			n(sb); t(sb); v(sb, "\"firstname\": "); qv(sb,this.firstname); c(sb);
-			n(sb); t(sb); v(sb, "\"lastname\": "); qv(sb,this.lastname);
-			n(sb);
-		rb(sb);		
-		return sb.toString();
-	}
-	
-}
+//class Person{
+//	private Person data = new Person();
+//
+//	public Person() {
+//		super();
+//	}
+//
+//	public Person(String id, String moniker, String firstname, String lastname) {
+//		super();
+//		this.data.setId(id);
+//		this.data.setMoniker(moniker);
+//		this.data.setFirstname(firstname);
+//		this.data.setLastname(lastname);
+//	}
+//
+//	public String getId() {
+//		return data.getId();
+//	}
+//
+//	public void setId(String id) {
+//		this.data.setId(id);
+//	}
+//
+//	public String getMoniker() {
+//		return data.getMoniker();
+//	}
+//
+//	public void setMoniker(String moniker) {
+//		this.data.setMoniker(moniker);
+//	}
+//
+//	public String getFirstname() {
+//		return data.getFirstname();
+//	}
+//
+//	public void setFirstname(String firstname) {
+//		this.data.setFirstname(firstname);
+//	}
+//
+//	public String getLastname() {
+//		return data.getLastname();
+//	}
+//
+//	public void setLastname(String lastname) {
+//		this.data.setLastname(lastname);
+//	}
+//
+//	@Override
+//	public String toString() {
+//		StringBuffer sb = new StringBuffer();
+//		lb(sb);
+//			n(sb); t(sb); v(sb, "\"id\": "); qv(sb,this.data.getId()); c(sb);
+//			n(sb); t(sb); v(sb, "\"moniker\": "); qv(sb,this.data.getMoniker()); c(sb);
+//			n(sb); t(sb); v(sb, "\"firstname\": "); qv(sb,this.data.getFirstname()); c(sb);
+//			n(sb); t(sb); v(sb, "\"lastname\": "); qv(sb,this.data.getLastname());
+//			n(sb);
+//		rb(sb);		
+//		return sb.toString();
+//	}
+//	
+//}

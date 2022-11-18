@@ -1,4 +1,4 @@
-package com.zonesoft.persons.converters;
+package com.zonesoft.utils.converters;
 
 import org.springframework.core.convert.converter.Converter;
 
