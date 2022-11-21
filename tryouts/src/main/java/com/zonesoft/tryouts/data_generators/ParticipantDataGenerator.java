@@ -46,14 +46,14 @@ public class ParticipantDataGenerator {
 	}
 	
 	public static Participant generateParticipant(Person person){
-		Participant participant = new Participant(person);		
+		Participant participant = new Participant(person.getId());		
 		return participant;
 	}
 	
 	public static List<Participant> generateParticipants(List<Person> persons){
 		List<Participant> participants = new ArrayList<>();
 		for(Person person: persons) {
-			Participant participant = new Participant(person);
+			Participant participant = new Participant(person.getId());
 			participants.add(participant);
 		}		
 		return participants;
