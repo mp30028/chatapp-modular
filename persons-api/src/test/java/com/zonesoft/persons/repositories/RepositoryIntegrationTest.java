@@ -1,10 +1,10 @@
 package com.zonesoft.persons.repositories;
 
-import static com.zonesoft.utils.data_generators.Generator.*;
+import static com.zonesoft.persons.data_generators.DummyDataGenerator.*;
+import static com.zonesoft.utils.data_generators.Generator.generateRandomInt;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -18,8 +18,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import com.zonesoft.persons.models.Person;
-
-import reactor.core.publisher.Mono;
 
 @Testcontainers()
 @DataMongoTest
@@ -43,23 +41,16 @@ class RepositoryIntegrationTest{
 	
 	@Autowired
 	private PersonRepository personRepository;
+
 	
-	private Mono<Person> createAndInsertSinglePerson() {
-		Person person = new Person(generateNickname(), generateFirstName(generateGender()), generateLastName());
-		Mono<Person> createdPerson =  personRepository.insert(person);
-		return createdPerson;
+	private Person  createAndInsertSinglePerson() {
+		Person generatedPerson = generatePerson();
+		return personRepository.insert(generatedPerson).block();
 	}
 	
 	private List<Person>  createAndInsertPersons() {
-		final int MAX_PERSONS = 7;
-		final int MIN_PERSONS = 2;
-		int numberOfPersons = generateRandomInt(MIN_PERSONS, MAX_PERSONS);
-		List<Person> createdPersons = new ArrayList<>();
-		for (int j=0; j < numberOfPersons; j++) {
-			Person createdPerson = createAndInsertSinglePerson().block(); // Wait until person is created
-			createdPersons.add(createdPerson);
-		}
-		return createdPersons;
+		List<Person> generatedPersons = generatePersons();
+		return personRepository.insert(generatedPersons).collectList().block();
 	}
 	
 	@Test
@@ -83,8 +74,28 @@ class RepositoryIntegrationTest{
 	}
 	
 	@Test
+	void testFindAll_returnsOneResultsWhenOneRecordsInserted() {
+		assertNotNull(personRepository);
+		personRepository.deleteAll().block();
+		createAndInsertSinglePerson();
+		List<Person> findAllResults = personRepository.findAll().collectList().block();
+		LOGGER.debug("testFindAll_returnsOneResultsWhenOneRecordsInserted: results ={}", findAllResults);
+		assertEquals(1, findAllResults.size());
+	}
+	
+	@Test
+	void testFindAll_returnsManyResultsWhenManyRecordsInserted() {
+		assertNotNull(personRepository);
+		personRepository.deleteAll().block();
+		List<Person> createdPersons = createAndInsertPersons();
+		List<Person> findAllResults = personRepository.findAll().collectList().block();
+		LOGGER.debug("testFindAll_returnsManyResultsWhenManyRecordsInserted: results ={}", findAllResults);
+		assertEquals(createdPersons.size(), findAllResults.size());
+	}
+	
+	@Test
 	void test_FindById_GivenAValidId_ReturnsSingleValidPerson() {
-		Person createdPerson = createAndInsertSinglePerson().block();
+		Person createdPerson = createAndInsertSinglePerson();
 		Person findResult = personRepository.findById(createdPerson.getId()).block();
 		assertNotNull(findResult);
 		assertEquals(createdPerson.toString(), findResult.toString());

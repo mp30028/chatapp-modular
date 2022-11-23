@@ -6,6 +6,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.zonesoft.utils.helpers.ToStringBuilder;
 import static com.zonesoft.utils.helpers.ToStringBuilder.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Document(collection = "persons")
 public class Person {
@@ -16,6 +19,7 @@ public class Person {
 	private String moniker;
 	private String firstname;
 	private String lastname;
+	private List<OtherName> otherNames = new ArrayList<>();
 	
 	public Person(String id, String moniker, String firstname, String lastname) {
 		super();
@@ -24,7 +28,8 @@ public class Person {
 		this.lastname = lastname;
 		this.moniker = moniker;
 	}
-
+	
+	
 	public Person(String moniker, String firstname, String lastname) {
 		super();
 		this.id = null;
@@ -73,6 +78,18 @@ public class Person {
 		this.moniker = moniker;
 	}
 	
+	public List<OtherName> otherNames(){
+		return this.otherNames;
+	}
+	
+	public List<OtherName> getOtherNames(){
+		return this.otherNames;
+	}
+	
+	public void setOtherNames(List<OtherName> otherNames){
+		this.otherNames = otherNames;
+	}
+	
 	@Override
 	public String toString() {		
 		return new ToStringBuilder()
@@ -81,7 +98,8 @@ public class Person {
 					indent, key("id"), value(this.id), comma, newline,
 					indent, key("moniker"), value(this.moniker), comma, newline,
 					indent, key("firstname"), value(this.firstname), comma, newline,
-					indent, key("lastname"), value(this.lastname), newline,
+					indent, key("lastname"), value(this.lastname), comma, newline,
+					indent, key("other-names"), objectValue(this.otherNames), newline,
 				rBrace
 		);
 	}

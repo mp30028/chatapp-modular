@@ -1,24 +1,19 @@
-package com.zonesoft.persons.configurations;
+package com.zonesoft.persons.controllers;
 
 
-//import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-//import static org.mockito.Mockito.when;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.server.RouterFunction;
-
-import com.zonesoft.persons.handlers.PersonHandler;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.services.PersonService;
 
@@ -27,9 +22,9 @@ import reactor.core.publisher.Mono;
 
 import static com.zonesoft.utils.data_generators.Generator.*;
 
-class RouterConfigurationTest {
+class PersonControllerTest {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(RouterConfigurationTest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PersonControllerTest.class);
 	
 	private static final int MIN_PERSONS = 2;
 	private static final int MAX_PERSONS = 10;
@@ -73,9 +68,14 @@ class RouterConfigurationTest {
 	@BeforeEach
 	void setUpBeforeEach() {
 		service = mock(PersonService.class);
-		PersonHandler handler = new PersonHandler(service);
-		RouterFunction<?> routes = new RouterConfiguration().routes(handler);
-		client = WebTestClient.bindToRouterFunction(routes).build();
+		PersonController controller = new PersonController(service);
+		client = WebTestClient.bindToController(controller).build();
+	}
+	
+	@AfterEach
+	void cleanUpAfterEach() {
+		client = null;
+		service = null;
 	}
 
 	@Test
@@ -166,7 +166,7 @@ class RouterConfigurationTest {
 			.header("Content-Type", "application/json")
 			.exchange()
 			.expectStatus()
-			.isAccepted();
+			.isOk();
 	}
 	
 	@Test
@@ -174,7 +174,8 @@ class RouterConfigurationTest {
 		int selectedPersonIndex = selectARandomPersonsIndex();
 		Person selectedPerson = PERSONS.get(selectedPersonIndex);
 		LOGGER.debug("selectedPerson = {}", selectedPerson);
-		when(service.findByMoniker(selectedPerson.getMoniker())).thenReturn(Flux.just(selectedPerson));
+		Flux<Person> personFlux = Flux.just(selectedPerson);
+		when(service.findByMoniker(anyString())).thenReturn(personFlux);
 		client
 			.get()
 			.uri(uriBuilder -> uriBuilder.path("/api/persons").queryParam("moniker", selectedPerson.getMoniker()).build())
@@ -183,14 +184,10 @@ class RouterConfigurationTest {
 			.expectStatus()
 			.isOk()
 			.expectBody()
-			
+			.consumeWith(b -> {LOGGER.debug("body={}", b);})
 			.jsonPath("$[0].id").isEqualTo(selectedPerson.getId())
 			.jsonPath("$.length()").isEqualTo(1)
 			.consumeWith(r -> LOGGER.debug("get_persons: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
-			
-//			.jsonPath("$.id")
-//			.isEqualTo(selectedPerson.getId())
-//			.consumeWith(r -> LOGGER.debug("test_get_personByMoniker_returnsOK_withFoundPersons: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
 	}
 	
 }
