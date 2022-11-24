@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import com.zonesoft.chats.models.Conversation;
-import static com.zonesoft.chats.data_generators.ConversationGenerator.*;
+import static com.zonesoft.chats.data_generators.ConversationDataGenerator.*;
 
 //@SpringBootTest
 @Testcontainers()

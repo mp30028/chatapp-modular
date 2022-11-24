@@ -5,28 +5,25 @@ import com.zonesoft.utils.helpers.ToStringBuilder;
 
 import java.time.OffsetDateTime;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-
 public class Message {
-	@Id private String id;
-	@DBRef private final Conversation conversation;
+	private String id;
 	private final String messageText;
-	@DBRef private final Participant sender;
+	private final String senderParticipantId;
 	private final OffsetDateTime sentTime;
+	private final String conversationId;
 	
-	public Message(Conversation conversation, Participant sender, String messageText) {
+	public Message(String conversationId, String senderParticipantId, String messageText) {
 		super();
-		this.conversation = conversation;
-		this.sender = sender;
+		this.conversationId = conversationId;
+		this.senderParticipantId = senderParticipantId;
 		this.messageText = messageText;
 		this.sentTime = OffsetDateTime.now();
 	}
 	
-	public Message(Conversation conversation, Participant sender, String messageText, OffsetDateTime sentTime) {
+	public Message(String conversationId, String senderParticipantId, String messageText, OffsetDateTime sentTime) {
 		super();
-		this.conversation = conversation;
-		this.sender = sender;
+		this.conversationId = conversationId;
+		this.senderParticipantId = senderParticipantId;
 		this.messageText = messageText;
 		this.sentTime = sentTime;
 	}
@@ -39,17 +36,17 @@ public class Message {
 		this.id = id;
 	}
 	
-	public Conversation getConversation() {
-		return conversation;
-	}
 	
+	public String getConversationId() {
+		return conversationId;
+	}
+
+	public String getSenderParticipantId() {
+		return senderParticipantId;
+	}
+
 	public String getMessageText() {
 		return messageText;
-	}
-
-
-	public Participant getSender() {
-		return sender;
 	}
 
 
@@ -64,10 +61,9 @@ public class Message {
 			.build(
 				lBrace, newline,
 					indent, key("message-id"), value(this.id), comma, newline,
-					indent, key("conversation-id"), value(this.conversation.getId()), comma, newline,
 					indent, key("message-text"), value(this.messageText), comma,  newline,
-					indent, key("sender"), objectValue(this.sender), comma, newline,
-					indent, key("conversation-id"), value(this.sender), comma, newline,
+					indent, key("sender-participant-id"), value(this.senderParticipantId), comma, newline,
+					indent, key("conversation-id"), value(this.conversationId), comma, newline,
 					indent, key("sent-time"), value(this.sentTime), newline,
 				rBrace
 			);
