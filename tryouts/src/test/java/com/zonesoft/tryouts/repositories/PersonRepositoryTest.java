@@ -1,6 +1,6 @@
-package com.zonesoft.persons.repositories;
+package com.zonesoft.tryouts.repositories;
 
-import static com.zonesoft.persons.data_generators.DummyDataGenerator.*;
+import static com.zonesoft.tryouts.data_generators.PersonDataGenerator.*;
 import static com.zonesoft.utils.data_generators.Generator.generateRandomInt;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,12 +17,12 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import com.zonesoft.persons.models.Person;
+import com.zonesoft.tryouts.models.Person;
 
 @Testcontainers()
 @DataMongoTest
-class RepositoryIntegrationTest{
-	private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryIntegrationTest.class);
+class PersonRepositoryTest{
+	private static final Logger LOGGER = LoggerFactory.getLogger(PersonRepositoryTest.class);
 	
 	private static final String IMAGE_NAME = "mongo:6.0.2";
 

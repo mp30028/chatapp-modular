@@ -1,51 +1,34 @@
-package com.zonesoft.persons.models;
+package com.zonesoft.tryouts.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.zonesoft.utils.helpers.ToStringBuilder;
 import static com.zonesoft.utils.helpers.ToStringBuilder.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zonesoft.utils.helpers.ToStringBuilder;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "persons")
 public class Person {
-	
 	@Id private String id;
-
-
 	private String moniker;
 	private String firstname;
 	private String lastname;
 	private List<OtherName> otherNames = new ArrayList<>();
-	
-	public Person(String id, String moniker, String firstname, String lastname) {
-		super();
-		this.id = id;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.moniker = moniker;
-	}
-	
-	
-	public Person(String moniker, String firstname, String lastname) {
-		super();
-		this.id = null;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.moniker = moniker;
-	}
-	
+
 	public Person() {
 		super();
-		this.id = null;
-		this.firstname = null;
-		this.lastname = null;
-		this.moniker = null;
 	}
-	
+
+	public Person(String moniker, String firstname, String lastname) {
+		super();
+		this.setMoniker(moniker);
+		this.setFirstname(firstname);
+		this.setLastname(lastname);
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -53,7 +36,15 @@ public class Person {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
+	public String getMoniker() {
+		return moniker;
+	}
+
+	public void setMoniker(String moniker) {
+		this.moniker = moniker;
+	}
+
 	public String getFirstname() {
 		return firstname;
 	}
@@ -69,27 +60,19 @@ public class Person {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-
-	public String getMoniker() {
-		return moniker;
-	}
-	
-	public void setMoniker(String moniker) {
-		this.moniker = moniker;
-	}
 	
 	public List<OtherName> otherNames(){
 		return this.otherNames;
 	}
 	
-	public List<OtherName> getOtherNames(){
+	List<OtherName> getOtherNames(){
 		return this.otherNames;
 	}
 	
-	public void setOtherNames(List<OtherName> otherNames){
+	void setOtherNames(List<OtherName> otherNames){
 		this.otherNames = otherNames;
 	}
-	
+
 	@Override
 	public String toString() {		
 		return new ToStringBuilder()
@@ -103,5 +86,5 @@ public class Person {
 				rBrace
 		);
 	}
-
+	
 }

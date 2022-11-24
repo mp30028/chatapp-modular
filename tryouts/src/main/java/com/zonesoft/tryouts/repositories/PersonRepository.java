@@ -1,10 +1,10 @@
-package com.zonesoft.persons.repositories;
+package com.zonesoft.tryouts.repositories;
 
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.zonesoft.persons.models.Person;
+import com.zonesoft.tryouts.models.Person;
 
 import reactor.core.publisher.Flux;
 

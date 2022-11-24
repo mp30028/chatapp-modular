@@ -1,4 +1,4 @@
-package com.zonesoft.persons.models;
+package com.zonesoft.chats.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

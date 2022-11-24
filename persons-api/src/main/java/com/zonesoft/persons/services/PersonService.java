@@ -49,4 +49,8 @@ public class PersonService {
 	public Mono<Void> deleteById(String id){
     	return repository.deleteById(id);
     }
+	
+	public Flux<Person> findByMoniker(String moniker){
+    	return repository.findByMoniker(moniker);
+    }
 }
