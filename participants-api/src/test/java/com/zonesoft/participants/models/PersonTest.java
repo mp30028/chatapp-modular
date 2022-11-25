@@ -23,6 +23,18 @@ class PersonTest {
 			assertNotNull(otherName);
 			assertNotNull(otherName.getId());
 		}
+		
+		String idToUse = "1234ABCD";
+		person = generator.id(idToUse).moniker().firstname().lastname().otherNames(2,4).generate();
+		LOGGER.debug("Generated Person Instantiated: person = {}", person);
+		assertNotNull(person);
+		assertNotNull(person.getId());
+		assertEquals(idToUse, person.getId());
+		assertNotNull(person.otherNames());
+		for(OtherName otherName: person.otherNames()) {
+			assertNotNull(otherName);
+			assertNotNull(otherName.getId());
+		}
 	}
 
 }
