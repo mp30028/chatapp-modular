@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.zonesoft.chats.models.OtherName;
 import com.zonesoft.chats.models.OtherName.OtherNameType;
+import com.zonesoft.utils.data_generators.Generator;
+import com.zonesoft.utils.data_generators.Generator.Gender;
 import com.zonesoft.chats.models.Person;
 import static com.zonesoft.utils.data_generators.Generator.*;
 
