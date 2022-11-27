@@ -1,6 +1,6 @@
 package com.zonesoft.chats.models;
 
-import static com.zonesoft.chats.data_generators.ParticipantDataGenerator.generateParticipant;
+import com.zonesoft.chats.data_generators.ParticipantDataGenerator;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -12,10 +12,12 @@ class ParticipantTest {
 	
 	@Test
 	void testInstantiation() {
-		Participant participant = generateParticipant();
+		Participant participant = new ParticipantDataGenerator().withDefaults().generate();
 		LOGGER.debug("Generated Participant Instantiated: participant = {}", participant);
 		assertNotNull(participant);
-		assertNotNull(participant.getPerson());
-		assertNotNull(participant.getPerson().getOtherNames());
+		assertNotNull(participant.getId());
+		assertNotNull(participant.getPersonId());
+		assertNotNull(participant.getParticipationStart());
+		assertNull(participant.getParticipationEnd());
 	}
 }
