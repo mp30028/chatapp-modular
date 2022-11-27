@@ -16,8 +16,8 @@ import com.zonesoft.persons.repositories.PersonRepository;
 
 
 @SpringBootTest
-public class DummyDbDataCreator {
-	private static final Logger LOGGER = LoggerFactory.getLogger(DummyDbDataCreator.class);
+public class PersonsDbDataCreator {
+	private static final Logger LOGGER = LoggerFactory.getLogger(PersonsDbDataCreator.class);
 	
 	private final PersonRepository repository;
     
@@ -25,7 +25,7 @@ public class DummyDbDataCreator {
     private boolean isDataToBeRegenerated = false;
     
     @Autowired
-    public DummyDbDataCreator(PersonRepository repository) {
+    public PersonsDbDataCreator(PersonRepository repository) {
     	super();
 		this.repository = repository;
     }
@@ -39,13 +39,16 @@ public class DummyDbDataCreator {
 	void deleteAndCreateDummyData() {
 		if (isDataToBeRegenerated){
 			deleteAllPersonInDb();
-			savePersonsToDb(DummyDataGenerator.generatePersons());
+			savePersonsToDb(generatePersons());
 		}
 		List<Person> fetchedPersons = fetchPersonsFromDb();
 		LOGGER.debug("isDataToBeRegenerated={}, current-data={}", isDataToBeRegenerated, fetchedPersons);
 	}
 
-
+	private List<Person> generatePersons() {
+		PersonsDataGenerator generator = new PersonsDataGenerator();
+		return generator.id(true).generate();
+	}
 
 	private List<Person> fetchPersonsFromDb() {
 		List<Person> persons = repository.findAll().collectList().block();

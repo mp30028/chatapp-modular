@@ -1,8 +1,7 @@
 package com.zonesoft.chats.data_generators;
 
-import static com.zonesoft.chats.data_generators.ParticipantDataGenerator.*;
 import static com.zonesoft.chats.data_generators.MessageDataGenerator.*;
-
+import static com.zonesoft.chats.data_generators.ParticipantDataGenerator.*;
 
 import com.zonesoft.chats.models.Conversation;
 

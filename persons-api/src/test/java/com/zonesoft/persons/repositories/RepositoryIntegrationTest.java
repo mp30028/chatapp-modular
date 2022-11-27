@@ -1,6 +1,5 @@
 package com.zonesoft.persons.repositories;
 
-import static com.zonesoft.persons.data_generators.DummyDataGenerator.*;
 import static com.zonesoft.utils.data_generators.Generator.generateRandomInt;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +16,8 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import com.zonesoft.persons.data_generators.PersonDataGenerator;
+import com.zonesoft.persons.data_generators.PersonsDataGenerator;
 import com.zonesoft.persons.models.Person;
 
 @Testcontainers()
@@ -44,12 +45,14 @@ class RepositoryIntegrationTest{
 
 	
 	private Person  createAndInsertSinglePerson() {
-		Person generatedPerson = generatePerson();
+		PersonDataGenerator generator = new PersonDataGenerator();
+		Person generatedPerson = generator.moniker().firstname().lastname().generate();
 		return personRepository.insert(generatedPerson).block();
 	}
 	
 	private List<Person>  createAndInsertPersons() {
-		List<Person> generatedPersons = generatePersons();
+		PersonsDataGenerator generator = new PersonsDataGenerator();
+		List<Person> generatedPersons = generator.id(false).generate();
 		return personRepository.insert(generatedPersons).collectList().block();
 	}
 	

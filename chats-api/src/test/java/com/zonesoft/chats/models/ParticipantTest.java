@@ -1,7 +1,8 @@
 package com.zonesoft.chats.models;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static com.zonesoft.chats.data_generators.ParticipantDataGenerator.generateParticipant;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

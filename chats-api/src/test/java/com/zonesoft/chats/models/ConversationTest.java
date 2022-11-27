@@ -1,12 +1,11 @@
 package com.zonesoft.chats.models;
 
+import static com.zonesoft.chats.data_generators.ConversationDataGenerator.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.zonesoft.chats.data_generators.ConversationDataGenerator.*;
 
 class ConversationTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationTest.class);

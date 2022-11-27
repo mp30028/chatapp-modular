@@ -1,7 +1,6 @@
 package com.zonesoft.chats.models;
 
 import static com.zonesoft.chats.data_generators.MessageDataGenerator.generateMessageWithId;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;

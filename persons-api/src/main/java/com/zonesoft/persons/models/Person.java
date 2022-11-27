@@ -86,9 +86,9 @@ public class Person {
 		return this.otherNames;
 	}
 	
-	public void setOtherNames(List<OtherName> otherNames){
-		this.otherNames = otherNames;
-	}
+//	public void setOtherNames(List<OtherName> otherNames){
+//		this.otherNames = otherNames;
+//	}
 	
 	@Override
 	public String toString() {		
