@@ -1,4 +1,4 @@
-package com.zonesoft.participants.data_generators;
+package com.zonesoft.persons.data_generators;
 
 import static com.zonesoft.utils.data_generators.Generator.generateFirstName;
 import static com.zonesoft.utils.data_generators.Generator.generateGender;
@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.zonesoft.participants.models.OtherName;
-import com.zonesoft.participants.models.Person;
-import com.zonesoft.participants.models.OtherName.OtherNameType;
+import com.zonesoft.persons.models.OtherName;
+import com.zonesoft.persons.models.Person;
+import com.zonesoft.persons.models.OtherName.OtherNameType;
 import com.zonesoft.utils.data_generators.Generator.Gender;
 
 public class PersonDataGenerator {
@@ -108,6 +108,11 @@ public class PersonDataGenerator {
 		for (int j=0; j < numberOfOtherNames; j++) {
 			this.otherNames.add(generateOtherName());	
 		}
+		return this;
+	}
+	
+	public PersonDataGenerator withDefaults() {
+		this.id().moniker().firstname().lastname().otherNames(1,3);
 		return this;
 	}
 	

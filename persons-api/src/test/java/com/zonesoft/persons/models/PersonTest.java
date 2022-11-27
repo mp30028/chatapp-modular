@@ -6,53 +6,36 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zonesoft.persons.data_generators.PersonDataGenerator;
+import com.zonesoft.persons.models.PersonTest;
+
 class PersonTest {
-	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PersonTest.class);
 	
-
 	@Test
-	void testPersonWithValidAttributes() {
-		String ID = "ABCDEFG";
-		String MONIKER = "_TEST_";
-		String LASTNAME = "Smith";
-		String FIRSTNAME = "John";
-		Person sut = new Person(ID,MONIKER,FIRSTNAME,LASTNAME);		
+	void testInstantiation() {
+		PersonDataGenerator generator = new PersonDataGenerator();
+		Person person = generator.id().moniker().firstname().lastname().otherNames(2,4).generate();
+		LOGGER.debug("Generated Person Instantiated: person = {}", person);
+		assertNotNull(person);
+		assertNotNull(person.getId());
+		assertNotNull(person.otherNames());
+		for(OtherName otherName: person.otherNames()) {
+			assertNotNull(otherName);
+			assertNotNull(otherName.getId());
+		}
 		
-		assertEquals(ID, sut.getId());
-		assertEquals(MONIKER, sut.getMoniker());
-		assertEquals(LASTNAME, sut.getLastname());
-		assertEquals(FIRSTNAME, sut.getFirstname());
-		LOGGER.debug(sut.toString());
+		String idToUse = "1234ABCD";
+		person = generator.id(idToUse).moniker().firstname().lastname().otherNames(2,4).generate();
+		LOGGER.debug("Generated Person Instantiated: person = {}", person);
+		assertNotNull(person);
+		assertNotNull(person.getId());
+		assertEquals(idToUse, person.getId());
+		assertNotNull(person.otherNames());
+		for(OtherName otherName: person.otherNames()) {
+			assertNotNull(otherName);
+			assertNotNull(otherName.getId());
+		}
 	}
 
-	@Test
-	void testPersonWithNullId() {
-		String ID = null;
-		String MONIKER = "_TEST_";
-		String LASTNAME = "Smith";
-		String FIRSTNAME = "John";
-		Person sut = new Person(ID,MONIKER,FIRSTNAME,LASTNAME);		
-		
-		assertEquals(ID, sut.getId());
-		assertEquals(MONIKER, sut.getMoniker());
-		assertEquals(LASTNAME, sut.getLastname());
-		assertEquals(FIRSTNAME, sut.getFirstname());
-		LOGGER.debug(sut.toString());
-	}
-
-	@Test
-	void testPersonWithEmptyId() {
-		String ID = "";
-		String MONIKER = "_TEST_";
-		String LASTNAME = "Smith";
-		String FIRSTNAME = "John";
-		Person sut = new Person(ID,MONIKER,FIRSTNAME,LASTNAME);		
-		
-		assertEquals(ID, sut.getId());
-		assertEquals(MONIKER, sut.getMoniker());
-		assertEquals(LASTNAME, sut.getLastname());
-		assertEquals(FIRSTNAME, sut.getFirstname());
-		LOGGER.debug(sut.toString());
-	}
 }

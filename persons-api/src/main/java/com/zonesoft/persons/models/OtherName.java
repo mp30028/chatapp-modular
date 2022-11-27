@@ -12,11 +12,21 @@ public class OtherName {
 		ALIAS;
 	}
 	
+	private String id;
 	private String value;
 	private OtherNameType nameType;
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public OtherName(String id, String value, OtherNameType nameType) {
 		super();
+		this.id = id;
 		this.value = value;
 		this.nameType = nameType;
 	}
@@ -30,7 +40,7 @@ public class OtherName {
 	public OtherName() {
 		super();
 	}
-
+	
 	public String getValue() {
 		return value;
 	}
@@ -52,8 +62,9 @@ public class OtherName {
 		return new ToStringBuilder()
 		.build(
 				lBrace, newline,
+					indent, key("other-name-id"), value(this.id), comma, newline,
 					indent, key("value"), value(this.value), comma, newline,
-					indent, key("name-type"), value(this.nameType), newline,
+					indent, key("other-name-type"), value(this.nameType), newline,
 				rBrace
 		);
 	}

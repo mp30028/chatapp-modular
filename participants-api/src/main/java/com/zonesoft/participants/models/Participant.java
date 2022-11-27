@@ -6,20 +6,17 @@ import java.time.OffsetDateTime;
 
 public class Participant {
 	private String id;
-	private final Person person;
 	private final OffsetDateTime participationStart;
 	private OffsetDateTime participationEnd = null;
 	
 	
-	public Participant(Person person) {
+	public Participant() {
 		super();
-		this.person = person;
 		this.participationStart = OffsetDateTime.now();
 	}
 	
-	public Participant(Person person, OffsetDateTime participationStart) {
+	public Participant(OffsetDateTime participationStart) {
 		super();
-		this.person = person;
 		this.participationStart = participationStart;
 	}
 	
@@ -31,9 +28,6 @@ public class Participant {
 		this.id = id;
 	}
 		
-	public Person getPerson() {
-		return person;
-	}
 	
 	public OffsetDateTime getParticipationStart() {
 		return participationStart;
@@ -53,7 +47,6 @@ public class Participant {
 			.build(
 				lBrace, newline,
 					indent, key("participant-id"), 		value(this.id), 					comma, newline,
-					indent, key("person"), 				objectValue(this.person), 			comma, newline,
 					indent, key("participation-start"), value(this.participationStart), 	comma, newline,
 					indent, key("participation-end"), 	value(this.participationEnd), 		newline,
 				rBrace
