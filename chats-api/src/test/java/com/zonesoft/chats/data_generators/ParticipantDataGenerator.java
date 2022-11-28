@@ -3,6 +3,7 @@ package com.zonesoft.chats.data_generators;
 
 import static com.zonesoft.utils.data_generators.Generator.generateUUID;
 import static com.zonesoft.utils.data_generators.Generator.generateDateTime;
+import static com.zonesoft.utils.data_generators.Generator.generateNickname;
 
 import java.time.OffsetDateTime;
 import com.zonesoft.chats.models.Participant;
@@ -11,6 +12,7 @@ import com.zonesoft.chats.models.Participant;
 public class ParticipantDataGenerator {
 	private String id = null;
 	private String personId = null;
+	private String moniker = null;
 	private OffsetDateTime participationStart = null;
 	private OffsetDateTime participationEnd = null;
 	
@@ -29,8 +31,19 @@ public class ParticipantDataGenerator {
 		return this;
 	}
 	
+	public ParticipantDataGenerator moniker() {
+		this.moniker = generateNickname();
+		return this;
+	}
+
+	
 	public ParticipantDataGenerator personId(String suppliedValue) {
 		this.personId = suppliedValue;
+		return this;
+	}
+	
+	public ParticipantDataGenerator moniker(String suppliedValue) {
+		this.moniker = suppliedValue;
 		return this;
 	}
 	
@@ -55,12 +68,12 @@ public class ParticipantDataGenerator {
 	}
 	
 	public ParticipantDataGenerator withDefaults() {
-		this.id().personId().participationStart().participationStart();
+		this.id().personId().moniker().participationStart().participationStart();
 		return this;
 	}
 	
 	public Participant generate() {
-		Participant participant = new Participant(this.personId, this.participationStart);
+		Participant participant = new Participant(this.personId,this.moniker, this.participationStart);
 		participant.setId(id);
 		participant.setParticipationEnd(participationEnd);
 		return participant;

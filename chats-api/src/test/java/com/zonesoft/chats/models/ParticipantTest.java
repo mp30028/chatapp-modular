@@ -17,6 +17,7 @@ class ParticipantTest {
 		assertNotNull(participant);
 		assertNotNull(participant.getId());
 		assertNotNull(participant.getPersonId());
+		assertNotNull(participant.getMoniker());
 		assertNotNull(participant.getParticipationStart());
 		assertNull(participant.getParticipationEnd());
 	}
