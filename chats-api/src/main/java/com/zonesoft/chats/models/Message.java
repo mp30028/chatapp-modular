@@ -7,9 +7,9 @@ import java.time.OffsetDateTime;
 
 public class Message {
 	private String id;
-	private final String messageText;
-	private final String senderParticipantId;
-	private final OffsetDateTime sentTime;
+	private String messageText;
+	private String senderParticipantId;
+	private OffsetDateTime sentTime;
 
 	
 	public Message(String senderParticipantId, String messageText) {
@@ -55,16 +55,28 @@ public class Message {
 		return senderParticipantId;
 	}
 
+	public void setSenderParticipantId(String senderParticipantId) {
+		this.senderParticipantId = senderParticipantId;
+	}
+
 	public String getMessageText() {
 		return messageText;
 	}
 
+
+	public void setMessageText(String messageText) {
+		this.messageText = messageText;
+	}
 
 	public OffsetDateTime getSentTime() {
 		return sentTime;
 	}
 
 	
+	public void setSentTime(OffsetDateTime sentTime) {
+		this.sentTime = sentTime;
+	}
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder()

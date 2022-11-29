@@ -1,22 +1,39 @@
 package com.zonesoft.chats.models;
 
-import static com.zonesoft.chats.data_generators.ConversationDataGenerator.*;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zonesoft.chats.data_generators.ConversationRecordBuilder;
+import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
+
 class ConversationTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationTest.class);
 	
 	@Test
-	void test_InstantiatingConversation() {
-		Conversation conversation = generateConversation();
+	void testSingleConversationInstantiation() {
+		Conversation conversation = new ConversationRecordBuilder().withDefaults().generate();
 		assertNotNull(conversation);
 		assertNotNull(conversation.messages());
 		assertNotNull(conversation.participants());
-		LOGGER.debug("FROM test_InstantiatingConversation: generated-conversation={}", conversation);
+		LOGGER.debug("ConversationTest.testSingleConversationInstantiation: generated-conversation={}", conversation);
 	}
-
+	
+	@Test
+	void testMultipleConversationsInstantiation() {
+		Supplier<ConversationRecordBuilder> supplier = (()-> new ConversationRecordBuilder());
+		List<Conversation> conversations = new RecordsGeneratorTemplate<ConversationRecordBuilder,Conversation>().id(true).generate(supplier);
+		LOGGER.debug("ConversationTest.testMultipleConversationsInstantiation Instantiated-messages = {}", conversations);
+		for (Conversation conversation : conversations) {
+			assertNotNull(conversation);
+			assertNotNull(conversation.getId());
+			assertNotNull(conversation.messages());
+			assertNotNull(conversation.participants());
+		}
+	}
 }
