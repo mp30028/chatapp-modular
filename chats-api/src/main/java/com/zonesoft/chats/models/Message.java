@@ -10,19 +10,18 @@ public class Message {
 	private final String messageText;
 	private final String senderParticipantId;
 	private final OffsetDateTime sentTime;
-	private final String conversationId;
+
 	
-	public Message(String conversationId, String senderParticipantId, String messageText) {
+	public Message(String senderParticipantId, String messageText) {
 		super();
-		this.conversationId = conversationId;
+
 		this.senderParticipantId = senderParticipantId;
 		this.messageText = messageText;
 		this.sentTime = OffsetDateTime.now();
 	}
 	
-	public Message(String conversationId, String senderParticipantId, String messageText, OffsetDateTime sentTime) {
+	public Message( String senderParticipantId, String messageText, OffsetDateTime sentTime) {
 		super();
-		this.conversationId = conversationId;
 		this.senderParticipantId = senderParticipantId;
 		this.messageText = messageText;
 		this.sentTime = sentTime;
@@ -35,11 +34,7 @@ public class Message {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
-	public String getConversationId() {
-		return conversationId;
-	}
+
 
 	public String getSenderParticipantId() {
 		return senderParticipantId;
@@ -63,7 +58,6 @@ public class Message {
 					indent, key("message-id"), value(this.id), comma, newline,
 					indent, key("message-text"), value(this.messageText), comma,  newline,
 					indent, key("sender-participant-id"), value(this.senderParticipantId), comma, newline,
-					indent, key("conversation-id"), value(this.conversationId), comma, newline,
 					indent, key("sent-time"), value(this.sentTime), newline,
 				rBrace
 			);

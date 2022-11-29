@@ -18,7 +18,6 @@ class MessageTest {
 		assertNotNull(message);
 		assertNotNull(message.getId());
 		assertNotNull(message.getMessageText());
-		assertNotNull(message.getConversationId());
 		assertNotNull(message.getSenderParticipantId());
 		assertNotNull(message.getSentTime());
 	}

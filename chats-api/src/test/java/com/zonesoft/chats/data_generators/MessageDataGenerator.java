@@ -13,26 +13,26 @@ public class MessageDataGenerator {
 	private static final int MIN_MESSAGES = 0;
 	private static final int MAX_MESSAGES = 30;
 	
-	public static Message generateMessageWithId(String conversationId, String senderParticipantId){
-		Message message = new Message(conversationId,senderParticipantId,generatePhrase());
+	public static Message generateMessageWithId( String senderParticipantId){
+		Message message = new Message(senderParticipantId,generatePhrase());
 		message.setId(generateUUID());
 		return message;
 	}
 	
 	public static Message generateMessageWithId(){
-		Message message =  new Message(generateUUID(),generateUUID(), generatePhrase());
+		Message message =  new Message(generateUUID(), generatePhrase());
 		message.setId(generateUUID());
 		return message;
 	}
 	
 	
-	public static Message generateMessage(String conversationId, String senderParticipantId){
-		Message message = new Message(conversationId,senderParticipantId,generatePhrase());
+	public static Message generateMessage( String senderParticipantId){
+		Message message = new Message(senderParticipantId,generatePhrase());
 		return message;
 	}
 	
 	public static Message generateMessage(){
-		Message message =  new Message(generateUUID(),generateUUID(), generatePhrase());
+		Message message =  new Message(generateUUID(), generatePhrase());
 		return message;
 	}
 	
@@ -45,11 +45,11 @@ public class MessageDataGenerator {
 		return messages;
 	}
 	
-	public static List<Message> generateMessages(String conversationId, String senderParticipantId) {
+	public static List<Message> generateMessages( String senderParticipantId) {
 		int numberOfMessages = generateRandomInt(MIN_MESSAGES, MAX_MESSAGES);
 		List<Message> messages = new ArrayList<>();
 		for (int j = 0; j < numberOfMessages; j++) {
-			messages.add(generateMessage(conversationId,senderParticipantId));
+			messages.add(generateMessage(senderParticipantId));
 		}
 		return messages;
 	}
@@ -62,8 +62,8 @@ public class MessageDataGenerator {
 		return messages;
 	}
 	
-	public static List<Message> generateMessagesWithId(String conversationId, String senderParticipantId) {
-		List<Message> messages = generateMessages(conversationId, senderParticipantId);
+	public static List<Message> generateMessagesWithId( String senderParticipantId) {
+		List<Message> messages = generateMessages( senderParticipantId);
 		for (Message message : messages) {
 			message.setId(generateUUID());
 		}
