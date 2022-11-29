@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -20,17 +19,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.MappingBuilder;
 import com.zonesoft.chats.services.clients.PersonsApiClientBuilder;
 
 import reactor.util.function.Tuple2;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
-//import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-//import static com.github.tomakehurst.wiremock.client.WireMock.get;
-//import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-//import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-//import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
@@ -41,7 +34,7 @@ class PersonServiceTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PersonServiceTest.class);
 
-	private PersonService mockService;
+	private PersonService service;
 
 	private static final WireMockServer WIREMOCK_SERVER = new WireMockServer(wireMockConfig().dynamicPort());
 
@@ -64,17 +57,17 @@ class PersonServiceTest {
 		LOGGER.debug("portString={}", portString);
 		this.webClientConfigs.port(portString).domain("localhost").protocol("http").clientName("PersonServiceTest")
 				.clientType("UnitTestingClient").reset();
-		this.mockService = new PersonService(webClientConfigs);		
+		this.service = new PersonService(webClientConfigs);		
 	}
 
 	
 	@Test
 	void testFetchAll() {
-		assertNotNull(this.mockService);
+		assertNotNull(this.service);
 		WIREMOCK_SERVER.stubFor(WireMock.get(WireMock.urlEqualTo("/api/persons"))
 				.willReturn(WireMock.aResponse().withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 						.withBodyFile("persons-fetch-all-response.json")));
-		List<Tuple2<String, String>> fetchResult = this.mockService.fetchAll().block();
+		List<Tuple2<String, String>> fetchResult = this.service.fetchAll().block();
 		LOGGER.debug("testFetchAll: result = {}, size={}", fetchResult,fetchResult.size());
 	}
 
@@ -82,7 +75,7 @@ class PersonServiceTest {
 	@Test
 	void testFetchByMoniker() {
 		String moniker = "Cous";
-		assertNotNull(this.mockService);
+		assertNotNull(this.service);
 //		WIREMOCK_SERVER.stubFor(
 //				(WireMock.get(WireMock.urlEqualTo("/api/persons"))
 //				.withQueryParam("moniker",  WireMock.equalTo(moniker))
@@ -92,7 +85,7 @@ class PersonServiceTest {
 		WIREMOCK_SERVER.stubFor(WireMock.get(WireMock.urlEqualTo("/api/persons?moniker=" + moniker))
 				.willReturn(WireMock.aResponse().withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 						.withBodyFile("persons-fetch-by-moniker-response.json")));
-		List<Tuple2<String, String>> fetchResult = this.mockService.fetchByMoniker(moniker).block();
+		List<Tuple2<String, String>> fetchResult = this.service.fetchByMoniker(moniker).block();
 		LOGGER.debug("testFetchByMoniker: result = {}, size={}", fetchResult,fetchResult.size());
 	}
 }
