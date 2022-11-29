@@ -7,71 +7,76 @@ import static com.zonesoft.utils.data_generators.Generator.generateNickname;
 
 import java.time.OffsetDateTime;
 import com.zonesoft.chats.models.Participant;
+import com.zonesoft.utils.data_generators.IRecordGenerator;
 
 
-public class ParticipantDataGenerator {
+public class ParticipantRecordBuilder implements IRecordGenerator<ParticipantRecordBuilder, Participant> {
 	private String id = null;
 	private String personId = null;
 	private String moniker = null;
 	private OffsetDateTime participationStart = null;
 	private OffsetDateTime participationEnd = null;
 	
-	public ParticipantDataGenerator id() {
+	@Override
+	public ParticipantRecordBuilder id() {
 		this.id = generateUUID();
 		return this;
 	}
 	
-	public ParticipantDataGenerator id(String suppliedValue) {
+	@Override
+	public ParticipantRecordBuilder id(String suppliedValue) {
 		this.id = suppliedValue;
 		return this;
 	}
 	
-	public ParticipantDataGenerator personId() {
+	public ParticipantRecordBuilder personId() {
 		this.personId = generateUUID();
 		return this;
 	}
 	
-	public ParticipantDataGenerator moniker() {
+	public ParticipantRecordBuilder moniker() {
 		this.moniker = generateNickname();
 		return this;
 	}
 
 	
-	public ParticipantDataGenerator personId(String suppliedValue) {
+	public ParticipantRecordBuilder personId(String suppliedValue) {
 		this.personId = suppliedValue;
 		return this;
 	}
 	
-	public ParticipantDataGenerator moniker(String suppliedValue) {
+	public ParticipantRecordBuilder moniker(String suppliedValue) {
 		this.moniker = suppliedValue;
 		return this;
 	}
 	
-	public ParticipantDataGenerator participationStart() {
+	public ParticipantRecordBuilder participationStart() {
 		this.participationStart = generateDateTime();
 		return this;
 	}
 	
-	public ParticipantDataGenerator participationStart(OffsetDateTime suppliedValue) {
+	public ParticipantRecordBuilder participationStart(OffsetDateTime suppliedValue) {
 		this.participationStart = suppliedValue;
 		return this;
 	}
 	
-	public ParticipantDataGenerator participationEnd() {
+	public ParticipantRecordBuilder participationEnd() {
 		this.participationEnd = generateDateTime();
 		return this;
 	}
 	
-	public ParticipantDataGenerator participationEnd(OffsetDateTime suppliedValue) {
+	public ParticipantRecordBuilder participationEnd(OffsetDateTime suppliedValue) {
 		this.participationEnd = suppliedValue;
 		return this;
 	}
 	
-	public ParticipantDataGenerator withDefaults() {
+	@Override
+	public ParticipantRecordBuilder withDefaults() {
 		this.id().personId().moniker().participationStart().participationStart();
 		return this;
 	}
 	
+	@Override
 	public Participant generate() {
 		Participant participant = new Participant(this.personId,this.moniker, this.participationStart);
 		participant.setId(id);

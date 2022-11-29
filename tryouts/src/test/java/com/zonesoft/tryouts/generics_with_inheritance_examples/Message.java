@@ -1,4 +1,4 @@
-package com.zonesoft.chats.models;
+package com.zonesoft.tryouts.generics_with_inheritance_examples;
 
 import static com.zonesoft.utils.helpers.ToStringBuilder.*;
 import com.zonesoft.utils.helpers.ToStringBuilder;
