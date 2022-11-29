@@ -1,4 +1,4 @@
-package com.zonesoft.chats.models;
+package com.zonesoft.tryouts.generics_with_inheritance_examples;
 
 import static com.zonesoft.utils.helpers.ToStringBuilder.*;
 import com.zonesoft.utils.helpers.ToStringBuilder;
@@ -7,9 +7,9 @@ import java.time.OffsetDateTime;
 
 public class Message {
 	private String id;
-	private String messageText;
-	private String senderParticipantId;
-	private OffsetDateTime sentTime;
+	private final String messageText;
+	private final String senderParticipantId;
+	private final OffsetDateTime sentTime;
 
 	
 	public Message(String senderParticipantId, String messageText) {
@@ -55,28 +55,16 @@ public class Message {
 		return senderParticipantId;
 	}
 
-	public void setSenderParticipantId(String senderParticipantId) {
-		this.senderParticipantId = senderParticipantId;
-	}
-
 	public String getMessageText() {
 		return messageText;
 	}
 
-
-	public void setMessageText(String messageText) {
-		this.messageText = messageText;
-	}
 
 	public OffsetDateTime getSentTime() {
 		return sentTime;
 	}
 
 	
-	public void setSentTime(OffsetDateTime sentTime) {
-		this.sentTime = sentTime;
-	}
-
 	@Override
 	public String toString() {
 		return new ToStringBuilder()

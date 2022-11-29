@@ -22,11 +22,11 @@ public class PersonDataGenerator {
 	private static final int MIN_OTHER_NAMES_DEFAULT = 0;
 	private static final int MAX_OTHER_NAMES_DEFAULT = 3;
 	
-	private String id;
-	private String moniker;
-	private String firstname;
-	private String lastname;
-	private List<OtherName> otherNames;
+	private String id = null;
+	private String moniker = null;
+	private String firstname = null;
+	private String lastname = null;
+	private List<OtherName> otherNames = null;
 	private static final Gender gender = generateGender();
 	private int minOtherNames = MIN_OTHER_NAMES_DEFAULT;
 	private int maxOtherNames = MAX_OTHER_NAMES_DEFAULT; 
