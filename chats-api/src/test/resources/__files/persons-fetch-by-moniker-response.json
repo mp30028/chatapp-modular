@@ -1,0 +1,40 @@
+[
+    {
+    "firstname": "Mark",
+    "id": "30357fee-940e-4cf3-8a26-4a131b9375cf",
+    "lastname": "MURRAY",
+    "moniker": "Cous",
+    "otherNames":
+        [
+            {
+            "id": "969e26ea-db23-4724-8464-9232701588eb",
+            "nameType": "ALIAS",
+            "value": "Charles"
+            },
+            {
+            "id": "0d82ddbf-3e07-423c-8ace-6ad901f1f762",
+            "nameType": "NICK_NAME",
+            "value": "Lloyd"
+            }
+        ]
+    },
+    {
+    "firstname": "Stephen",
+    "id": "8153e470-6fd8-417f-b546-886f26522e40",
+    "lastname": "SIMPSON",
+    "moniker": "Cous",
+    "otherNames":
+        [
+            {
+            "id": "8e5498dc-80bf-4e7a-b4e7-05f41f852b18",
+            "nameType": "MIDDLE_NAME",
+            "value": "Flynn"
+            },
+            {
+            "id": "54c987f6-4ad1-4950-a86c-6529a73ec018",
+            "nameType": "MIDDLE_NAME",
+            "value": "Chance"
+            }
+        ]
+    }
+  ]
