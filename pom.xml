@@ -88,7 +88,7 @@
 	      <groupId>org.testcontainers</groupId>
 	      <artifactId>mongodb</artifactId>
 	      <scope>test</scope>
-	      <version>${testcontainers.version}</version>
+<!-- 	      <version>${testcontainers.version}</version> -->
 	    </dependency>
 
 
