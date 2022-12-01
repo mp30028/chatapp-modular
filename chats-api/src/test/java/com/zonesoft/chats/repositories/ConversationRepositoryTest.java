@@ -24,8 +24,7 @@ import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 @Testcontainers
 @SpringBootTest
 @ActiveProfiles("test")
-
-	class ConversationRepositoryTest{
+class ConversationRepositoryTest{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationRepositoryTest.class);
 	private static final String IMAGE_NAME = "mongo:6.0.2";	
 	static final MongoDBContainer MONGODB_CONTAINER;
