@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zonesoft.persons.data_generators.PersonDataGenerator;
-import com.zonesoft.persons.data_generators.PersonsDataGenerator;
+import com.zonesoft.persons.data_generators.PersonRecordBuilder;
+import com.zonesoft.persons.data_generators.PersonsRecordBuilder;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.repositories.PersonRepository;
 
@@ -67,7 +67,7 @@ class PersonServiceTest {
 	
 	@Test
 	void testFindAll_WhenRepositoryReturnsASingleResult() {
-		Person person = new PersonDataGenerator().withDefaults().generate();
+		Person person = new PersonRecordBuilder().withDefaults().generate();
 		when(mockRepository.findAll()).thenReturn(Flux.just(person));
 		Flux<Person> personFlux = service.findAll();
 		assertNotNull(personFlux);
@@ -86,7 +86,7 @@ class PersonServiceTest {
 	
 	@Test
 	void testFindAll_WhenRepositoryReturnsSeveralResults() {
-		List<Person> persons = new PersonsDataGenerator().generate();
+		List<Person> persons = new PersonsRecordBuilder().generate();
 		when(mockRepository.findAll()).thenReturn(Flux.fromIterable(persons));
 		Flux<Person> personFlux = service.findAll();
 		assertNotNull(personFlux);

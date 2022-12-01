@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zonesoft.persons.data_generators.PersonDataGenerator;
+import com.zonesoft.persons.data_generators.PersonRecordBuilder;
 import com.zonesoft.persons.models.PersonTest;
 
 class PersonTest {
@@ -14,7 +14,7 @@ class PersonTest {
 	
 	@Test
 	void testInstantiation() {
-		PersonDataGenerator generator = new PersonDataGenerator();
+		PersonRecordBuilder generator = new PersonRecordBuilder();
 		Person person = generator.id().moniker().firstname().lastname().otherNames(2,4).generate();
 		LOGGER.debug("Generated Person Instantiated: person = {}", person);
 		assertNotNull(person);

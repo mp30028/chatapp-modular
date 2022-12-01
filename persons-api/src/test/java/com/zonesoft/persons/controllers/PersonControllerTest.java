@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.zonesoft.persons.data_generators.PersonDataGenerator;
-import com.zonesoft.persons.data_generators.PersonsDataGenerator;
+import com.zonesoft.persons.data_generators.PersonRecordBuilder;
+import com.zonesoft.persons.data_generators.PersonsRecordBuilder;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.services.PersonService;
 
@@ -38,10 +38,10 @@ class PersonControllerTest {
 	private static List<Person> PERSONS;
 
 	private static void createTestData() {
-		PersonDataGenerator personGenerator = new PersonDataGenerator();
+		PersonRecordBuilder personGenerator = new PersonRecordBuilder();
 		PERSON_1 = personGenerator.id().moniker().firstname().lastname().otherNames().generate();
 		PERSON_2 = personGenerator.id().moniker().firstname().lastname().otherNames().generate();
-		PERSONS = new PersonsDataGenerator().minPersons(MIN_PERSONS).maxPersons(MAX_PERSONS).id(true).generate();
+		PERSONS = new PersonsRecordBuilder().minPersons(MIN_PERSONS).maxPersons(MAX_PERSONS).id(true).generate();
 		PERSONS.add(0,PERSON_1);
 		PERSONS.add(1,PERSON_2);
 	}

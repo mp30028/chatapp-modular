@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import com.zonesoft.persons.models.Person;
 
-public class PersonsDataGenerator {
+public class PersonsRecordBuilder {
 	private static final int MIN_PERSONS_DEFAULT = 2;
 	private static final int MAX_PERSONS_DEFAULT = 10;
 	private static final boolean AUTO_GENERATE_ID_DEFAULT = true;
@@ -17,22 +17,22 @@ public class PersonsDataGenerator {
 	private boolean autoGenerateId = AUTO_GENERATE_ID_DEFAULT;
 	private String[] providedIds = null;
 	
-	public PersonsDataGenerator minPersons(int minimumNumberOfPersons) {
+	public PersonsRecordBuilder minPersons(int minimumNumberOfPersons) {
 		minPersons = minimumNumberOfPersons;
 		return this;
 	}
 	
-	public PersonsDataGenerator maxPersons(int maximumNumberOfPersons) {
+	public PersonsRecordBuilder maxPersons(int maximumNumberOfPersons) {
 		this.maxPersons = maximumNumberOfPersons;
 		return this;
 	}
 	
-	public PersonsDataGenerator id(boolean autoGenerateId) {
+	public PersonsRecordBuilder id(boolean autoGenerateId) {
 		this.autoGenerateId = autoGenerateId;
 		return this;
 	}
 
-	public PersonsDataGenerator id(String ...ids) {
+	public PersonsRecordBuilder id(String ...ids) {
 		this.providedIds = ids;
 		return this;
 	}
@@ -51,7 +51,7 @@ public class PersonsDataGenerator {
 		int listSize = (providedIds.length <= maxPersons)? providedIds.length : maxPersons;
 		List<Person> persons = new ArrayList<>();		
 		for(int j=0; j < listSize ; j++) {
-			PersonDataGenerator generator = new PersonDataGenerator();
+			PersonRecordBuilder generator = new PersonRecordBuilder();
 			Person person = generator.id(providedIds[j]).moniker().firstname().lastname().otherNames().generate();
 			persons.add(person);
 		}
@@ -62,7 +62,7 @@ public class PersonsDataGenerator {
 		int listSize = generateRandomInt(minPersons, maxPersons);
 		List<Person> persons = new ArrayList<>();		
 		for(int j=0; j < listSize ; j++) {
-			PersonDataGenerator generator = new PersonDataGenerator();
+			PersonRecordBuilder generator = new PersonRecordBuilder();
 			if (autoGenerateId) {
 				generator.id();
 			}
