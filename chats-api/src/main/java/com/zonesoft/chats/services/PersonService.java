@@ -1,6 +1,5 @@
 package com.zonesoft.chats.services;
 
-import java.awt.PageAttributes.MediaType;
 import java.util.List;
 
 import org.slf4j.Logger;

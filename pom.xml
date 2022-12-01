@@ -24,6 +24,7 @@
 		<springboot.version>2.7.5</springboot.version>
 		<testcontainers.version>1.17.6</testcontainers.version>
 		<maven.version>3.10.1</maven.version>
+		<mavensurefire.version>3.0.0-M7</mavensurefire.version>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
 	</properties>
 
@@ -32,7 +33,6 @@
     	<module>chats-api</module>
     	<module>utils</module>
     	<module>tryouts</module>
-    	<module>participants-api</module>
     </modules>
 
 
@@ -114,6 +114,14 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${maven.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${mavensurefire.version}</version>
+				<configuration>
+					<excludedGroups>DataGenerator</excludedGroups>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build> 
