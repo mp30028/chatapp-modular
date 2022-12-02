@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.zonesoft.persons.data_generators.PersonRecordBuilder2;
+import com.zonesoft.persons.data_generators.PersonRecordBuilder;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.services.PersonService;
 import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate2;
@@ -40,11 +40,11 @@ class PersonControllerTest {
 	private static List<Person> PERSONS;
 
 	private static void createTestData() {
-		PersonRecordBuilder2 personGenerator = new PersonRecordBuilder2();
+		PersonRecordBuilder personGenerator = new PersonRecordBuilder();
 		PERSON_1 = personGenerator.id().moniker().firstname().lastname().otherNames().build();
 		PERSON_2 = personGenerator.withDefaults().build();
-		RecordsGeneratorTemplate2<PersonRecordBuilder2, Person> generator = new RecordsGeneratorTemplate2<>();
-		Supplier<PersonRecordBuilder2> supplier = () -> new PersonRecordBuilder2().withDefaults();
+		RecordsGeneratorTemplate2<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate2<>();
+		Supplier<PersonRecordBuilder> supplier = () -> new PersonRecordBuilder().withDefaults();
 		PERSONS = generator.minRecords(MIN_PERSONS).maxRecords(MAX_PERSONS).generate(supplier);
 		PERSONS.add(0,PERSON_1);
 		PERSONS.add(1,PERSON_2);

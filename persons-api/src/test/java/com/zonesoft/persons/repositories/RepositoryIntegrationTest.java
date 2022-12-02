@@ -18,7 +18,7 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import com.zonesoft.persons.data_generators.PersonRecordBuilder2;
+import com.zonesoft.persons.data_generators.PersonRecordBuilder;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate2;
 
@@ -47,14 +47,14 @@ class RepositoryIntegrationTest{
 
 	
 	private Person  createAndInsertSinglePerson() {
-		PersonRecordBuilder2 generator = new PersonRecordBuilder2();
+		PersonRecordBuilder generator = new PersonRecordBuilder();
 		Person generatedPerson = generator.moniker().firstname().lastname().build();
 		return personRepository.insert(generatedPerson).block();
 	}
 	
 	private List<Person>  createAndInsertPersons() {
-		RecordsGeneratorTemplate2<PersonRecordBuilder2, Person> generator = new RecordsGeneratorTemplate2<>();
-		Supplier<PersonRecordBuilder2> supplier = () -> new PersonRecordBuilder2().withDefaults(false);
+		RecordsGeneratorTemplate2<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate2<>();
+		Supplier<PersonRecordBuilder> supplier = () -> new PersonRecordBuilder().withDefaults(false);
 		List<Person> generatedPersons = generator.generate(supplier);
 		return personRepository.insert(generatedPersons).collectList().block();
 	}

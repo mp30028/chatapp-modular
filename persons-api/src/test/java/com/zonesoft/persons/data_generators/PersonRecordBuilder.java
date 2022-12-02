@@ -18,7 +18,7 @@ import com.zonesoft.persons.models.OtherName.OtherNameType;
 import com.zonesoft.utils.data_generators.Generator.Gender;
 import com.zonesoft.utils.data_generators.IRecordBuilder;
 
-public class PersonRecordBuilder2 implements IRecordBuilder<Person>{
+public class PersonRecordBuilder implements IRecordBuilder<Person>{
 	
 	private static final int MIN_OTHER_NAMES_DEFAULT = 0;
 	private static final int MAX_OTHER_NAMES_DEFAULT = 3;
@@ -32,57 +32,57 @@ public class PersonRecordBuilder2 implements IRecordBuilder<Person>{
 	private int minOtherNames = MIN_OTHER_NAMES_DEFAULT;
 	private int maxOtherNames = MAX_OTHER_NAMES_DEFAULT; 
 	
-	public PersonRecordBuilder2 id(String s){
+	public PersonRecordBuilder id(String s){
 		this.id = s;
 		return this;
 	}
 
-	public PersonRecordBuilder2 moniker(String s){
+	public PersonRecordBuilder moniker(String s){
 		this.moniker = s;
 		return this;
 	}
 
-	public PersonRecordBuilder2 firstname(String s){
+	public PersonRecordBuilder firstname(String s){
 		this.firstname = s;
 		return this;
 	}
 	
-	public PersonRecordBuilder2 lastname(String s){
+	public PersonRecordBuilder lastname(String s){
 		this.lastname = s;
 		return this;
 	}
 	
-	public PersonRecordBuilder2 otherNames(List<OtherName> l){
+	public PersonRecordBuilder otherNames(List<OtherName> l){
 		this.otherNames = l;
 		return this;
 	}	
 	
-	public PersonRecordBuilder2 minOtherNames(int minimumNumberOfOtherNames){
+	public PersonRecordBuilder minOtherNames(int minimumNumberOfOtherNames){
 		this.minOtherNames = minimumNumberOfOtherNames;
 		return this;
 	}	
 	
-	public PersonRecordBuilder2 maxOtherNames(int maximumNumberOfOtherNames){
+	public PersonRecordBuilder maxOtherNames(int maximumNumberOfOtherNames){
 		this.maxOtherNames = maximumNumberOfOtherNames;
 		return this;
 	}	
 	
-	public PersonRecordBuilder2 id(){
+	public PersonRecordBuilder id(){
 		this.id = generateUUID();
 		return this;
 	}
 
-	public PersonRecordBuilder2 moniker(){
+	public PersonRecordBuilder moniker(){
 		this.moniker = generateNickname();
 		return this;
 	}
 
-	public PersonRecordBuilder2 firstname(){
+	public PersonRecordBuilder firstname(){
 		this.firstname = generateFirstName(gender);
 		return this;
 	}
 	
-	public PersonRecordBuilder2 lastname(){
+	public PersonRecordBuilder lastname(){
 		this.lastname = generateLastName();
 		return this;
 	}
@@ -97,13 +97,13 @@ public class PersonRecordBuilder2 implements IRecordBuilder<Person>{
 		return new OtherName(generateUUID(), generateMiddleName(gender), generateOtherNameType());
 	}
 	
-	public PersonRecordBuilder2 otherNames(int minimumNumberOfOtherNames, int maximumNumberOfOtherNames){
+	public PersonRecordBuilder otherNames(int minimumNumberOfOtherNames, int maximumNumberOfOtherNames){
 		this.minOtherNames = minimumNumberOfOtherNames;
 		this.maxOtherNames = maximumNumberOfOtherNames;
 		return otherNames();
 	}
 	
-	public PersonRecordBuilder2 otherNames(){
+	public PersonRecordBuilder otherNames(){
 		int numberOfOtherNames = generateRandomInt(minOtherNames, maxOtherNames);
 		this.otherNames = new ArrayList<>();
 		for (int j=0; j < numberOfOtherNames; j++) {
@@ -112,11 +112,11 @@ public class PersonRecordBuilder2 implements IRecordBuilder<Person>{
 		return this;
 	}
 	
-	public PersonRecordBuilder2 withDefaults() {
+	public PersonRecordBuilder withDefaults() {
 		return this.withDefaults(true);
 	}
 	
-	public PersonRecordBuilder2 withDefaults(boolean withId) {
+	public PersonRecordBuilder withDefaults(boolean withId) {
 		return (withId) ? 
 				this.id().moniker().firstname().lastname().otherNames(1,3) : 
 				this.moniker().firstname().lastname().otherNames(1,3);

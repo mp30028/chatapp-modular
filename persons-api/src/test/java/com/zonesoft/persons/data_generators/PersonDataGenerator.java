@@ -18,8 +18,8 @@ import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate2;
 
 
 @SpringBootTest
-public class PersonDataGenerator2 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(PersonDataGenerator2.class);
+public class PersonDataGenerator {
+	private static final Logger LOGGER = LoggerFactory.getLogger(PersonDataGenerator.class);
 	
 	private final PersonRepository repository;
     
@@ -27,7 +27,7 @@ public class PersonDataGenerator2 {
     private boolean isDataToBeRegenerated = false;
     
     @Autowired
-    public PersonDataGenerator2(PersonRepository repository) {
+    public PersonDataGenerator(PersonRepository repository) {
     	super();
 		this.repository = repository;
     }
@@ -48,8 +48,8 @@ public class PersonDataGenerator2 {
 	}
 
 	private List<Person> generatePersons() {
-		RecordsGeneratorTemplate2<PersonRecordBuilder2, Person> generator = new RecordsGeneratorTemplate2<>();
-		Supplier<PersonRecordBuilder2> supplier = () -> new PersonRecordBuilder2().withDefaults();
+		RecordsGeneratorTemplate2<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate2<>();
+		Supplier<PersonRecordBuilder> supplier = () -> new PersonRecordBuilder().withDefaults();
 		return generator.generate(supplier);
 	}
 
