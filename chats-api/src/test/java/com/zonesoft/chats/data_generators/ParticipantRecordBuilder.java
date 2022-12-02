@@ -7,23 +7,21 @@ import static com.zonesoft.utils.data_generators.Generator.generateNickname;
 
 import java.time.OffsetDateTime;
 import com.zonesoft.chats.models.Participant;
-import com.zonesoft.utils.data_generators.IRecordGenerator;
+import com.zonesoft.utils.data_generators.IRecordBuilder;
 
 
-public class ParticipantRecordBuilder implements IRecordGenerator<ParticipantRecordBuilder, Participant> {
+public class ParticipantRecordBuilder implements IRecordBuilder< Participant> {
 	private String id = null;
 	private String personId = null;
 	private String moniker = null;
 	private OffsetDateTime participationStart = null;
 	private OffsetDateTime participationEnd = null;
 	
-	@Override
 	public ParticipantRecordBuilder id() {
 		this.id = generateUUID();
 		return this;
 	}
 	
-	@Override
 	public ParticipantRecordBuilder id(String suppliedValue) {
 		this.id = suppliedValue;
 		return this;
@@ -70,14 +68,13 @@ public class ParticipantRecordBuilder implements IRecordGenerator<ParticipantRec
 		return this;
 	}
 	
-	@Override
 	public ParticipantRecordBuilder withDefaults() {
 		this.id().personId().moniker().participationStart().participationStart();
 		return this;
 	}
 	
 	@Override
-	public Participant generate() {
+	public Participant build() {
 		Participant participant = new Participant(this.personId,this.moniker, this.participationStart);
 		participant.setId(id);
 		participant.setParticipationEnd(participationEnd);

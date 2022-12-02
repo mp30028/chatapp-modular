@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.repositories.PersonRepository;
-import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate2;
+import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
 
 @SpringBootTest
@@ -48,7 +48,7 @@ public class PersonDataGenerator {
 	}
 
 	private List<Person> generatePersons() {
-		RecordsGeneratorTemplate2<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate2<>();
+		RecordsGeneratorTemplate<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate<>();
 		Supplier<PersonRecordBuilder> supplier = () -> new PersonRecordBuilder().withDefaults();
 		return generator.generate(supplier);
 	}

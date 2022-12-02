@@ -18,7 +18,7 @@ class MessageTest {
 	
 	@Test
 	void testSingleMessageInstantiation() {
-		Message message = new MessageRecordBuilder().withDefaults().generate();
+		Message message = new MessageRecordBuilder().withDefaults().build();
 		LOGGER.debug("MessageTest.testSingleMessageInstantiation Instantiated-message = {}", message);
 		assertNotNull(message);
 		assertNotNull(message.getId());
@@ -29,8 +29,8 @@ class MessageTest {
 
 	@Test
 	void testMultipleMessagesInstantiation() {
-		Supplier<MessageRecordBuilder> supplier = (()-> new MessageRecordBuilder());
-		List<Message> messages = new RecordsGeneratorTemplate<MessageRecordBuilder,Message>().id(true).generate(supplier);
+		Supplier<MessageRecordBuilder> supplier = (()-> new MessageRecordBuilder().withDefaults());
+		List<Message> messages = new RecordsGeneratorTemplate<MessageRecordBuilder,Message>().generate(supplier);
 		LOGGER.debug("MessageTest.testMultipleMessagesInstantiation Instantiated-messages = {}", messages);
 		for (Message message : messages) {
 			assertNotNull(message);

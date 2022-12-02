@@ -10,22 +10,20 @@ import java.util.function.Supplier;
 import com.zonesoft.chats.models.Conversation;
 import com.zonesoft.chats.models.Message;
 import com.zonesoft.chats.models.Participant;
-import com.zonesoft.utils.data_generators.IRecordGenerator;
+import com.zonesoft.utils.data_generators.IRecordBuilder;
 import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
-public class ConversationRecordBuilder implements IRecordGenerator<ConversationRecordBuilder, Conversation> {
+public class ConversationRecordBuilder implements IRecordBuilder<Conversation> {
 
 	private String id;
 	private List<Participant> participants; 
 	private List<Message> messages;
 	
-	@Override
 	public ConversationRecordBuilder id() {
 		this.id = generateUUID();
 		return this;
 	}
 
-	@Override
 	public ConversationRecordBuilder id(String suppliedValue) {
 		this.id = suppliedValue;
 		return this;
@@ -66,13 +64,12 @@ public class ConversationRecordBuilder implements IRecordGenerator<ConversationR
 		return this;
 	}
 	
-	@Override
 	public ConversationRecordBuilder withDefaults() {
 		return this.id().participants().messages();
 	}
 
 	@Override
-	public Conversation generate() {
+	public Conversation build() {
 		Conversation conversation = new Conversation(this.id);
 		conversation.messages().addAll(messages);
 		conversation.participants().addAll(participants);

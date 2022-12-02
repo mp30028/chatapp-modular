@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.zonesoft.persons.data_generators.PersonRecordBuilder;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.repositories.PersonRepository;
-import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate2;
+import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
 import reactor.core.publisher.Flux;
 
@@ -87,7 +87,7 @@ class PersonServiceTest {
 	
 	@Test
 	void testFindAll_WhenRepositoryReturnsSeveralResults() {
-		RecordsGeneratorTemplate2<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate2<>();
+		RecordsGeneratorTemplate<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate<>();
 		Supplier<PersonRecordBuilder> supplier = () -> new PersonRecordBuilder().withDefaults();
 		List<Person> persons = generator.generate(supplier);
 		when(mockRepository.findAll()).thenReturn(Flux.fromIterable(persons));

@@ -20,7 +20,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import com.zonesoft.persons.data_generators.PersonRecordBuilder;
 import com.zonesoft.persons.models.Person;
-import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate2;
+import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
 @Testcontainers()
 @DataMongoTest
@@ -53,7 +53,7 @@ class RepositoryIntegrationTest{
 	}
 	
 	private List<Person>  createAndInsertPersons() {
-		RecordsGeneratorTemplate2<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate2<>();
+		RecordsGeneratorTemplate<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate<>();
 		Supplier<PersonRecordBuilder> supplier = () -> new PersonRecordBuilder().withDefaults(false);
 		List<Person> generatedPersons = generator.generate(supplier);
 		return personRepository.insert(generatedPersons).collectList().block();

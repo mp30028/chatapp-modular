@@ -17,7 +17,7 @@ class ParticipantTest {
 	
 	@Test
 	void testSingleParticipantInstantiation() {
-		Participant participant = new ParticipantRecordBuilder().withDefaults().generate();
+		Participant participant = new ParticipantRecordBuilder().withDefaults().build();
 		LOGGER.debug("ParticipantTest.testSingleParticipantInstantiation: generated-participant = {}", participant);
 		assertNotNull(participant);
 		assertNotNull(participant.getId());
@@ -29,7 +29,7 @@ class ParticipantTest {
 	
 	@Test
 	void testMultipleParticipantsInstantiation() {
-		Supplier<ParticipantRecordBuilder> supplier = ()->new ParticipantRecordBuilder();
+		Supplier<ParticipantRecordBuilder> supplier = ()->new ParticipantRecordBuilder().withDefaults();
 		RecordsGeneratorTemplate<ParticipantRecordBuilder, Participant> generator = new RecordsGeneratorTemplate<ParticipantRecordBuilder, Participant>();
 		List<Participant> participants = generator.generate(supplier);
 		LOGGER.debug("ParticipantTest.testMultipleParticipantsInstantiation: generated-participants = {}", participants);

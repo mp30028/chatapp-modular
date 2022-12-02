@@ -44,8 +44,8 @@ class ConversationRepositoryTest{
 
 	@Test
 	void simpleTest() throws InterruptedException{
-		Supplier<ConversationRecordBuilder> supplier = (()-> new ConversationRecordBuilder());
-		List<Conversation> conversations = new RecordsGeneratorTemplate<ConversationRecordBuilder,Conversation>().id(true).generate(supplier);
+		Supplier<ConversationRecordBuilder> supplier = (()-> new ConversationRecordBuilder().withDefaults());
+		List<Conversation> conversations = new RecordsGeneratorTemplate<ConversationRecordBuilder,Conversation>().generate(supplier);
 		
 		List<Conversation> results = repository
 		.saveAll(conversations)

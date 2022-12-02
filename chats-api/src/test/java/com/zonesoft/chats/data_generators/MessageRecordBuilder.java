@@ -6,21 +6,19 @@ import static com.zonesoft.utils.data_generators.Generator.generateDateTime;
 import java.time.OffsetDateTime;
 
 import com.zonesoft.chats.models.Message;
-import com.zonesoft.utils.data_generators.IRecordGenerator;
+import com.zonesoft.utils.data_generators.IRecordBuilder;
 
-public class MessageRecordBuilder implements IRecordGenerator<MessageRecordBuilder, Message> {
+public class MessageRecordBuilder implements IRecordBuilder<Message> {
 	private String id;
 	private String messageText;
 	private String senderParticipantId;
 	private OffsetDateTime sentTime;
 	
-	@Override
 	public MessageRecordBuilder id() {
 		this.id = generateUUID();
 		return this;
 	}
 	
-	@Override
 	public MessageRecordBuilder id(String suppliedValue) {
 		this.id = suppliedValue;
 		return this;
@@ -56,13 +54,12 @@ public class MessageRecordBuilder implements IRecordGenerator<MessageRecordBuild
 		return this;
 	}
 	
-	@Override
 	public MessageRecordBuilder withDefaults() {
 		return this.id().messageText().senderParticipantId().sentTime();
 	}
 	
 	@Override
-	public Message generate() {
+	public Message build() {
 		Message message = new Message(this.id, this.senderParticipantId, this.messageText, this.sentTime);
 		return message;
 	}
