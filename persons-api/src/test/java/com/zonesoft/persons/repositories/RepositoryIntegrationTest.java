@@ -5,6 +5,8 @@ import static com.zonesoft.utils.data_generators.Generator.generateRandomInt;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.function.Supplier;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +18,9 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import com.zonesoft.persons.data_generators.PersonRecordBuilder;
-import com.zonesoft.persons.data_generators.PersonsRecordBuilder;
+import com.zonesoft.persons.data_generators.PersonRecordBuilder2;
 import com.zonesoft.persons.models.Person;
+import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate2;
 
 @Testcontainers()
 @DataMongoTest
@@ -45,14 +47,15 @@ class RepositoryIntegrationTest{
 
 	
 	private Person  createAndInsertSinglePerson() {
-		PersonRecordBuilder generator = new PersonRecordBuilder();
-		Person generatedPerson = generator.moniker().firstname().lastname().generate();
+		PersonRecordBuilder2 generator = new PersonRecordBuilder2();
+		Person generatedPerson = generator.moniker().firstname().lastname().build();
 		return personRepository.insert(generatedPerson).block();
 	}
 	
 	private List<Person>  createAndInsertPersons() {
-		PersonsRecordBuilder generator = new PersonsRecordBuilder();
-		List<Person> generatedPersons = generator.id(false).generate();
+		RecordsGeneratorTemplate2<PersonRecordBuilder2, Person> generator = new RecordsGeneratorTemplate2<>();
+		Supplier<PersonRecordBuilder2> supplier = () -> new PersonRecordBuilder2().withDefaults(false);
+		List<Person> generatedPersons = generator.generate(supplier);
 		return personRepository.insert(generatedPersons).collectList().block();
 	}
 	

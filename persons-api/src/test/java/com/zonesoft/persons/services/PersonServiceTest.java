@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zonesoft.persons.data_generators.PersonRecordBuilder;
-import com.zonesoft.persons.data_generators.PersonsRecordBuilder;
+import com.zonesoft.persons.data_generators.PersonRecordBuilder2;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.repositories.PersonRepository;
+import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate2;
 
 import reactor.core.publisher.Flux;
 
@@ -67,7 +68,7 @@ class PersonServiceTest {
 	
 	@Test
 	void testFindAll_WhenRepositoryReturnsASingleResult() {
-		Person person = new PersonRecordBuilder().withDefaults().generate();
+		Person person = new PersonRecordBuilder2().withDefaults().build();
 		when(mockRepository.findAll()).thenReturn(Flux.just(person));
 		Flux<Person> personFlux = service.findAll();
 		assertNotNull(personFlux);
@@ -86,7 +87,9 @@ class PersonServiceTest {
 	
 	@Test
 	void testFindAll_WhenRepositoryReturnsSeveralResults() {
-		List<Person> persons = new PersonsRecordBuilder().generate();
+		RecordsGeneratorTemplate2<PersonRecordBuilder2, Person> generator = new RecordsGeneratorTemplate2<>();
+		Supplier<PersonRecordBuilder2> supplier = () -> new PersonRecordBuilder2().withDefaults();
+		List<Person> persons = generator.generate(supplier);
 		when(mockRepository.findAll()).thenReturn(Flux.fromIterable(persons));
 		Flux<Person> personFlux = service.findAll();
 		assertNotNull(personFlux);
