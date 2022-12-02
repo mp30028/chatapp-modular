@@ -30,7 +30,7 @@ public class ConversationRecordBuilder implements IRecordBuilder<Conversation> {
 	}
 	
 	public ConversationRecordBuilder participants() {
-		Supplier<ParticipantRecordBuilder> supplier = ()->new ParticipantRecordBuilder();
+		Supplier<ParticipantRecordBuilder> supplier = ()->new ParticipantRecordBuilder().withDefaults();
 		RecordsGeneratorTemplate<ParticipantRecordBuilder, Participant> generator = new RecordsGeneratorTemplate<ParticipantRecordBuilder, Participant>();		
 		this.participants = generator.generate(supplier);
 		return this;
@@ -40,32 +40,47 @@ public class ConversationRecordBuilder implements IRecordBuilder<Conversation> {
 		this.participants = suppliedValue;
 		return this;
 	}
-
-	public ConversationRecordBuilder messages() {
-		Supplier<MessageRecordBuilder> supplier = ()->new MessageRecordBuilder();
-		RecordsGeneratorTemplate<MessageRecordBuilder, Message> generator = new RecordsGeneratorTemplate<MessageRecordBuilder, Message>();		
-		this.messages = generator.generate(supplier);
-		correlateMessagesToParticipants();
-		return this;
-	}
-	
-	public ConversationRecordBuilder correlateMessagesToParticipants() {
-		if(Objects.nonNull(participants)) {
-			for(Message message: this.messages) {
-				int selectedIndex = generateRandomInt(0, participants.size()-1);
-				message.setSenderParticipantId(participants.get(selectedIndex).getId());
-			}
-		}
-		return this;
-	}
 	
 	public ConversationRecordBuilder messages(List<Message> suppliedValue) {
 		this.messages = suppliedValue;
 		return this;
 	}
 	
+	public ConversationRecordBuilder messages() {
+		RecordsGeneratorTemplate<MessageRecordBuilder, Message> generator = new RecordsGeneratorTemplate<MessageRecordBuilder, Message>();		
+		this.messages = generator.generate(messageBuilderSupplier());
+		return this;
+	}
+	
+	private Supplier<MessageRecordBuilder> messageBuilderSupplier(){
+		Supplier<MessageRecordBuilder> supplier;
+		if (Objects.isNull(this.participants)) {
+			supplier = () -> new MessageRecordBuilder().withDefaults();
+		}else {
+			supplier = () -> new MessageRecordBuilder().senderParticipantId(selectAParticipant()).withDefaults();
+		}
+		return supplier;
+	}
+	
+	private String selectAParticipant() {
+		int selectedIndex = generateRandomInt(0, this.participants.size()-1);
+		return this.participants.get(selectedIndex).getId();
+	}
+	
+	public ConversationRecordBuilder withDefaults(boolean withId) {
+		if (withId) {
+			if (Objects.isNull(this.id)) this.id();
+		}else {
+			this.id = null;
+		}
+		if (Objects.isNull(this.participants)) this.participants();
+		if (Objects.isNull(this.messages)) this.messages();
+		return this;
+	}
+	
+	
 	public ConversationRecordBuilder withDefaults() {
-		return this.id().participants().messages();
+		return this.withDefaults(true);
 	}
 
 	@Override

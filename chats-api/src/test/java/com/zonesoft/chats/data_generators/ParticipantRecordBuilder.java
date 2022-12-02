@@ -6,6 +6,8 @@ import static com.zonesoft.utils.data_generators.Generator.generateDateTime;
 import static com.zonesoft.utils.data_generators.Generator.generateNickname;
 
 import java.time.OffsetDateTime;
+import java.util.Objects;
+
 import com.zonesoft.chats.models.Participant;
 import com.zonesoft.utils.data_generators.IRecordBuilder;
 
@@ -68,16 +70,28 @@ public class ParticipantRecordBuilder implements IRecordBuilder< Participant> {
 		return this;
 	}
 	
-	public ParticipantRecordBuilder withDefaults() {
-		this.id().personId().moniker().participationStart().participationStart();
+	public ParticipantRecordBuilder withDefaults(boolean withId) {
+		if (withId) {
+			if (Objects.isNull(this.id)) this.id();
+		}else {
+			this.id = null;
+		}
+		if (Objects.isNull(this.personId)) this.personId();
+		if (Objects.isNull(this.moniker)) this.moniker();
+		if (Objects.isNull(this.participationStart)) this.participationStart();
 		return this;
+	}
+	
+	
+	public ParticipantRecordBuilder withDefaults() {
+		return this.withDefaults(true);
 	}
 	
 	@Override
 	public Participant build() {
 		Participant participant = new Participant(this.personId,this.moniker, this.participationStart);
-		participant.setId(id);
-		participant.setParticipationEnd(participationEnd);
+		participant.setId(this.id);
+		participant.setParticipationEnd(this.participationEnd);
 		return participant;
 	}
 }

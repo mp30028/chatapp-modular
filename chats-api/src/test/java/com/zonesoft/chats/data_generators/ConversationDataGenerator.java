@@ -1,12 +1,12 @@
 package com.zonesoft.chats.data_generators;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
@@ -18,18 +18,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-
 import com.jayway.jsonpath.JsonPath;
 import com.zonesoft.chats.models.Conversation;
 import com.zonesoft.chats.models.Participant;
 import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
-import reactor.util.function.Tuple2;
+import reactor.core.publisher.Mono;
+
+import static com.zonesoft.utils.data_generators.Generator.inputStreamToString;
+import static com.zonesoft.utils.data_generators.Generator.randomSubset;
 
 @SpringBootTest
-//@Tag("DataGenerator")
+@Tag("DataGenerator")
 public class ConversationDataGenerator {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationDataGenerator.class);
@@ -49,6 +49,11 @@ public class ConversationDataGenerator {
 		return this.mongoTemplate.collectionExists(CONVERSATION_COLLECTION_NAME).block();
 	}
 	
+	private List<Conversation> collectionInsert(List<Conversation> conversations) {
+		return this.mongoTemplate.insertAll(Mono.just(conversations),Conversation.class).collectList().block();
+	}
+
+	
 	@Disabled
 	@Test
 	void testCollectionExists() {
@@ -56,37 +61,49 @@ public class ConversationDataGenerator {
 		assertTrue(collectionExists());
 	}
 	
-	@Disabled
 	@Test
 	void generateData() throws IOException {
+		List<Participant> participants = loadParticipants();
 		RecordsGeneratorTemplate<ConversationRecordBuilder, Conversation> generator = new RecordsGeneratorTemplate<>();
-		List<Conversation> conversations = generator.generate(()-> new ConversationRecordBuilder());
+		List<Conversation> conversations = 
+				generator.generate(()-> 
+					(new ConversationRecordBuilder())
+					.participants(randomSubset(participants ,2, participants.size()))
+					.withDefaults(false)
+				);
+		if (collectionExists()) {
+			collectionDrop();
+			collectionCreate();
+		}
+		conversations = collectionInsert(conversations);
 		LOGGER.debug("ConversationDataGenerator.generateData: conversations={}", conversations);
-		List<Participant> fullListOfParticipants = loadParticipants();
-		makeConversationsConsistentWithParticipants(conversations, fullListOfParticipants);
 	}
 	
-	private void makeConversationsConsistentWithParticipants(List<Conversation> conversations, List<Participant> fullListOfParticipants) {
-		for(Conversation conversation: conversations) {
-			
-		}
-		
-	}
-
+	@Disabled
 	@Test
 	void testLoadParticipants() throws IOException {
 		loadParticipants();
 	}
 	
-	private List<Participant> loadParticipants() throws IOException{
+	private List<Participant> loadParticipants(){
 		Resource resource = new ClassPathResource("__files/persons-fetch-all-response.json");
-		String json = resource.getInputStream().toString();
-		List<Tuple2<String, String>> parseResult = JsonPath.parse(json).read("$[*]['id','moniker']");
-		ParticipantRecordBuilder participantBuilder = new ParticipantRecordBuilder();
-		List<Participant> participants = new ArrayList<>();
-		for(Tuple2<String, String> person: parseResult) {
-			participants.add(participantBuilder.id(person.getT1()).moniker(person.getT2()).build());
+		String json = null;
+		try {
+			json = inputStreamToString(resource.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		List<Map<String, String>> resultList = JsonPath.parse(json).read("$[*]['id','moniker']");
+		List<Participant> participants = new ArrayList<Participant>();
+		for(Map<String, String> result: resultList) {
+			Participant participant = (new ParticipantRecordBuilder())
+					.id(result.get("id"))
+					.moniker(result.get("moniker"))
+					.withDefaults()
+					.build();
+			participants.add(participant);
 		}
 		return participants;
 	}
+	
 }

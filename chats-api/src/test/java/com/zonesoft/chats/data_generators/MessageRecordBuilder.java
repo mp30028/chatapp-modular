@@ -4,15 +4,16 @@ import static com.zonesoft.utils.data_generators.Generator.generatePhrase;
 import static com.zonesoft.utils.data_generators.Generator.generateUUID;
 import static com.zonesoft.utils.data_generators.Generator.generateDateTime;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 import com.zonesoft.chats.models.Message;
 import com.zonesoft.utils.data_generators.IRecordBuilder;
 
 public class MessageRecordBuilder implements IRecordBuilder<Message> {
-	private String id;
-	private String messageText;
-	private String senderParticipantId;
-	private OffsetDateTime sentTime;
+	private String id = null;
+	private String messageText = null;
+	private String senderParticipantId = null;
+	private OffsetDateTime sentTime = null;
 	
 	public MessageRecordBuilder id() {
 		this.id = generateUUID();
@@ -54,8 +55,21 @@ public class MessageRecordBuilder implements IRecordBuilder<Message> {
 		return this;
 	}
 	
+	public MessageRecordBuilder withDefaults(boolean withId) {
+		if (withId) {
+			if (Objects.isNull(this.id)) this.id();
+		}else {
+			this.id = null;
+		}
+		if (Objects.isNull(this.messageText)) this.messageText();
+		if (Objects.isNull(this.senderParticipantId)) this.senderParticipantId();
+		if (Objects.isNull(this.sentTime)) this.sentTime();
+		return this;
+	}
+	
+	
 	public MessageRecordBuilder withDefaults() {
-		return this.id().messageText().senderParticipantId().sentTime();
+		return this.withDefaults(true);
 	}
 	
 	@Override
