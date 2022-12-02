@@ -1,6 +1,11 @@
 package com.zonesoft.utils.data_generators;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -317,6 +322,38 @@ public class Generator {
 	
 	public static String generateUUID() {
 		return UUID.randomUUID().toString();
+	}
+	
+	public static <T> List<T> randomSubset(List<T> fullList, int minSize, int maxSize) {
+		int subsetSize = generateRandomInt(minSize, maxSize);
+		List<T> subset = new ArrayList<>();
+		boolean[] scoreCard = new boolean[fullList.size()];
+		for(int j=0; j < subsetSize;j++) {
+			int selectedIndex = unusedIndex(scoreCard);
+			subset.add(fullList.get(selectedIndex));
+		}
+		return subset;
+	}
+
+	private static int unusedIndex(boolean[] scoreCard) {
+		int selectedIndex = generateRandomInt(0, scoreCard.length-1);
+		while (scoreCard[selectedIndex]) {
+			selectedIndex++;
+			if (selectedIndex >= scoreCard.length) selectedIndex=0;
+		}
+		scoreCard[selectedIndex]=true;
+		return selectedIndex;
+	}
+	
+	public static String inputStreamToString(InputStream inputStream) throws IOException {
+	    try(ByteArrayOutputStream result = new ByteArrayOutputStream()) {
+	        byte[] buffer = new byte[1024];
+	        int length;
+	        while ((length = inputStream.read(buffer)) != -1) {
+	            result.write(buffer, 0, length);
+	        }
+	        return result.toString();
+	    }
 	}
 	
 }
