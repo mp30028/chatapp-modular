@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,6 @@ import static com.zonesoft.utils.data_generators.Generator.inputStreamToString;
 import static com.zonesoft.utils.data_generators.Generator.randomSubset;
 
 @SpringBootTest
-@Tag("DataGenerator")
 public class ConversationDataGenerator {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationDataGenerator.class);
@@ -54,7 +52,6 @@ public class ConversationDataGenerator {
 	}
 
 	
-	@Disabled
 	@Test
 	void testCollectionExists() {
 		assertNotNull(mongoTemplate);
@@ -62,6 +59,7 @@ public class ConversationDataGenerator {
 	}
 	
 	@Test
+	@Disabled("Data Generator. Will overwrite data in database. Only enable if sure")
 	void generateData() throws IOException {
 		List<Participant> participants = loadParticipants();
 		RecordsGeneratorTemplate<ConversationRecordBuilder, Conversation> generator = new RecordsGeneratorTemplate<>();
@@ -79,7 +77,6 @@ public class ConversationDataGenerator {
 		LOGGER.debug("ConversationDataGenerator.generateData: conversations={}", conversations);
 	}
 	
-	@Disabled
 	@Test
 	void testLoadParticipants() throws IOException {
 		loadParticipants();
@@ -106,4 +103,5 @@ public class ConversationDataGenerator {
 		return participants;
 	}
 	
+
 }
