@@ -23,6 +23,7 @@ import com.zonesoft.chats.services.ConversationService;
 import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 class ConversationControllerTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationControllerTest.class);
@@ -53,9 +54,9 @@ class ConversationControllerTest {
 	}
 	
 	@Test
-	void testFindAll_givenServiceReturnsEmpty_thenReturns204NoContent() {
+	void testFindAll_whenServiceReturnsEmpty_thenReturns204NoContent() {
 		when(mockedService.findAll()).thenReturn(Flux.empty());
-		LOGGER.debug("FROM: testFindAll_givenServiceReturnsEmpty_thenReturns204NoContent");
+		LOGGER.debug("FROM: testFindAll_whenServiceReturnsEmpty_thenReturns204NoContent");
 		client
 			.get()
 			.uri(uriBuilder -> uriBuilder.path("/api/conversations").build())
@@ -66,11 +67,11 @@ class ConversationControllerTest {
 
 	
 	@Test
-	void testFindAll_givenServiceReturnsSingleConversation_thenReturns200Ok() {
+	void testFindAll_whenServiceReturnsSingleConversation_thenReturns200Ok() {
 		Conversation conversation = new ConversationRecordBuilder().withDefaults().build();
-		LOGGER.debug("testFindAll_givenServiceReturnsSingleConversation_thenReturns200Ok: built-conversation={}", conversation);
+		LOGGER.debug("testFindAll_whenServiceReturnsSingleConversation_thenReturns200Ok: built-conversation={}", conversation);
 		when(mockedService.findAll()).thenReturn(Flux.just(conversation));
-		LOGGER.debug("FROM: testFindAll_givenServiceReturnsSingleConversation_thenReturns200Ok");
+		LOGGER.debug("FROM: testFindAll_whenServiceReturnsSingleConversation_thenReturns200Ok");
 		client
 			.get()
 			.uri(uriBuilder -> uriBuilder.path("/api/conversations").build())
@@ -82,17 +83,17 @@ class ConversationControllerTest {
 			.jsonPath("$[0].id").isEqualTo(conversation.getId())
 			.jsonPath("$[0].participants.length()").isEqualTo(conversation.participants().size())
 			.jsonPath("$[0].messages.length()").isEqualTo(conversation.messages().size())
-			.consumeWith(r -> LOGGER.debug("testFindAll_givenServiceReturnsSingleConversation_thenReturns200Ok: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
+			.consumeWith(r -> LOGGER.debug("testFindAll_whenServiceReturnsSingleConversation_thenReturns200Ok: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
 	}
 	
 	@Test
-	void testFindAll_givenServiceReturnsMultipleConversations_thenReturns200Ok() {
+	void testFindAll_whenServiceReturnsMultipleConversations_thenReturns200Ok() {
 		Supplier<ConversationRecordBuilder> supplier = () -> new ConversationRecordBuilder().withDefaults();
 		RecordsGeneratorTemplate<ConversationRecordBuilder, Conversation> generator = new RecordsGeneratorTemplate<>();
 		List<Conversation> conversations = generator.generate(supplier);
-		LOGGER.debug("testFindAll_givenServiceReturnsMultipleConversations_thenReturns200Ok: built-conversations={}", conversations);
+		LOGGER.debug("testFindAll_whenServiceReturnsMultipleConversations_thenReturns200Ok: built-conversations={}", conversations);
 		when(mockedService.findAll()).thenReturn(Flux.fromIterable(conversations));
-		LOGGER.debug("FROM: testFindAll_givenServiceReturnsMultipleConversations_thenReturns200Ok");
+		LOGGER.debug("FROM: testFindAll_whenServiceReturnsMultipleConversations_thenReturns200Ok");
 		client
 			.get()
 			.uri(uriBuilder -> uriBuilder.path("/api/conversations").build())
@@ -104,6 +105,39 @@ class ConversationControllerTest {
 			.jsonPath("$[0].id").isEqualTo(conversations.get(0).getId())
 			.jsonPath("$[0].participants.length()").isEqualTo(conversations.get(0).participants().size())
 			.jsonPath("$[0].messages.length()").isEqualTo(conversations.get(0).messages().size())
-			.consumeWith(r -> LOGGER.debug("testFindAll_givenServiceReturnsMultipleConversations_thenReturns200Ok: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
+			.consumeWith(r -> LOGGER.debug("testFindAll_whenServiceReturnsMultipleConversations_thenReturns200Ok: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
+	}
+	
+	@Test
+	void testFindById_whenServiceReturnsEmpty_thenReturns204NoContent() {
+		String id = "13409dfkj309fj";
+		when(mockedService.findById(id)).thenReturn(Mono.empty());
+		client
+			.get()
+			.uri(uriBuilder -> uriBuilder.path("/api/conversations/{id}").build(id))
+			.exchange()
+			.expectStatus()
+			.isNoContent()
+			.expectBody()
+			.consumeWith(r -> LOGGER.debug("testFindById_whenServiceReturnsEmpty_thenReturns204NoContent: responseBody-is-null = {}",Objects.isNull(r.getResponseBody())));
+	}
+	
+	@Test
+	void testFindById_whenServiceReturnsARecord_thenReturns200Ok() {
+		Conversation conversation =  new ConversationRecordBuilder().withDefaults().build();
+		String id = conversation.getId();
+		LOGGER.debug("testFindById_whenServiceReturnsARecord_thenReturns200Ok: built-conversations={}", conversation);
+		when(mockedService.findById(id)).thenReturn(Mono.just(conversation));
+		client
+			.get()
+			.uri(uriBuilder -> uriBuilder.path("/api/conversations/{id}").build(id))
+			.exchange()
+			.expectStatus()
+			.isOk()
+			.expectBody()
+			.jsonPath("$.id").isEqualTo(conversation.getId())
+			.jsonPath("$.participants.length()").isEqualTo(conversation.participants().size())
+			.jsonPath("$.messages.length()").isEqualTo(conversation.messages().size())
+			.consumeWith(r -> LOGGER.debug("testFindById_whenServiceReturnsARecord_thenReturns200Ok: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
 	}
 }
