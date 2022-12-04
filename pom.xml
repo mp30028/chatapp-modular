@@ -26,6 +26,10 @@
 		<maven.version>3.10.1</maven.version>
 		<mavensurefire.version>3.0.0-M7</mavensurefire.version>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+<!-- 		<node.version>v16.14.2</node.version> -->
+		<node.version>v18.12.1</node.version>
+		<yarn.version>v1.22.19</yarn.version>
+		<frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
 	</properties>
 
     <modules>
@@ -33,6 +37,7 @@
     	<module>chats-api</module>
     	<module>utils</module>
     	<module>tryouts</module>
+    	<module>chats-ui</module>
     </modules>
 
 
