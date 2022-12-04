@@ -1,128 +1,70 @@
 package com.zonesoft.persons.data_generators;
 
-import static com.zonesoft.utils.data_generators.Generator.generateFirstName;
-import static com.zonesoft.utils.data_generators.Generator.generateGender;
-import static com.zonesoft.utils.data_generators.Generator.generateLastName;
-import static com.zonesoft.utils.data_generators.Generator.generateMiddleName;
-import static com.zonesoft.utils.data_generators.Generator.generateNickname;
-import static com.zonesoft.utils.data_generators.Generator.generateRandomInt;
-import static com.zonesoft.utils.data_generators.Generator.generateUUID;
+import static org.junit.Assert.assertFalse;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Supplier;
 
-import com.zonesoft.persons.models.OtherName;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import com.zonesoft.persons.models.Person;
-import com.zonesoft.persons.models.OtherName.OtherNameType;
-import com.zonesoft.utils.data_generators.Generator.Gender;
+import com.zonesoft.persons.repositories.PersonRepository;
+import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
+
+@SpringBootTest
 public class PersonDataGenerator {
+	private static final Logger LOGGER = LoggerFactory.getLogger(PersonDataGenerator.class);
 	
-	private static final int MIN_OTHER_NAMES_DEFAULT = 0;
-	private static final int MAX_OTHER_NAMES_DEFAULT = 3;
-	
-	private String id = null;
-	private String moniker = null;
-	private String firstname = null;
-	private String lastname = null;
-	private List<OtherName> otherNames = null;
-	private static final Gender gender = generateGender();
-	private int minOtherNames = MIN_OTHER_NAMES_DEFAULT;
-	private int maxOtherNames = MAX_OTHER_NAMES_DEFAULT; 
-	
-	public PersonDataGenerator id(String s){
-		this.id = s;
-		return this;
+	private final PersonRepository repository;
+    
+	@Value("${com.zonesoft.persons.regenerate-data}")
+    private boolean isDataToBeRegenerated = false;
+    
+    @Autowired
+    public PersonDataGenerator(PersonRepository repository) {
+    	super();
+		this.repository = repository;
+    }
+    
+	@Test
+	void checkDataGeneratorFlag() {
+		assertFalse("WARNING: Data store was cleaned out and replaced with regenerated dummy data", isDataToBeRegenerated); 
 	}
-
-	public PersonDataGenerator moniker(String s){
-		this.moniker = s;
-		return this;
-	}
-
-	public PersonDataGenerator firstname(String s){
-		this.firstname = s;
-		return this;
-	}
-	
-	public PersonDataGenerator lastname(String s){
-		this.lastname = s;
-		return this;
-	}
-	
-	public PersonDataGenerator otherNames(List<OtherName> l){
-		this.otherNames = l;
-		return this;
-	}	
-	
-	public PersonDataGenerator minOtherNames(int minimumNumberOfOtherNames){
-		this.minOtherNames = minimumNumberOfOtherNames;
-		return this;
-	}	
-	
-	public PersonDataGenerator maxOtherNames(int maximumNumberOfOtherNames){
-		this.maxOtherNames = maximumNumberOfOtherNames;
-		return this;
-	}	
-	
-	public PersonDataGenerator id(){
-		this.id = generateUUID();
-		return this;
-	}
-
-	public PersonDataGenerator moniker(){
-		this.moniker = generateNickname();
-		return this;
-	}
-
-	public PersonDataGenerator firstname(){
-		this.firstname = generateFirstName(gender);
-		return this;
-	}
-	
-	public PersonDataGenerator lastname(){
-		this.lastname = generateLastName();
-		return this;
-	}
-	
-	private OtherNameType generateOtherNameType() {
-		int numberOfOtherNameTypes = OtherNameType.values().length;
-		int selectedOtherNameType = generateRandomInt(0, numberOfOtherNameTypes-1);
-		return OtherNameType.values()[selectedOtherNameType];
-	}
-	
-	private OtherName generateOtherName() {
-		return new OtherName(generateUUID(), generateMiddleName(gender), generateOtherNameType());
-	}
-	
-	public PersonDataGenerator otherNames(int minimumNumberOfOtherNames, int maximumNumberOfOtherNames){
-		this.minOtherNames = minimumNumberOfOtherNames;
-		this.maxOtherNames = maximumNumberOfOtherNames;
-		return otherNames();
-	}
-	
-	public PersonDataGenerator otherNames(){
-		int numberOfOtherNames = generateRandomInt(minOtherNames, maxOtherNames);
-		this.otherNames = new ArrayList<>();
-		for (int j=0; j < numberOfOtherNames; j++) {
-			this.otherNames.add(generateOtherName());	
+    
+	@Test
+	void deleteAndCreateDummyData() {
+		if (isDataToBeRegenerated){
+			deleteAllPersonInDb();
+			savePersonsToDb(generatePersons());
 		}
-		return this;
+		List<Person> fetchedPersons = fetchPersonsFromDb();
+		LOGGER.debug("isDataToBeRegenerated={}, current-data={}", isDataToBeRegenerated, fetchedPersons);
 	}
-	
-	public PersonDataGenerator withDefaults() {
-		this.id().moniker().firstname().lastname().otherNames(1,3);
-		return this;
+
+	private List<Person> generatePersons() {
+		RecordsGeneratorTemplate<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate<>();
+		Supplier<PersonRecordBuilder> supplier = () -> new PersonRecordBuilder().withDefaults();
+		return generator.generate(supplier);
 	}
-	
-	public Person generate() {
-		Person person = new Person(id, moniker, firstname, lastname);
-		if (Objects.nonNull(otherNames)) {
-			for(OtherName name: otherNames) {
-				person.otherNames().add(name);
-			}
-		}
-		return person;
+
+	private List<Person> fetchPersonsFromDb() {
+		List<Person> persons = repository.findAll().collectList().block();
+		return persons;
+	}
+
+	private void savePersonsToDb(List<Person> persons) {
+		persons = repository.insert(persons).collectList().block();
+		LOGGER.debug("savePersonsToDb completed: persons saved ={}",persons);
+	}
+
+	private void deleteAllPersonInDb() {
+		repository.deleteAll().block();
+		LOGGER.debug("deleteAllPersonsInDb completed");
 	}
 }

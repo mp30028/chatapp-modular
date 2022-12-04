@@ -5,6 +5,8 @@ import static org.mockito.Mockito.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.function.Supplier;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,10 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.zonesoft.persons.data_generators.PersonDataGenerator;
-import com.zonesoft.persons.data_generators.PersonsDataGenerator;
+import com.zonesoft.persons.data_generators.PersonRecordBuilder;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.services.PersonService;
+import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -38,10 +40,12 @@ class PersonControllerTest {
 	private static List<Person> PERSONS;
 
 	private static void createTestData() {
-		PersonDataGenerator personGenerator = new PersonDataGenerator();
-		PERSON_1 = personGenerator.id().moniker().firstname().lastname().otherNames().generate();
-		PERSON_2 = personGenerator.id().moniker().firstname().lastname().otherNames().generate();
-		PERSONS = new PersonsDataGenerator().minPersons(MIN_PERSONS).maxPersons(MAX_PERSONS).id(true).generate();
+		PersonRecordBuilder personGenerator = new PersonRecordBuilder();
+		PERSON_1 = personGenerator.id().moniker().firstname().lastname().otherNames().build();
+		PERSON_2 = personGenerator.withDefaults().build();
+		RecordsGeneratorTemplate<PersonRecordBuilder, Person> generator = new RecordsGeneratorTemplate<>();
+		Supplier<PersonRecordBuilder> supplier = () -> new PersonRecordBuilder().withDefaults();
+		PERSONS = generator.minRecords(MIN_PERSONS).maxRecords(MAX_PERSONS).generate(supplier);
 		PERSONS.add(0,PERSON_1);
 		PERSONS.add(1,PERSON_2);
 	}

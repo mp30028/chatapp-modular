@@ -1,161 +1,149 @@
 [
     {
-    "firstname": "Mark",
-    "id": "30357fee-940e-4cf3-8a26-4a131b9375cf",
-    "lastname": "MURRAY",
-    "moniker": "Cous",
-    "otherNames":
-        [
+        "id": "30357fee-940e-4cf3-8a26-4a131b9375cf",
+        "moniker": "Cous",
+        "firstname": "Mark",
+        "lastname": "MURRAY",
+        "otherNames": [
             {
-            "id": "969e26ea-db23-4724-8464-9232701588eb",
-            "nameType": "ALIAS",
-            "value": "Charles"
+                "id": "969e26ea-db23-4724-8464-9232701588eb",
+                "value": "Charles",
+                "nameType": "ALIAS"
             },
             {
-            "id": "0d82ddbf-3e07-423c-8ace-6ad901f1f762",
-            "nameType": "NICK_NAME",
-            "value": "Lloyd"
+                "id": "0d82ddbf-3e07-423c-8ace-6ad901f1f762",
+                "value": "Lloyd",
+                "nameType": "NICK_NAME"
             }
         ]
     },
     {
-    "firstname": "Gary",
-    "id": "5386ce30-dea3-4a6f-9e01-1ed6e029de07",
-    "lastname": "WALKER",
-    "moniker": "Strongo",
-    "otherNames":
-        [
+        "id": "5386ce30-dea3-4a6f-9e01-1ed6e029de07",
+        "moniker": "Strongo",
+        "firstname": "Gary",
+        "lastname": "WALKER",
+        "otherNames": [
             {
-            "id": "ef32462d-ad03-487c-ac90-54d1b477fd83",
-            "nameType": "ALIAS",
-            "value": "Sullivan"
+                "id": "ef32462d-ad03-487c-ac90-54d1b477fd83",
+                "value": "Sullivan",
+                "nameType": "ALIAS"
             }
         ]
     },
     {
-    "firstname": "Ian",
-    "id": "4ffcaa1f-9e0b-4d21-a4cc-d294ca45a5f6",
-    "lastname": "BROWN",
-    "moniker": "Metal",
-    "otherNames":
-        [
+        "id": "4ffcaa1f-9e0b-4d21-a4cc-d294ca45a5f6",
+        "moniker": "Metal",
+        "firstname": "Ian",
+        "lastname": "BROWN",
+        "otherNames": [
             {
-            "id": "b4219500-411f-42cb-a3f2-29faa3060e64",
-            "nameType": "NICK_NAME",
-            "value": "Luke"
+                "id": "b4219500-411f-42cb-a3f2-29faa3060e64",
+                "value": "Luke",
+                "nameType": "NICK_NAME"
             },
             {
-            "id": "b0214578-0980-49fd-8a28-191d555b65ae",
-            "nameType": "ALIAS",
-            "value": "Beckett"
+                "id": "b0214578-0980-49fd-8a28-191d555b65ae",
+                "value": "Beckett",
+                "nameType": "ALIAS"
             },
             {
-            "id": "d4d3f8b6-97f5-421f-927d-8790dbf90993",
-            "nameType": "NICK_NAME",
-            "value": "King"
+                "id": "d4d3f8b6-97f5-421f-927d-8790dbf90993",
+                "value": "King",
+                "nameType": "NICK_NAME"
             }
         ]
     },
     {
-    "firstname": "Mark",
-    "id": "9977b336-ad14-486f-81c6-876e7f85fdc0",
-    "lastname": "WATSON",
-    "moniker": "Snake",
-    "otherNames":
-        [
+        "id": "9977b336-ad14-486f-81c6-876e7f85fdc0",
+        "moniker": "Snake",
+        "firstname": "Mark",
+        "lastname": "WATSON",
+        "otherNames": [
             {
-            "id": "7c27a046-69b7-4e30-bcdd-8a9b582f5017",
-            "nameType": "MIDDLE_NAME",
-            "value": "Fred"
+                "id": "7c27a046-69b7-4e30-bcdd-8a9b582f5017",
+                "value": "Fred",
+                "nameType": "MIDDLE_NAME"
             },
             {
-            "id": "2c42e867-afec-4ca6-aeb2-30348883e4dc",
-            "nameType": "NICK_NAME",
-            "value": "Anderson"
+                "id": "2c42e867-afec-4ca6-aeb2-30348883e4dc",
+                "value": "Anderson",
+                "nameType": "NICK_NAME"
             },
             {
-            "id": "28ec2b84-5664-46e2-a624-7725fc7feb16",
-            "nameType": "MIDDLE_NAME",
-            "value": "Felix"
+                "id": "28ec2b84-5664-46e2-a624-7725fc7feb16",
+                "value": "Felix",
+                "nameType": "MIDDLE_NAME"
             }
         ]
     },
     {
-    "firstname": "David",
-    "id": "19208dd1-eb00-46f4-9fc4-e6c9cd236280",
-    "lastname": "WALKER",
-    "moniker": "Stubby",
-    "otherNames":
-        [
-        ]
+        "id": "19208dd1-eb00-46f4-9fc4-e6c9cd236280",
+        "moniker": "Stubby",
+        "firstname": "David",
+        "lastname": "WALKER",
+        "otherNames": []
     },
     {
-    "firstname": "Richard",
-    "id": "45d3c4d1-a743-411c-bb4b-d22009ceb8a2",
-    "lastname": "ROSS",
-    "moniker": "Snowdrop",
-    "otherNames":
-        [
-        ]
+        "id": "45d3c4d1-a743-411c-bb4b-d22009ceb8a2",
+        "moniker": "Snowdrop",
+        "firstname": "Richard",
+        "lastname": "ROSS",
+        "otherNames": []
     },
     {
-    "firstname": "Iain",
-    "id": "b756e5a5-2e56-450d-9d52-9548caa1d011",
-    "lastname": "TAYLOR",
-    "moniker": "Smalls",
-    "otherNames":
-        [
+        "id": "b756e5a5-2e56-450d-9d52-9548caa1d011",
+        "moniker": "Smalls",
+        "firstname": "Iain",
+        "lastname": "TAYLOR",
+        "otherNames": [
             {
-            "id": "d0cb3e66-4bdc-4131-b1c7-ab9e31f29464",
-            "nameType": "MIDDLE_NAME",
-            "value": "Anthony"
+                "id": "d0cb3e66-4bdc-4131-b1c7-ab9e31f29464",
+                "value": "Anthony",
+                "nameType": "MIDDLE_NAME"
             }
         ]
     },
     {
-    "firstname": "Stephen",
-    "id": "8153e470-6fd8-417f-b546-886f26522e40",
-    "lastname": "SIMPSON",
-    "moniker": "Cous",
-    "otherNames":
-        [
+        "id": "8153e470-6fd8-417f-b546-886f26522e40",
+        "moniker": "Cous",
+        "firstname": "Stephen",
+        "lastname": "SIMPSON",
+        "otherNames": [
             {
-            "id": "8e5498dc-80bf-4e7a-b4e7-05f41f852b18",
-            "nameType": "MIDDLE_NAME",
-            "value": "Flynn"
+                "id": "8e5498dc-80bf-4e7a-b4e7-05f41f852b18",
+                "value": "Flynn",
+                "nameType": "MIDDLE_NAME"
             },
             {
-            "id": "54c987f6-4ad1-4950-a86c-6529a73ec018",
-            "nameType": "MIDDLE_NAME",
-            "value": "Chance"
+                "id": "54c987f6-4ad1-4950-a86c-6529a73ec018",
+                "value": "Chance",
+                "nameType": "MIDDLE_NAME"
             }
         ]
     },
     {
-    "firstname": "Christopher",
-    "id": "d9fad6ba-0326-4746-8fdb-7020d3239c56",
-    "lastname": "WRIGHT",
-    "moniker": "Tiny",
-    "otherNames":
-        [
+        "id": "d9fad6ba-0326-4746-8fdb-7020d3239c56",
+        "moniker": "Tiny",
+        "firstname": "Christopher",
+        "lastname": "WRIGHT",
+        "otherNames": [
             {
-            "id": "f03c30cd-a304-4aa3-90c6-e3b4a2120888",
-            "nameType": "NICK_NAME",
-            "value": "Jayden"
+                "id": "f03c30cd-a304-4aa3-90c6-e3b4a2120888",
+                "value": "Jayden",
+                "nameType": "NICK_NAME"
             }
         ]
     },
     {
-    "firstname": "KEITH",
-    "id": "63836de7c4197472e8a5bccd",
-    "lastname": "RICHARDS",
-    "moniker": "POST-TEST",
-    "otherNames":
-        [
+        "id": "63836de7c4197472e8a5bccd",
+        "moniker": "POST-TEST",
+        "firstname": "KEITH",
+        "lastname": "RICHARDS",
+        "otherNames": [
             {
-            "id": null,
-            "nameType": "NICK_NAME",
-            "value": "COOLDUDE"
+                "id": null,
+                "value": "COOLDUDE",
+                "nameType": "NICK_NAME"
             }
         ]
     }

@@ -17,7 +17,7 @@ class ConversationTest {
 	
 	@Test
 	void testSingleConversationInstantiation() {
-		Conversation conversation = new ConversationRecordBuilder().withDefaults().generate();
+		Conversation conversation = new ConversationRecordBuilder().withDefaults().build();
 		assertNotNull(conversation);
 		assertNotNull(conversation.messages());
 		assertNotNull(conversation.participants());
@@ -26,8 +26,8 @@ class ConversationTest {
 	
 	@Test
 	void testMultipleConversationsInstantiation() {
-		Supplier<ConversationRecordBuilder> supplier = (()-> new ConversationRecordBuilder());
-		List<Conversation> conversations = new RecordsGeneratorTemplate<ConversationRecordBuilder,Conversation>().id(true).generate(supplier);
+		Supplier<ConversationRecordBuilder> supplier = (()-> new ConversationRecordBuilder().withDefaults());
+		List<Conversation> conversations = new RecordsGeneratorTemplate<ConversationRecordBuilder,Conversation>().generate(supplier);
 		LOGGER.debug("ConversationTest.testMultipleConversationsInstantiation Instantiated-messages = {}", conversations);
 		for (Conversation conversation : conversations) {
 			assertNotNull(conversation);

@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-//import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "conversations")
 public class Conversation {
-	
 	@Id private String id;
-	private final List<Participant> participants = new ArrayList<>(); 
-	private final List<Message> messages = new ArrayList<>();
+	private List<Participant> participants = new ArrayList<>(); 
+	private List<Message> messages = new ArrayList<>();
 	
 	public Conversation() {
 		super();
@@ -29,7 +27,11 @@ public class Conversation {
 	public String getId() {
 		return id;
 	}
-		
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public List<Participant> participants() {
 		return participants;
 	}
@@ -38,6 +40,21 @@ public class Conversation {
 		return messages;
 	}
 	
+	public List<Participant> getParticipants() {
+		return participants;
+	}
+	
+	void setParticipants(List<Participant> participants) {
+		this.participants = participants;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
 	
 	@Override
 	public String toString() {

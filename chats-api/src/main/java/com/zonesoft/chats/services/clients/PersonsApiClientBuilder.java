@@ -1,6 +1,5 @@
 package com.zonesoft.chats.services.clients;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -14,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;

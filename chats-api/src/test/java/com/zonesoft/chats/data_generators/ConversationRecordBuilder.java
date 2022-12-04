@@ -10,29 +10,27 @@ import java.util.function.Supplier;
 import com.zonesoft.chats.models.Conversation;
 import com.zonesoft.chats.models.Message;
 import com.zonesoft.chats.models.Participant;
-import com.zonesoft.utils.data_generators.IRecordGenerator;
+import com.zonesoft.utils.data_generators.IRecordBuilder;
 import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
-public class ConversationRecordBuilder implements IRecordGenerator<ConversationRecordBuilder, Conversation> {
+public class ConversationRecordBuilder implements IRecordBuilder<Conversation> {
 
 	private String id;
 	private List<Participant> participants; 
 	private List<Message> messages;
 	
-	@Override
 	public ConversationRecordBuilder id() {
 		this.id = generateUUID();
 		return this;
 	}
 
-	@Override
 	public ConversationRecordBuilder id(String suppliedValue) {
 		this.id = suppliedValue;
 		return this;
 	}
 	
 	public ConversationRecordBuilder participants() {
-		Supplier<ParticipantRecordBuilder> supplier = ()->new ParticipantRecordBuilder();
+		Supplier<ParticipantRecordBuilder> supplier = ()->new ParticipantRecordBuilder().withDefaults();
 		RecordsGeneratorTemplate<ParticipantRecordBuilder, Participant> generator = new RecordsGeneratorTemplate<ParticipantRecordBuilder, Participant>();		
 		this.participants = generator.generate(supplier);
 		return this;
@@ -42,37 +40,51 @@ public class ConversationRecordBuilder implements IRecordGenerator<ConversationR
 		this.participants = suppliedValue;
 		return this;
 	}
-
-	public ConversationRecordBuilder messages() {
-		Supplier<MessageRecordBuilder> supplier = ()->new MessageRecordBuilder();
-		RecordsGeneratorTemplate<MessageRecordBuilder, Message> generator = new RecordsGeneratorTemplate<MessageRecordBuilder, Message>();		
-		this.messages = generator.generate(supplier);
-		correlateMessagesToParticipants();
-		return this;
-	}
-	
-	public ConversationRecordBuilder correlateMessagesToParticipants() {
-		if(Objects.nonNull(participants)) {
-			for(Message message: this.messages) {
-				int selectedIndex = generateRandomInt(0, participants.size()-1);
-				message.setSenderParticipantId(participants.get(selectedIndex).getId());
-			}
-		}
-		return this;
-	}
 	
 	public ConversationRecordBuilder messages(List<Message> suppliedValue) {
 		this.messages = suppliedValue;
 		return this;
 	}
 	
-	@Override
+	public ConversationRecordBuilder messages() {
+		RecordsGeneratorTemplate<MessageRecordBuilder, Message> generator = new RecordsGeneratorTemplate<MessageRecordBuilder, Message>();		
+		this.messages = generator.generate(messageBuilderSupplier());
+		return this;
+	}
+	
+	private Supplier<MessageRecordBuilder> messageBuilderSupplier(){
+		Supplier<MessageRecordBuilder> supplier;
+		if (Objects.isNull(this.participants)) {
+			supplier = () -> new MessageRecordBuilder().withDefaults();
+		}else {
+			supplier = () -> new MessageRecordBuilder().senderParticipantId(selectAParticipant()).withDefaults();
+		}
+		return supplier;
+	}
+	
+	private String selectAParticipant() {
+		int selectedIndex = generateRandomInt(0, this.participants.size()-1);
+		return this.participants.get(selectedIndex).getId();
+	}
+	
+	public ConversationRecordBuilder withDefaults(boolean withId) {
+		if (withId) {
+			if (Objects.isNull(this.id)) this.id();
+		}else {
+			this.id = null;
+		}
+		if (Objects.isNull(this.participants)) this.participants();
+		if (Objects.isNull(this.messages)) this.messages();
+		return this;
+	}
+	
+	
 	public ConversationRecordBuilder withDefaults() {
-		return this.id().participants().messages();
+		return this.withDefaults(true);
 	}
 
 	@Override
-	public Conversation generate() {
+	public Conversation build() {
 		Conversation conversation = new Conversation(this.id);
 		conversation.messages().addAll(messages);
 		conversation.participants().addAll(participants);

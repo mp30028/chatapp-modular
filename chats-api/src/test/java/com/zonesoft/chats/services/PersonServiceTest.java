@@ -29,7 +29,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { PersonsApiClientBuilder.class, PersonService.class })
-@TestPropertySource(value = "classpath:application.properties")
+@TestPropertySource(value = "classpath:application-test.properties")
 class PersonServiceTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PersonServiceTest.class);
