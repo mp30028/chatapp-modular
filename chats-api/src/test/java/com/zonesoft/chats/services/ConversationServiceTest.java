@@ -10,17 +10,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.zonesoft.chats.data_generators.ConversationRecordBuilder;
 import com.zonesoft.chats.models.Conversation;
 import com.zonesoft.chats.repositories.ConversationRepository;
 
 import reactor.core.publisher.Flux;
 
 @ExtendWith(SpringExtension.class)
-//@ContextConfiguration(classes = { PersonsApiClientBuilder.class, PersonService.class })
-@TestPropertySource(value = "classpath:application.properties")
+@ActiveProfiles("test")
 class ConversationServiceTest {
 	
 	private PersonService mockPersonService;
@@ -54,5 +54,14 @@ class ConversationServiceTest {
 		 boolean isNullReturned = conversationFlux.all(c -> Objects.isNull(c)).block();
 		 assertTrue(isNullReturned);
 	}
-
+	
+	
+	@Test
+	void testFindAll_GivenASingleConversation_ReturnsFluxWithSingleConversation() {
+		Conversation conversation = new ConversationRecordBuilder().withDefaults().build();
+		Flux<Conversation> conversationFlux = Flux.just(conversation);
+		when(mockRepository.findAll()).thenReturn(conversationFlux);
+		 Flux<Conversation> resultFlux = this.service.findAll();
+		 assertEquals(conversationFlux,resultFlux);
+	}
 }

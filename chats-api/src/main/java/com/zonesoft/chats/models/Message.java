@@ -6,11 +6,14 @@ import com.zonesoft.utils.helpers.ToStringBuilder;
 import java.time.OffsetDateTime;
 
 public class Message {
-	private String id;
-	private String messageText;
-	private String senderParticipantId;
-	private OffsetDateTime sentTime;
-
+	private String id = null;
+	private String messageText = null;
+	private String senderParticipantId = null;
+	private OffsetDateTime sentTime = null;
+	
+	public Message() {
+		super();
+	}
 	
 	public Message(String senderParticipantId, String messageText) {
 		super();
@@ -50,7 +53,6 @@ public class Message {
 		this.id = id;
 	}
 
-
 	public String getSenderParticipantId() {
 		return senderParticipantId;
 	}
@@ -62,7 +64,6 @@ public class Message {
 	public String getMessageText() {
 		return messageText;
 	}
-
 
 	public void setMessageText(String messageText) {
 		this.messageText = messageText;

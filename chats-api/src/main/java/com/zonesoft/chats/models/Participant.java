@@ -5,12 +5,15 @@ import com.zonesoft.utils.helpers.ToStringBuilder;
 import java.time.OffsetDateTime;
 
 public class Participant {
-	private String id;
-	private final String personId;
-	private final String moniker;
-	private final OffsetDateTime participationStart;
+	private String id = null;
+	private String personId = null;
+	private String moniker = null;
+	private OffsetDateTime participationStart = null;
 	private OffsetDateTime participationEnd = null;
 	
+	public Participant() {
+		super();
+	}
 	
 	public Participant(String personId, String moniker) {
 		super();
@@ -38,14 +41,27 @@ public class Participant {
 		return personId;
 	}
 	
+	public void setPersonId(String personId) {
+		this.personId = personId;
+	}
+
 	public String getMoniker() {
 		return moniker;
 	}
 	
+	public void setMoniker(String moniker) {
+		this.moniker = moniker;
+	}
+
 	public OffsetDateTime getParticipationStart() {
 		return participationStart;
 	}
 	
+	public void setParticipationStart(OffsetDateTime participationStart) {
+		this.participationStart = participationStart;
+	}
+	
+
 	public OffsetDateTime getParticipationEnd() {
 		return participationEnd;
 	}

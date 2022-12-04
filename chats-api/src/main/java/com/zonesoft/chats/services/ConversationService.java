@@ -3,6 +3,7 @@ package com.zonesoft.chats.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.zonesoft.chats.models.Conversation;
 import com.zonesoft.chats.repositories.ConversationRepository;
@@ -10,6 +11,7 @@ import com.zonesoft.chats.repositories.ConversationRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 public class ConversationService {
 	
 	private final ConversationRepository repository;
