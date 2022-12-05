@@ -10,7 +10,6 @@ public class PersonApiServiceConfigurations {
 	
     public PersonApiServiceConfigurations() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Value("${server.port}")
