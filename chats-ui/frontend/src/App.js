@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import MainContainer from './components/MainContainer';
+import About from './components/About';
+import Contact from './components/Contact';
+import CountryPickList from './components/CountryPickList';
+import Menu from './components/Menu';
+
 
 function App() {
+	const mainContainerMenu = Menu();
+	const APPLICATION_TITLE = "Demo Application";
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+	    <div>
+	    	<Router>	    	
+				<Routes>
+					<Route path="/" element={<MainContainer menu={mainContainerMenu} title={APPLICATION_TITLE} />}>
+						<Route path='about' element={<About/>}></Route>
+						<Route path='contact' element={<Contact/>}></Route>
+						<Route path='countries' element={<CountryPickList/>}></Route>
+					</Route>
+				</Routes>
+			</Router>							
+	    </div>
   );
 }
+
 
 export default App;
