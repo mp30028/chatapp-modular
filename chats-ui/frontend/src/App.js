@@ -7,6 +7,7 @@ import Example01Home from "./examples/example-01/Home";
 import Example02Layout from "./examples/example-02/Layout";
 import Example02Contact from "./examples/example-02/Contact";
 import Example02Data from "./examples/example-02/DataDisplay";
+import Example02About from "./examples/example-02/About";
 
 
 const App = () => {
@@ -23,7 +24,7 @@ const App = () => {
 			<Routes>
 				<Route path="example-02" element={<Example02Layout />}>
  					<Route path="contact" element={<Example02Contact />} />
-					<Route path="about" element={<Example01About />} />
+					<Route path="about" element={<Example02About />} />
 					<Route path="data" element={<Example02Data />} />
 				</Route>
 				<Route path="example-01" element={<Example01Layout />}>
