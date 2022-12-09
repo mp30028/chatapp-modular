@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import { getAll } from "./CountryData";
+import { getAll } from "./Data";
 
-function CountryPickList(){
+function DataDisplay(){
 	const countryList = getAll();
 	
 	const [selectedCountry, setSelectedCountry]= useState(countryList[0]);
@@ -46,4 +46,4 @@ function CountryPickList(){
 		);
 };
 
-export default CountryPickList;
+export default DataDisplay;
