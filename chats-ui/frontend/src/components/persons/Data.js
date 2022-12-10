@@ -28,9 +28,6 @@ function Data(){
 		.then((data) => { setPersons(data); });
 	};
 	
-	if (persons === null){
-		fetchPersons();
-	}
 	useEffect(() => {fetchPersons();}, [] )
 
 	const personRowClicked = (selectedRow) => {
