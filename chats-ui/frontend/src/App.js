@@ -8,13 +8,15 @@ import Example02Layout from "./examples/example-02/Layout";
 import Example02Contact from "./examples/example-02/Contact";
 import Example02Data from "./examples/example-02/DataDisplay";
 import Example02About from "./examples/example-02/About";
-
+import PersonsLayout from "./components/persons/Layout";
+import PersonsData from "./components/persons/Data";
 
 const App = () => {
 	return (
 		<>
 		    <h1>From App Component</h1>
 			<nav>
+				<NavLink to="/persons">People Management App</NavLink><br />
 				<NavLink to="/example-01">Example 01</NavLink><br />
 				<NavLink to="/example-02">Example 02</NavLink><br />
 				<NavLink to="/" >Home</NavLink><br /><br />
@@ -22,6 +24,9 @@ const App = () => {
 
 
 			<Routes>
+				<Route path="persons" element={<PersonsLayout />}>
+					<Route path="data" element={<PersonsData />} />
+				</Route>
 				<Route path="example-02" element={<Example02Layout />}>
  					<Route path="contact" element={<Example02Contact />} />
 					<Route path="about" element={<Example02About />} />
