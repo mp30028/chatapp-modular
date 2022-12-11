@@ -16,8 +16,7 @@ import com.zonesoft.persons.services.PersonService;
 import java.util.List;
 import java.util.Objects;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import reactor.core.publisher.Flux;
@@ -29,12 +28,11 @@ public class PersonController {
     
 	private final PersonService service;
     
-    @Autowired
+//    @Autowired
     public PersonController(PersonService service) {
     	super();
     	this.service = service;
     }
-
 
     @PostMapping
     public Mono<ResponseEntity<Person>> insert(@RequestBody Person person){
@@ -42,9 +40,7 @@ public class PersonController {
         return personMono.map(p-> ResponseEntity.created(null).body(p))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
-    
-    
-    
+        
     @GetMapping
     public Mono<ResponseEntity<List<Person>>> findAll(){
     	Flux<Person> personFlux = service.findAll();
@@ -89,8 +85,6 @@ public class PersonController {
     	
     }
     
-    
-    
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Person>> update(@PathVariable String id, @RequestBody Person person){
         return service.update(person)
@@ -101,5 +95,10 @@ public class PersonController {
     public Mono<ResponseEntity<Void>> deleteById(@PathVariable String id){
         return service.deleteById(id)
                 .map( r -> ResponseEntity.accepted().<Void>build());
+    }
+    
+    @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Person> streamAll() {
+        return service.streamAll();
     }
 }

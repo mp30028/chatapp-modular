@@ -2,7 +2,7 @@ package com.zonesoft.persons.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zonesoft.persons.models.Person;
@@ -16,7 +16,7 @@ public class PersonService {
 	
 	private final PersonRepository repository;
 	
-	@Autowired
+//	@Autowired
 	public PersonService(PersonRepository repository) {
 		super();
 		this.repository = repository;
@@ -53,4 +53,8 @@ public class PersonService {
 	public Flux<Person> findByMoniker(String moniker){
     	return repository.findByMoniker(moniker);
     }
+
+	public Flux<Person> streamAll() {
+		return repository.streamAll();
+	}
 }
