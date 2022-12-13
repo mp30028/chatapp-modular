@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zonesoft.persons.events.PersistenceEvent;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.services.PersonService;
 
@@ -87,6 +88,7 @@ public class PersonController {
     
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Person>> update(@PathVariable String id, @RequestBody Person person){
+    	person.setId(id);
         return service.update(person)
                 .map( p -> ResponseEntity.accepted().body(p));
     }
@@ -97,8 +99,8 @@ public class PersonController {
                 .map( r -> ResponseEntity.accepted().<Void>build());
     }
     
-    @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<Person> streamAll() {
-        return service.streamAll();
+    @GetMapping(value = "/persistence-events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<PersistenceEvent> streamAllEvents() {
+        return service.streamAllEvents();
     }
 }
