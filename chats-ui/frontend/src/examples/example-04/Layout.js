@@ -6,15 +6,12 @@ function Layout(){
 
   return (
 	  <div>
-	  		Example 04. Fetching Events<br/>
-	  		<Data />
-
-{/* 			
+	  		Example 04. Fetching Events<br/>		
 	    <table className="zsft-table">
 	    	<thead>
 	    		<tr>
 	    			<th style={{ width: "100%" }}>
-				    	Example 03. Fetching Data	
+				    	Example 04. Fetching Data and listening for persistence events
 	    			</th>
 	    		</tr>
 	    	</thead>
@@ -26,7 +23,6 @@ function Layout(){
 				</tr>
 			</tbody>
 	    </table>
-*/}
 	  </div>	
   );
 }

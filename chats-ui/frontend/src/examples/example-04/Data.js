@@ -1,15 +1,8 @@
 import React, {useState, useEffect} from 'react';
 
 function Data(){
-//	const emptyPerson = {
-//							"firstname": "",
-//							"id": "EMPTY: NOTHING-SELECTED",
-//							"lastname": "",
-//							"moniker": "",
-//							"otherNames":[]
-//						}
+	
 	const [persons, setPersons]= useState([]);
-//	const [selectedPerson, setSelectedPerson]= useState(emptyPerson);
 		
 	const fetchPersons = () =>{
 		fetch(
@@ -31,29 +24,18 @@ function Data(){
 	useEffect(() => {fetchPersons();}, [] )
 
 	const [currentEvent, setCurrentEvent]= useState("Setting Current Event with this message");
+	
 	const messageHandler = (event) => {
-		var hold = currentEvent + "\n" + event.data;
-		setCurrentEvent(hold);
-//		debugger;
-		console.log(`event=`, event.data);
+		setCurrentEvent(JSON.stringify(JSON.parse(event.data), null, 2));
 	};
 	const eventSource = new EventSource("http://localhost:9999/api/persons/persistence-events");
 	eventSource.onmessage = messageHandler;
-
-
-
-
-//	const personRowClicked = (selectedRow) => {
-//		console.log(selectedRow.moniker);
-//		setSelectedPerson(selectedRow);
-//	}
 		
 		return(
 			<div style={{width: "100%"}}>
 			<pre>
 				{currentEvent}
 			</pre>
-{/*
 				<table>
 					<thead>
 						<tr>
@@ -65,38 +47,15 @@ function Data(){
 						</tr>
 					</thead>
 					<tbody>
- 
-						<tr>
-							<td colSpan="2">
-								<table>
-									<tbody>
-										<tr><th>ID</th><td>{selectedPerson.id}</td></tr>
-										<tr><td>Moniker</td><td>{selectedPerson.moniker}</td></tr>
-										<tr><td>Firstname</td><td>{selectedPerson.firstname}</td></tr>
-										<tr><td>Lastname</td><td>{selectedPerson.lastname}</td></tr>
-										<tr><td>Other-Names</td><td>
-																	{selectedPerson.otherNames
-																		.map(o => 
-																			<div key={o.id}>
-																				{o.nameType + ": " + o.value}
-																			</div>
-																		)
-															  		}
-																</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-						</tr>
 
 						{persons.map(p =>
-							<tr key={p.id} onClick={()=> personRowClicked(p)}>
+							<tr key={p.id}>
 								<td style={{ width: "10%" }}>{p.id}</td>
 								<td style={{ width: "10%" }}>{p.moniker}</td>
 								<td style={{ width: "10%" }}>{p.firstname}</td>
 								<td style={{ width: "10%" }}>{p.lastname}</td>
 								<td style={{ width: "10%" }}>{p.otherNames.map(o => 
-																					<div key={o.id}>
+																					<div>
 																						{o.nameType + ": " + o.value}
 																					</div>
 																				)
@@ -106,7 +65,6 @@ function Data(){
 						)}
 					</tbody>
 				</table>
-*/}
 			</div>
 		);
 };
