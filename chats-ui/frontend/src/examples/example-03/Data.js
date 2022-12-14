@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from 'react';
 
 function Data(){
-//	const emptyPerson = {
-//							"firstname": "",
-//							"id": "EMPTY: NOTHING-SELECTED",
-//							"lastname": "",
-//							"moniker": "",
-//							"otherNames":[]
-//						}
+	const emptyPerson = {
+							"firstname": "",
+							"id": "EMPTY: NOTHING-SELECTED",
+							"lastname": "",
+							"moniker": "",
+							"otherNames":[]
+						}
 	const [persons, setPersons]= useState([]);
-//	const [selectedPerson, setSelectedPerson]= useState(emptyPerson);
+	const [selectedPerson, setSelectedPerson]= useState(emptyPerson);
 		
 	const fetchPersons = () =>{
 		fetch(
@@ -30,30 +30,15 @@ function Data(){
 	
 	useEffect(() => {fetchPersons();}, [] )
 
-	const [currentEvent, setCurrentEvent]= useState("Setting Current Event with this message");
-	const messageHandler = (event) => {
-		var hold = currentEvent + "\n" + event.data;
-		setCurrentEvent(hold);
-//		debugger;
-		console.log(`event=`, event.data);
-	};
-	const eventSource = new EventSource("http://localhost:9999/api/persons/stream");
-	eventSource.onmessage = messageHandler;
 
 
-
-
-//	const personRowClicked = (selectedRow) => {
-//		console.log(selectedRow.moniker);
-//		setSelectedPerson(selectedRow);
-//	}
+	const personRowClicked = (selectedRow) => {
+		console.log(selectedRow.moniker);
+		setSelectedPerson(selectedRow);
+	}
 		
 		return(
 			<div style={{width: "100%"}}>
-			<pre>
-				{currentEvent}
-			</pre>
-{/*
 				<table>
 					<thead>
 						<tr>
@@ -65,7 +50,6 @@ function Data(){
 						</tr>
 					</thead>
 					<tbody>
- 
 						<tr>
 							<td colSpan="2">
 								<table>
@@ -77,7 +61,7 @@ function Data(){
 										<tr><td>Other-Names</td><td>
 																	{selectedPerson.otherNames
 																		.map(o => 
-																			<div key={o.id}>
+																			<div>
 																				{o.nameType + ": " + o.value}
 																			</div>
 																		)
@@ -106,7 +90,6 @@ function Data(){
 						)}
 					</tbody>
 				</table>
-*/}
 			</div>
 		);
 };
