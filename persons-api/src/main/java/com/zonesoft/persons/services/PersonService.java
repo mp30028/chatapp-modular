@@ -1,11 +1,21 @@
 package com.zonesoft.persons.services;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.ChangeStreamEvent;
+import org.springframework.data.mongodb.core.ChangeStreamOptions;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.stereotype.Service;
+
 
 import com.zonesoft.persons.events.PersistenceEvent;
 import com.zonesoft.persons.events.PersistenceEvent.PersistenceEventType;
@@ -22,12 +32,15 @@ public class PersonService {
 	
 	private final PersonRepository personRepository;
 	private final PersistenceEventRepository eventRepository;
+	private final ReactiveMongoTemplate reactiveTemplate;
+	
 	
 	@Autowired
-	public PersonService(PersonRepository personRepository, PersistenceEventRepository eventRepository) {
+	public PersonService(PersonRepository personRepository, PersistenceEventRepository eventRepository, ReactiveMongoTemplate reactiveTemplate) {
 		super();
 		this.personRepository = personRepository;
 		this.eventRepository = eventRepository;
+		this.reactiveTemplate = reactiveTemplate;
 	}
 	
 	private void writeEvent(PersistenceEventType eventType, List<Person> persons) {
@@ -89,6 +102,12 @@ public class PersonService {
     }
 
 	public Flux<PersistenceEvent> streamAllEvents() {
-		return eventRepository.streamAll();
-	}
+        ChangeStreamOptions options = ChangeStreamOptions.builder()
+                                                         .returnFullDocumentOnUpdate()
+                                                         .build();
+
+        return reactiveTemplate.changeStream("persistenceEvents",options,PersistenceEvent.class)
+                               .map(ChangeStreamEvent::getBody);
+    }
+	
 }
