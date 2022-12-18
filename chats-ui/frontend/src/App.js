@@ -42,7 +42,7 @@ const App = () => {
 				</Route>
 				<Route path="example-03" element={<Example03Layout />}>
 				</Route>
-				<Route path="example-04*" element={<Example04Layout />}>
+				<Route path="example-04/*" element={<Example04Layout />}>
 				</Route>				
 				<Route path="/" element={<AppHome />} />
 				<Route index element={<AppHome />} />
