@@ -21,21 +21,13 @@ function Data(){
 		.then((data) => { setPersons(data); });
 	};
 	
-	useEffect(() => {fetchPersons();}, [] )
+	useEffect(() => {fetchPersons();}, [] );
 
-	const [currentEvent, setCurrentEvent]= useState("Setting Current Event with this message");
-	
-	const messageHandler = (event) => {
-		setCurrentEvent(JSON.stringify(JSON.parse(event.data), null, 2));
-	};
-	const eventSource = new EventSource("http://localhost:9999/api/persons/persistence-events");
-	eventSource.onmessage = messageHandler;
+
+
 		
 		return(
 			<div style={{width: "100%"}}>
-			<pre>
-				{currentEvent}
-			</pre>
 				<table>
 					<thead>
 						<tr>
