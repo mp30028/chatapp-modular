@@ -10,7 +10,7 @@ function Layout(){
 	    	<thead>
 	    		<tr>
 	    			<th style={{ width: "100%" }}>
-				    	Example 04.02 Fetching just the events. Data not changed or shown
+				    	Example 04.03 Fetching both EVENTS and DATA and applying the events to update the data
 	    			</th>
 	    		</tr>
 	    	</thead>
