@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 function Data(){
 	const emptyPerson = {
@@ -8,27 +8,117 @@ function Data(){
 							"moniker": "",
 							"otherNames":[]
 						}
+	const personsRef = useRef([]);
 	const [persons, setPersons]= useState([]);
 	const [selectedPerson, setSelectedPerson]= useState(emptyPerson);
 		
-	const fetchPersons = () =>{
-		fetch(
-			"http://localhost:9999/api/persons",
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json;charset=UTF-8',
-					'Accept': 'application/json, text/plain'
-				}
-			}
-		)
-//		.then((response) => {console.log(response.body); pJson = response; return response;});
-		.then((response) => response.json())
-		.then((data) => { console.log(`data.length=`, data.length); return data; })
-		.then((data) => { setPersons(data); });
-	};
+	useEffect(() =>{
+		personsRef.current = persons;
+	},[persons]);
 	
-	useEffect(() => {fetchPersons();}, [] )
+	useEffect(() => {
+		const EVENTS_URL = "http://localhost:9999/api/persons/persistence-events";
+		const FETCH_URL = "http://localhost:9999/api/persons";
+		const INITIAL_WAIT_SECONDS = 1;
+		const MAX_WAIT_SECONDS = 64;
+		var retryAfter = INITIAL_WAIT_SECONDS;
+		var sseSource = null;	
+		
+		const fetchPersons = () =>{
+				fetch(
+					FETCH_URL,{	method: 'GET',
+								headers: { 
+									'Content-Type': 'application/json;charset=UTF-8',
+									'Accept': 'application/json, text/plain'
+								}
+							  }
+				)
+				.then((response) => response.json())
+				.then((data) => setPersons(data));
+		};
+		
+		const doSave = (currentData, eventData) =>{
+			var personToSave = null;
+			var existsInData = false;
+			var update = (item) => {	if(item.id === personToSave.id) {
+											existsInData = true; 
+											return personToSave; 
+										}else{
+											return item;
+										} 
+									};
+			for(let j = 0; j < eventData.persons.length; j++){
+				personToSave = eventData.persons[j];
+				existsInData = false;
+				var mappedPersons = currentData.map(update);	
+				if (!existsInData){
+					mappedPersons.push(personToSave);
+				}
+				currentData = mappedPersons;
+			}
+			return currentData;			
+		}
+		
+		const doDelete = (currentData, eventData) =>{
+			var personToDelete = null;
+			const toKeep = (item) => (item.id !== personToDelete.id);
+			for(let k =0; k < eventData.persons.length; k++){
+				personToDelete = eventData.persons[k];
+				var filteredPersons = currentData.filter(toKeep);
+				currentData = filteredPersons;
+			}
+			return currentData;	
+		}
+		
+		const updatePersons = (eventData) =>  {
+			var currentData = personsRef.current;
+			if (eventData.eventType === "SAVE"){
+				currentData = doSave(currentData, eventData);
+			}else if (eventData.eventType === "DELETE"){
+				currentData = doDelete(currentData, eventData);
+			}
+			setPersons(currentData);
+		};
+		
+		const milliSecondsToWait = () => retryAfter * 1000;
+	
+		const tryToSetupEventSource = () => {
+		    setupEventSource();
+		    retryAfter *= 2;
+		    if (retryAfter >= MAX_WAIT_SECONDS) {
+		        retryAfter = MAX_WAIT_SECONDS;
+		    }
+		};
+		
+		const onerrorHandler = () =>{
+			setTimeout(tryToSetupEventSource, milliSecondsToWait());
+		};
+		
+		const onmessageHandler = (event) =>{
+			var eventData = JSON.parse(event.data);
+			updatePersons(eventData);
+		};
+		
+		const onopenHandler = () =>{
+			retryAfter = INITIAL_WAIT_SECONDS;
+		};
+		
+		const setupEventSource = () => {
+			if (sseSource){
+				sseSource.close();
+				sseSource = null;
+			}
+			sseSource = new EventSource(EVENTS_URL);
+			sseSource.onmessage = onmessageHandler;
+			sseSource.onopen = onopenHandler;
+			sseSource.onerror = onerrorHandler;
+		};
+		
+		fetchPersons();
+		setupEventSource();
+		
+	}, [setPersons]);
+
 
 	const personRowClicked = (selectedRow) => {
 		console.log(selectedRow.moniker);

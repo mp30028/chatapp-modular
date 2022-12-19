@@ -1,17 +1,16 @@
 import React from 'react';
-import '../../css/Zonesoft.css';
+import '../../../css/Zonesoft.css';
 import Data from './Data';
 
 function Layout(){
 
   return (
-	  <div>
-	  		Example 03. Fetching Events<br/>		
+	  <div>		
 	    <table className="zsft-table">
 	    	<thead>
 	    		<tr>
 	    			<th style={{ width: "100%" }}>
-				    	Example 03. Fetching Data	
+				    	Example 04.03 Fetching both EVENTS and DATA and applying the events to update the data
 	    			</th>
 	    		</tr>
 	    	</thead>

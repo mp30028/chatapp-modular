@@ -5,13 +5,12 @@ import Data from './Data';
 function Layout(){
 
   return (
-	  <div>
-	  		Example 03. Fetching Events<br/>		
+	  <div>		
 	    <table className="zsft-table">
 	    	<thead>
 	    		<tr>
 	    			<th style={{ width: "100%" }}>
-				    	Example 03. Fetching Data	
+				    	Example 05 Handling EventSource disconnects and errors
 	    			</th>
 	    		</tr>
 	    	</thead>
