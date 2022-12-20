@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
-
+import * as FetchService from "./services/FetchService";
+import * as EventListenerService from "./services/EventListenerService";
 function Data(){
 	const emptyPerson = {
 							"firstname": "",
@@ -17,26 +18,6 @@ function Data(){
 	},[persons]);
 	
 	useEffect(() => {
-		const EVENTS_URL = "http://localhost:9999/api/persons/persistence-events";
-		const FETCH_URL = "http://localhost:9999/api/persons";
-		const INITIAL_WAIT_SECONDS = 1;
-		const MAX_WAIT_SECONDS = 64;
-		var retryAfter = INITIAL_WAIT_SECONDS;
-		var sseSource = null;	
-		
-		const fetchPersons = () =>{
-				fetch(
-					FETCH_URL,{	method: 'GET',
-								headers: { 
-									'Content-Type': 'application/json;charset=UTF-8',
-									'Accept': 'application/json, text/plain'
-								}
-							  }
-				)
-				.then((response) => response.json())
-				.then((data) => setPersons(data));
-		};
-		
 		const doSave = (currentData, eventData) =>{
 			var personToSave = null;
 			var existsInData = false;
@@ -80,42 +61,13 @@ function Data(){
 			setPersons(currentData);
 		};
 		
-		const milliSecondsToWait = () => retryAfter * 1000;
-	
-		const tryToSetupEventSource = () => {
-		    setupEventSource();
-		    retryAfter *= 2;
-		    if (retryAfter >= MAX_WAIT_SECONDS) {
-		        retryAfter = MAX_WAIT_SECONDS;
-		    }
-		};
-		
-		const onerrorHandler = () =>{
-			setTimeout(tryToSetupEventSource, milliSecondsToWait());
-		};
-		
 		const onmessageHandler = (event) =>{
 			var eventData = JSON.parse(event.data);
 			updatePersons(eventData);
 		};
 		
-		const onopenHandler = () =>{
-			retryAfter = INITIAL_WAIT_SECONDS;
-		};
-		
-		const setupEventSource = () => {
-			if (sseSource){
-				sseSource.close();
-				sseSource = null;
-			}
-			sseSource = new EventSource(EVENTS_URL);
-			sseSource.onmessage = onmessageHandler;
-			sseSource.onopen = onopenHandler;
-			sseSource.onerror = onerrorHandler;
-		};
-		
-		fetchPersons();
-		setupEventSource();
+		FetchService.fetchPersons().then((data) => setPersons(data));;
+		EventListenerService.setupEventSource(onmessageHandler);
 		
 	}, [setPersons]);
 
