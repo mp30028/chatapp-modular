@@ -9,25 +9,20 @@ export function Editor(props) {
 							"moniker": "",
 							"otherNames":[]
 						}
-
 	const [currentPerson, setCurrentPerson] = useState(emptyPerson);
+
 
 	useEffect(() =>{
 		setCurrentPerson(props.person ? props.person : emptyPerson);
 	},[props.person]);
 	
 	const handleChange = (event) => {
-//		const {name, value} = event.target;
-//		if (name === 'id'){
-//			setCurrentPerson({...currentPerson, [name]:parseInt(value)})	
-//		}else{
-//			setCurrentPerson({...currentPerson, [name]:value})
-//		}
-//		
+		const {name, value} = event.target;
+		setCurrentPerson({...currentPerson, [name]:value})
 	}
 	
 	const handleSubmit = (event) =>{
-		event.preventDefault();
+		event.preventDefault();	
 		switch(event.target.value){
 			case "UPDATE":
 //				props.updatePerson(currentPerson);

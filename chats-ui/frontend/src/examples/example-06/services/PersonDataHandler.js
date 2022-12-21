@@ -32,7 +32,7 @@ const doDelete = (currentData, eventData) =>{
 	return currentData;	
 }
 
-export const update = (currentData, eventData) =>  {
+export const doUpdate = (currentData, eventData) =>  {
 	if (eventData.eventType === "SAVE"){
 		currentData = doSave(currentData, eventData);
 	}else if (eventData.eventType === "DELETE"){

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
-import * as FetchService from "../services/PersonFetchService";
-import * as EventListenerService from "../services/PersonListenerService";
-import * as PersonsDataService from "../services/PersonsDataService";
+import * as DataService from "../services/PersonDataService";
+import * as EventListener from "../services/PersonListenerService";
+import * as DataHandler from "../services/PersonDataHandler";
 
 function List(props){
 	const personsRef = useRef([]);
@@ -11,11 +11,11 @@ function List(props){
 	useEffect(() => {	
 		const onmessageHandler = (event) =>{
 			var eventData = JSON.parse(event.data);
-			var updatedData = PersonsDataService.update(personsRef.current, eventData);
+			var updatedData = DataHandler.doUpdate(personsRef.current, eventData);
 			setPersons(updatedData);
 		};
-		FetchService.fetchPersons().then((data) => setPersons(data));;
-		EventListenerService.setupEventSource(onmessageHandler);		
+		DataService.fetchPersons().then((data) => setPersons(data));;
+		EventListener.setupEventSource(onmessageHandler);		
 	}, [setPersons]);
 
 	useEffect(() =>{
