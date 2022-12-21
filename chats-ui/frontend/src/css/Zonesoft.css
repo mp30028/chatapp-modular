@@ -93,10 +93,11 @@ input[type="radio"]:checked + label {
 }
 
 .ellipses {
+	font-size: 12pt;
 	font-weight: bold;
 	text-align: center;
-	padding-left: 4pt;
-	padding-right: 4pt;
+	padding-left: 16pt;
+	padding-right: 16pt;
 }
 
 .ellipses:hover {
