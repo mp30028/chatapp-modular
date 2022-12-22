@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PersonList from "./components/PersonList";
 import PersonEditor from "./components/PersonEditor";
-import Logger from '../../components/logger/Logger';
+import Logger, {appendLog} from '../../components/logger/Logger';
 
 
 function Data(){
-	const [logMessage, writeLog]=useState("");
+	const [logMessages, setLogMessages]=useState([]);
 	const [selectedPerson, setSelectedPerson] = useState(null);
+	const initialEntry = "---- Logging Started ----";
+	const logMessagesRef = useRef([[new Date().toLocaleString(), initialEntry ]]);
 	
 	const personSelectionHandler = (person) =>{
 		setSelectedPerson(person);		
 	}
 	
+
+	
+	const writeLog = (message) => {
+		const updatedLogs = appendLog(logMessagesRef.current, message);
+		logMessagesRef.current = updatedLogs;
+		setLogMessages(updatedLogs);	
+	}
+		
 	const dataChangeHandler = (person, change) =>{
-		writeLog("change=" + change);
-		writeLog("person=" + JSON.stringify(person));
+		writeLog("change=" + change );
+		writeLog("person=" + JSON.stringify(person,null,2));
 	}
 	
 
@@ -45,7 +55,7 @@ function Data(){
 					</tr>
 					<tr>
 						<td colSpan="2">
-							<Logger message={logMessage} />
+							<Logger messages={logMessages} />
 						</td>
 					</tr>
 				</tbody>
