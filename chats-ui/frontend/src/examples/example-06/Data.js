@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import PersonList from "./components/PersonList";
 import PersonEditor from "./components/PersonEditor";
 import Logger, {appendLog} from '../../components/logger/Logger';
-import {save, remove} from './services/PersonDataService';
+import {save, remove, update} from './services/PersonDataService';
 
 
 function Data(){
@@ -24,10 +24,10 @@ function Data(){
 	const dataChangeHandler = (person, change) =>{
 		writeLog("change=" + change );
 		writeLog("person=" + JSON.stringify(person,null,2));
-		if (change === "SAVE"){
-			save(person);	
+		if (change === "UPDATE"){
+			update(person);
 		}else if(change === "DELETE"){
-//			remove(person);
+			remove(person);
 		}
 	}
 	

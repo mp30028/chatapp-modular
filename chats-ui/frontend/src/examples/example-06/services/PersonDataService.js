@@ -32,7 +32,7 @@ export const save = async (person) => {
 			body: JSON.stringify(person)
 		}
 	);
-	return await response.json();
+//	return await response.json();
 }
 
 export const remove = async (person) => {
@@ -46,20 +46,21 @@ export const remove = async (person) => {
 			}
 		}
 	);
-	return await response.json();
+//	return await response.json();
 }
 
-//export const Update = (person) => {
-//	const jsonString = JSON.stringify(person);
-//	fetch(
-//		apiPath + "/" + person.id,
-//		{
-//			method: 'PUT',
-//			headers: {
-//				'Content-Type': 'application/json;charset=UTF-8',
-//				'Accept': 'application/json, text/plain'
-//			},
-//			body: jsonString
-//		}
-//	)
-//}
+export const update = async (person) => {
+	const jsonString = JSON.stringify(person, null, "    ");
+	const response = await fetch(
+		getPersonsUrl() + "/" + person.id,
+		{
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json;charset=UTF-8',
+				'Accept': 'application/json, text/plain'
+			},
+			body: jsonString
+		}
+	);
+//	return await response.json();
+}
