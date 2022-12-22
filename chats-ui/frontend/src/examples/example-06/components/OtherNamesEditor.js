@@ -47,9 +47,9 @@ function OtherNamesEditor(props){
 					<tbody>
 						{currentOtherNames.map(otherName =>
 							<tr key={otherName.id}>
-								<td><input type="text" name={"otherNameId_" + otherName.id} id={"otherNameId_" + otherName.id} value={otherName.value} onChange={handleChangeToOtherName}/></td>								
+								<td><input type="text" name={"onId_" + otherName.id} id={"onId_" + otherName.id} value={otherName.value} onChange={handleChangeToOtherName}/></td>								
 								<td>
-									<input type="text" name={"otherNameType_" + otherName.id} id={"otherNameType_" + otherName.id} value={otherName.nameType} onChange={handleChangeToOtherName}/>
+									<input type="text" name={"onType_" + otherName.id} id={"onType_" + otherName.id} value={otherName.nameType} onChange={handleChangeToOtherName}/>
 {/*								
 									<OtherNameTypes 
 										dropDownName={"otherNameType_" + otherName.id} 

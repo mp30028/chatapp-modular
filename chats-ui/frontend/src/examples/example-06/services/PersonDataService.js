@@ -21,7 +21,7 @@ export const fetchPersons = async () => {
 }
 
 export const save = async (person) => {
-	const response = await fetch(
+	await fetch(
 		getPersonsUrl(),
 		{
 			method: 'POST',
@@ -36,7 +36,7 @@ export const save = async (person) => {
 }
 
 export const remove = async (person) => {
-	const response = await fetch(
+	await fetch(
 		getPersonsUrl() + "/" + person.id,
 		{
 			method: 'DELETE',
@@ -51,7 +51,7 @@ export const remove = async (person) => {
 
 export const update = async (person) => {
 	const jsonString = JSON.stringify(person, null, "    ");
-	const response = await fetch(
+	await fetch(
 		getPersonsUrl() + "/" + person.id,
 		{
 			method: 'PUT',

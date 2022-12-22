@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import PersonList from "./components/PersonList";
 import PersonEditor from "./components/PersonEditor";
 import Logger, {appendLog} from '../../components/logger/Logger';
-import {save, remove, update} from './services/PersonDataService';
+import {remove, update} from './services/PersonDataService';
 
 
 function Data(){
