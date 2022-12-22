@@ -20,6 +20,7 @@ function List(props){
 
 	useEffect(() =>{
 		if (props.selectionHandler){
+			props.writeLog("selectedPerson = " + JSON.stringify(selectedPerson));
 			props.selectionHandler(selectedPerson);
 		}
 	},[selectedPerson])
