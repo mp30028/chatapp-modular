@@ -22,22 +22,27 @@ export function Editor(props) {
 	}
 	
 	const handleSubmit = (event) =>{
-		event.preventDefault();	
-		switch(event.target.value){
-			case "UPDATE":
-//				props.updatePerson(currentPerson);
-				break;
-			case "CREATE":
-//				props.addNewPerson(currentPerson);
-				break;
-			case "CANCEL":
-//				navigate("/list", { replace: true });
-				break;
-			case "DELETE":
-//				props.deletePerson(currentPerson);
-				break;
-			default:
-		}
+		event.preventDefault();
+//		props.writeLog("from handle submit");
+//		props.writeLog(JSON.stringify(currentPerson));
+		props.updateHandler(currentPerson, event.target.value)
+//		if (currentPerson !== emptyPerson){
+//			switch(event.target.value){
+//				case "UPDATE":
+//	//				props.updateHandler(currentPerson);
+//					break;
+//				case "CREATE":
+//	//				props.updateHandler(currentPerson);
+//					break;
+//				case "CANCEL":
+//	//				navigate("/list", { replace: true });
+//					break;
+//				case "DELETE":
+//	//				props.deletePerson(currentPerson);
+//					break;
+//				default:
+//			}
+//		}
 	}
 
 
