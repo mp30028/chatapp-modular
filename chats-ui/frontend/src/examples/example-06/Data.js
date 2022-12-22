@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import PersonList from "./components/PersonList";
 import PersonEditor from "./components/PersonEditor";
 import Logger, {appendLog} from '../../components/logger/Logger';
+import {save, remove} from './services/PersonDataService';
 
 
 function Data(){
@@ -14,8 +15,6 @@ function Data(){
 		setSelectedPerson(person);		
 	}
 	
-
-	
 	const writeLog = (message) => {
 		const updatedLogs = appendLog(logMessagesRef.current, message);
 		logMessagesRef.current = updatedLogs;
@@ -25,10 +24,12 @@ function Data(){
 	const dataChangeHandler = (person, change) =>{
 		writeLog("change=" + change );
 		writeLog("person=" + JSON.stringify(person,null,2));
+		if (change === "SAVE"){
+			save(person);	
+		}else if(change === "DELETE"){
+//			remove(person);
+		}
 	}
-	
-
-
 	
 	const addNew = (event) =>{
 		alert("Add New Clicked");

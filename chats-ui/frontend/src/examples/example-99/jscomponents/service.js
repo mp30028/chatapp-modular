@@ -9,7 +9,7 @@ dotenv.config();
 //Now you can read the environment variables (from .env file if not set) as follow
 const testString = process.env.TEST_STRING;
 const baseUrl = process.env.PERSONS_API_BASE_URL;
-//const baseUrl = "http://localhost:9999";
+//const baseUrl = "http://192.168.1.60:9999";
 
 const ssePath = "/api/persons/persistence-events";
 const apiPathToGetAll = "/api/persons";

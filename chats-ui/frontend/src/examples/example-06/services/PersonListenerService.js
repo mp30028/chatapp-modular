@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:9999";
+const BASE_URL = "http://192.168.1.60:9999";
 const API_PATH = "/api/persons/persistence-events";
 const INITIAL_WAIT_SECONDS = 1;
 const MAX_WAIT_SECONDS = 64;

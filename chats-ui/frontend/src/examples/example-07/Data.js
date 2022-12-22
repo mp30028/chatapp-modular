@@ -17,8 +17,8 @@ function Data(){
 	},[persons]);
 	
 	useEffect(() => {
-		const EVENTS_URL = "http://localhost:9999/api/persons/persistence-events";
-		const FETCH_URL = "http://localhost:9999/api/persons";
+		const EVENTS_URL = "http://192.168.1.60:9999/api/persons/persistence-events";
+		const FETCH_URL = "http://192.168.1.60:9999/api/persons";
 		const INITIAL_WAIT_SECONDS = 1;
 		const MAX_WAIT_SECONDS = 64;
 		var retryAfter = INITIAL_WAIT_SECONDS;
