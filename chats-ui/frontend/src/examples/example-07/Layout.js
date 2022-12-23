@@ -11,7 +11,8 @@ function Layout(){
 	    	<thead>
 	    		<tr>
 	    			<th style={{ width: "100%" }}>
-				    	Example 07  - Picklist based on Java Enums
+				    	Example 07  - Using the OtherNameTypes component which provides a picklist. The data for the picklish is fetched from a REST endpoint.
+				    	The rest endpoint converts Java Enums into data for the response
 	    			</th>
 	    		</tr>
 	    	</thead>
