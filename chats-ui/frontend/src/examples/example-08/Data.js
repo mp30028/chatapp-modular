@@ -1,40 +1,66 @@
-import React, {useEffect, useState} from 'react';
-import OtherNameTypes from './components/OtherNameTypes';
+import React from 'react';
+import OtherNamesEditor from './components/OtherNamesEditor';
 
 
 function Data(){
-	const [value1, setValue1] = useState(null);
-	const [value2, setValue2] = useState(null);
-	const [value3, setValue3] = useState("MIDDLE_NAME");
-	const [value4, setValue4] = useState("");	
+	
+	const currentPerson = {
+		"id": "e30e5061-7b02-436e-8290-4e70cedcb3f3",
+		"moniker": "Turtle",
+		"firstname": "Lesley",
+		"lastname": "CAMERON",
+		"otherNames": [
+			{
+				"id": "17778483-9a1e-470a-9e64-aed0a9ab310d",
+				"value": "Sophia",
+				"nameType": "MIDDLE_NAME"
+			},
+            {
+                "id": "6264c91a-acd3-45e8-8d64-789efea0c975",
+                "value": "Isabella",
+                "nameType": "MIDDLE_NAME"
+            },
+            {
+                "id": "43568147-9ce0-4fe5-877a-107c72b87611",
+                "value": "Mary",
+                "nameType": "MIDDLE_NAME"
+            },
+,
+            {
+                "id": "51c23ffc-98bc-4d81-b1cb-295e04ef3c6a",
+                "value": "Cam",
+                "nameType": "NICK_NAME"
+            }           			
+		]
+	};
 
 	
 	return(
 		<table>
 			<tbody>
 				<tr>
-					<td>Item One</td>
-					<td><OtherNameTypes id="one" valueSetter={setValue1} /> </td>
-					<td>Not Initialised. i.e. currentValue not specified at all</td>
-					<td> The value selected is {value1} .</td>
+					<th>Person ID</th>
+					<td>
+						<input type="text" name="personId" id="personId" value={currentPerson.id} readOnly style={{width:"90%" }} />
+					</td>
 				</tr>
 				<tr>
-					<td>Item Two</td>
-					<td><OtherNameTypes id="two" currentValue={value2} valueSetter={setValue2} /> </td>
-					<td>Initialised currentValue with value2 which is null </td>
-					<td> The value selected is {value2} .</td>
+					<th>Moniker</th>
+					<td><input type="text" name="moniker" id="moniker" value={currentPerson.moniker} /></td>
 				</tr>
 				<tr>
-					<td>Item Three</td>
-					<td><OtherNameTypes id="three" currentValue={value3} valueSetter={setValue3}/> </td>
-					<td>Initialised currentValue with value3 which was initialised with "MIDDLE_NAME" </td>
-					<td> The value selected is {value3} .</td>
+					<th>Firstname</th>
+					<td><input type="text" name="firstname" id="firstname" value={currentPerson.firstname}/></td>
 				</tr>
 				<tr>
-					<td>Item Four</td>
-					<td><OtherNameTypes id="four" currentValue={value4} valueSetter={setValue4} /> </td>
-					<td>Initialised currentValue with value4 which was initialised with "", i.e. an empty string</td>
-					<td> The value selected is {value4} .</td>
+					<th>Lastname</th>
+					<td><input type="text" name="lastname" id="lastname" value={currentPerson.lastname} /></td>
+				</tr>	
+				<tr>
+					<th>Other Names</th>
+					<td className="subtableContainer">
+						<OtherNamesEditor otherNames={currentPerson.otherNames}/>
+					</td>
 				</tr>								
 			</tbody>
 		</table>

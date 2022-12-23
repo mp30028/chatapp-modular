@@ -5,15 +5,15 @@ import {fetchOtherNameTypes as fetch} from '../services/OtherNameTypesDataServic
 function OtherNameTypes(props){
 	const firstItem = "--choose an option--";
 	const [otherNameTypes, setOtherNameTypes] = useState([]);
-	const [currentValue, setCurrentValue]=useState(props.currentValue ? props.currentValue : firstItem);
+	const [value, setvalue]=useState(props.value ? props.value : firstItem);
 	const id = (props.id ? props.id : "default-id");
 	
 	const handleChange = (event) => {
 		console.log("event-id=" + event.target.id);
 		console.log("event-value=" + event.target.value);
-		setCurrentValue(event.target.value);
-		if (props.valueSetter){
-			props.valueSetter(event.target.value);
+		setvalue(event.target.value);
+		if (props.onChange){
+			props.onChange(event.target.value);
 		}
 	}
 	
@@ -30,14 +30,14 @@ function OtherNameTypes(props){
 	
 
 	useEffect(() =>{
-		setCurrentValue(props.currentValue);
-	},[props.currentValue]);
+		setvalue(props.value);
+	},[props.value]);
 	
 	
 	
 	return(
 		<div>
-			<select name={id} id={id} value={currentValue} onChange={handleChange}>
+			<select name={id} id={id} value={value} onChange={handleChange}>
 				{(otherNameTypes?otherNameTypes:[]).map((item) => 
 						<option value={item} key={item}> 
 							{item}
