@@ -13,6 +13,7 @@ import Example04Layout from "./examples/example-04/Layout";
 import Example05Layout from "./examples/example-05/Layout";
 import Example06Layout from "./examples/example-06/Layout";
 import Example07Layout from "./examples/example-07/Layout";
+import Example08Layout from "./examples/example-08/Layout";
 import PersonsLayout from "./components/persons/Layout";
 import PersonsData from "./components/persons/Data";
 
@@ -29,6 +30,7 @@ const App = () => {
 				<NavLink to="/example-05">Example 05</NavLink><br />
 				<NavLink to="/example-06">Example 06</NavLink><br />
 				<NavLink to="/example-07">Example 07</NavLink><br />
+				<NavLink to="/example-08">Example 08 - Currently work in progress</NavLink><br />
 				<NavLink to="/" >Home</NavLink><br /><br />
 			</nav>
 
@@ -56,6 +58,9 @@ const App = () => {
 				</Route>
 				<Route path="example-07/*" element={<Example07Layout />}>
 				</Route>
+				<Route path="example-08/*" element={<Example08Layout />}>
+				</Route>
+
 				<Route path="/" element={<AppHome />} />
 				<Route index element={<AppHome />} />
 				<Route path="*" element={<p>There's nothing here: 404!</p>} />
