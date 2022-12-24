@@ -37,6 +37,7 @@ function Data(){
 	const [currentPerson, setCurrentPerson] = useState(initialValue);
 	const [jsonString, setJsonString] = useState("");
 
+
 	useEffect(() =>{
 		setJsonString(JSON.stringify(currentPerson, null, 2));
 	},[currentPerson]);
@@ -89,6 +90,23 @@ function Data(){
 			setCurrentPerson(currentPersonCopy);
 	}
 
+	const onDeleteOfOtherNames = (event) => {
+		const {id, name, value} = getIdNameAndValueFromEvent(event);
+		const isToBeKept = (item) => item.id !== id;
+		const filteredOtherNames = currentPerson.otherNames.filter(isToBeKept);
+		const currentPersonCopy = {...currentPerson};
+		currentPersonCopy.otherNames = filteredOtherNames;
+		setCurrentPerson(currentPersonCopy);
+	}
+	
+	const onAddOfOtherNames = (event) => {
+		const tempId = "tempid_" + (new Date().getTime());
+		const emptyOtherName =  { id: tempId, value : "", nameType : ""};
+		const currentPersonCopy = {...currentPerson};
+		const updatedOtherNames = currentPersonCopy.otherNames.concat(emptyOtherName)
+		currentPersonCopy.otherNames = updatedOtherNames;
+		setCurrentPerson(currentPersonCopy);
+	}
 	
 	return(
 		<table>
@@ -114,7 +132,7 @@ function Data(){
 				<tr>
 					<th>Other Names</th>
 					<td className="subtableContainer">
-						<OtherNamesEditor onChange={onChangeOfOtherNames} otherNames={currentPerson.otherNames}/>
+						<OtherNamesEditor onChange={onChangeOfOtherNames} onDelete={onDeleteOfOtherNames} onAdd={onAddOfOtherNames} otherNames={currentPerson.otherNames}/>
 					</td>
 				</tr>
 				<tr>

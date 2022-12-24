@@ -9,11 +9,11 @@ function OtherNamesEditor(props){
 	}
 	
 	const onClickDelete = (event) =>{
-		console.log("onClickDelete-event=",event);	
+		props.onDelete(event);
 	}
 	
 	const onClickAddNew = (event) =>{
-		console.log("onClickAddNew-event=",event);	
+		props.onAdd(event);	
 	}
 
 		return(
@@ -35,7 +35,7 @@ function OtherNamesEditor(props){
 								</td>
 								
 								<td style={{textAlign:"center"}}>
-									<button className="deleteButton" name="deleteButton" id="deleteButton" onClick={onClickDelete}/>
+									<button className="deleteButton" name="delete" id={oName.id} onClick={onClickDelete}/>
 								</td>
 							</tr>	
 						)}
