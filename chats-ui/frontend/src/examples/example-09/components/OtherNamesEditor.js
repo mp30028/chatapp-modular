@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import OtherNameTypes from './OtherNameTypes';
 
 
 function OtherNamesEditor(props){
-	const [otherNames, setOtherNames] = useState([]);
-	
-	useEffect(() =>{
-		setOtherNames(props.otherNames ? props.otherNames : []);
-	},[props.otherNames]);
-	
-	
-	const onChangeValue = (event) =>{
-		console.log("onChangeValue-event=",event);	
-	}
-	
-	const onChangeType = (event) =>{
-		console.log("onChangeType-event=",event);	
+
+	const onChange = (event) =>{
+		props.onChange(event);
 	}
 	
 	const onClickDelete = (event) =>{
@@ -37,15 +27,15 @@ function OtherNamesEditor(props){
 						</tr>
 					</thead>
 					<tbody>
-						{otherNames.map(oName =>
+						{(props.otherNames ? props.otherNames : []).map(oName =>
 							<tr key={oName.id}>
-								<td><input type="text" name={"onv_" + oName.id} id={"onv_" + oName.id} value={oName.value} onChange={onChangeValue}/></td>								
+								<td><input type="text" name="value" id={oName.id}  value={oName.value} onChange={onChange}/></td>								
 								<td>
-									<OtherNameTypes id={"ont_" + oName.id} value={oName.nameType} onChange={onChangeType}/>
+									<OtherNameTypes name="nameType" id={oName.id} currentValue={oName.nameType} onChange={onChange}/>
 								</td>
 								
 								<td style={{textAlign:"center"}}>
-									<button className="deleteButton" name="deleteButton" id="deleteButton" onClick={onClickDelete(oName)}/>
+									<button className="deleteButton" name="deleteButton" id="deleteButton" onClick={onClickDelete}/>
 								</td>
 							</tr>	
 						)}

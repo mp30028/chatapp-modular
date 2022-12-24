@@ -7,6 +7,7 @@ function OtherNameTypes(props){
 	const [otherNameTypes, setOtherNameTypes] = useState([]);
 	const [currentValue, setCurrentValue]=useState(props.currentValue ? props.currentValue : firstItem);
 	const id = (props.id ? props.id : "default-id");
+	const name = (props.name ? props.name : "default-name");
 	
 	const handleChange = (event) => {
 		setCurrentValue(event.target.value);
@@ -34,7 +35,7 @@ function OtherNameTypes(props){
 	
 	return(
 		<div>
-			<select name={id} id={id} value={currentValue} onChange={handleChange}>
+			<select name={name} id={id} value={currentValue} onChange={handleChange}>
 				<option value={firstItem}>{firstItem}</option>
 				{(otherNameTypes).map((item) => 
 						<option value={item} key={item}> 

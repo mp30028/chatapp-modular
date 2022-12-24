@@ -1,0 +1,81 @@
+import React, { useEffect, useState } from 'react';
+import OtherNameTypes from './OtherNameTypes';
+
+
+function OtherNamesEditor(props){
+//	const [otherNames, setOtherNames] = useState([]);
+	
+	useEffect(() =>{
+//		setOtherNames(props.otherNames ? props.otherNames : []);
+	},[props.otherNames]);
+	
+	
+//	useEffect(() =>{
+////		setOtherNames(props.otherNames ? props.otherNames : []);
+//		if (props.onChange){
+//			props.onChange(event);
+//		}
+//	},[otherNames]);
+	
+	const onChangeOfValue = (event) =>{
+		const value = event.target.value;
+		const id =  event.target.id;
+		const update = (item) => {item.value = value; return item;};
+		const updateIf = (item) => (item.id ===id) ? update(item) : item;
+		const updatedOtherNames = props.otherNames.map(item => updateIf(item));
+		props.setOtherNames(updatedOtherNames);
+	}
+	
+	const onChangeOfType = (event) =>{
+		console.log("onChangeType-event=",event);
+		const value = event.target.currentValue;
+		const id =  event.target.id;
+		const update = (item) => {item.nameType = value; return item;};
+		const updateIf = (item) => (item.id ===id) ? update(item) : item;
+		const updatedOtherNames = props.otherNames.map(item => updateIf(item));
+		props.setOtherNames(updatedOtherNames);
+	}
+	
+	const onClickDelete = (event) =>{
+		console.log("onClickDelete-event=",event);	
+	}
+	
+	const onClickAddNew = (event) =>{
+		console.log("onClickAddNew-event=",event);	
+	}
+
+		return(
+			<div style={{width: "100%"}}>
+				<table>
+					<thead>
+						<tr>
+							<th style={{ width: "40%" }}>Other Name</th>
+							<th style={{ width: "40%" }}>Type</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{(props.otherNames ? props.otherNames : []).map(oName =>
+							<tr key={oName.id}>
+								<td><input type="text" id={oName.id}  value={oName.value} onChange={onChangeOfValue}/></td>								
+								<td>
+									<OtherNameTypes id={oName.id} currentValue={oName.nameType} onChange={onChangeOfType}/>
+								</td>
+								
+								<td style={{textAlign:"center"}}>
+									<button className="deleteButton" name="deleteButton" id="deleteButton" onClick={onClickDelete(oName)}/>
+								</td>
+							</tr>	
+						)}
+						<tr>
+							<td colSpan="3" style={{textAlign:"right"}}>
+								<button className="addNewButton" name="addNewButton" id="addNewButton" onClick={onClickAddNew} />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		);
+};
+
+export default OtherNamesEditor;
