@@ -92,6 +92,7 @@ function Data(){
 
 	const onDeleteOfOtherNames = (event) => {
 		const {id, name, value} = getIdNameAndValueFromEvent(event);
+		console.log("deleting other name", name,value);
 		const isToBeKept = (item) => item.id !== id;
 		const filteredOtherNames = currentPerson.otherNames.filter(isToBeKept);
 		const currentPersonCopy = {...currentPerson};
