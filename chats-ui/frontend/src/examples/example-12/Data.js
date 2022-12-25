@@ -56,13 +56,13 @@ function Data(){
 	};
 	
 	return(
-		<table>
+		<table style={{width: "100%"}}>
 			<tbody>
 				<tr>
 					<td style={{width: "70%", borderWidth: "0"}} >
 						<PersonList selectionHandler={personSelectionHandler}/>
 					</td>
-					<td style={{verticalAlign: "top", borderWidth: "0"}}>
+					<td style={{width: "30%",verticalAlign: "top", borderWidth: "0"}}>
 						<PersonEditor person={(currentPerson?currentPerson:emptyPerson)} onChange={onChangeOfCurrentPerson} onSubmit={onSubmitOfCurrentPerson} />
 						<pre>
 							{jsonString}
