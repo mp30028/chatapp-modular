@@ -3,12 +3,14 @@ import OtherNamesEditor from './OtherNamesEditor';
 
 export function PersonEditor(props) {
 	const handleChange = (event) => {
+		event.preventDefault();
 		const {name, value} = event.target;
 		props.onChange({event:event, name:name, value: value});
 	}
 	
 	const handleSubmit = (event) =>{
-
+		const {name, value} = event.target;
+		props.onSubmit({event, name, value});
 	}
 	
 	const getIdNameAndValueFromEvent = (event) =>{
@@ -72,10 +74,10 @@ export function PersonEditor(props) {
 				</tr>
 					<tr>
 						<td colSpan="2" style={{textAlign:"right"}}>
-							<button type="submit" onClick={handleSubmit} value="CREATE">Add New</button>
-							<button type="submit" onClick={handleSubmit} value="DELETE">Delete</button>
-							<button type="submit" onClick={handleSubmit} value="UPDATE">Save</button>					
-							<button type="submit" onClick={handleSubmit} value="CANCEL">Cancel</button>
+							<button type="submit" onClick={handleSubmit} name="submit" value="CREATE">Add New</button>
+							<button type="submit" onClick={handleSubmit} name="submit" value="DELETE">Delete</button>
+							<button type="submit" onClick={handleSubmit} name="submit" value="UPDATE">Save</button>					
+							<button type="submit" onClick={handleSubmit} name="submit" value="CANCEL">Cancel</button>
 						</td>
 					</tr>
 				</tbody>

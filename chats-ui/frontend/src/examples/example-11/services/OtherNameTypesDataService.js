@@ -25,16 +25,3 @@ export const fetchOtherNameTypes = async () => {
 								});
 	return returnValue;
 }
-
-
-//export const fetchPersons = async () => {
-//	const response = await fetch(
-//		getPersonsUrl(), {
-//		method: 'GET',
-//		headers: {
-//			'Content-Type': 'application/json;charset=UTF-8',
-//			'Accept': 'application/json, text/plain'
-//		}
-//	});
-//	return await response.json();
-//}
