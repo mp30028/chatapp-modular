@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import OtherNamesEditor from './components/OtherNamesEditor';
+import PersonEditor from './components/PersonEditor';
 
 
 function Data(){
@@ -33,78 +33,18 @@ function Data(){
 		]
 	};
 	
-	
 	const [currentPerson, setCurrentPerson] = useState(initialValue);
 	const [jsonString, setJsonString] = useState("");
-
 
 	useEffect(() =>{
 		setJsonString(JSON.stringify(currentPerson, null, 2));
 	},[currentPerson]);
 	
-	const randomTrueFalse = () => (Math.random() < 0.5);
-	
-	const getIdNameAndValueFromEvent_1 = (event) => {
-		const id = event.target.id;
-		const name = event.target.name;
-		const value = event.target.value; 
-		return {id, name, value};
-	}
-
-	const getIdNameAndValueFromEvent_2 = (event) =>{
-		const {id, name, value} = event.target;
-		return {id, name, value};
-	};
-	
-	const getIdNameAndValueFromEvent = (event) =>{
-		// for illustrative purposes have shown two ways of 
-		// reading values from event
-		if (randomTrueFalse){
-			return getIdNameAndValueFromEvent_1(event); // if true use method 1
-		}else{
-			return getIdNameAndValueFromEvent_2(event); // else use method 2
-		}
-	};
-	
-	const onChangeOfOtherNames = (event) => {
-		// Get the updated values from the event
-			const {id, name, value} =getIdNameAndValueFromEvent(event);
-			
-		// Find the value that needs to updated. Find creates a copy
-			const otherNameToUpdate = currentPerson.otherNames.find(o => (o.id === id) ? o : null);
-			
-		// Do the update to the found item - remember this is a copy so the update is to the copied item
-			const updatedOtherName =  {...otherNameToUpdate, [name]:value};
-		
-		// Replace the item with updated copy. The replacement creates a copy of otherNames
-			const replaceIf = (item) => item.id === id ? updatedOtherName : item;
-			const updatedOtherNames = currentPerson.otherNames.map(item => replaceIf(item));
-			
-		// Create a copy of the current person
-			const currentPersonCopy = {...currentPerson};
-		
-		// Update the copy with the copy of otherNames
-			currentPersonCopy.otherNames = updatedOtherNames;
-			
-		// replace the current person with the updated copy
-			setCurrentPerson(currentPersonCopy);
-	}
-
-	const onDeleteOfOtherNames = (event) => {
-		const {id, name, value} = getIdNameAndValueFromEvent(event);
-		const isToBeKept = (item) => item.id !== id;
-		const filteredOtherNames = currentPerson.otherNames.filter(isToBeKept);
-		const currentPersonCopy = {...currentPerson};
-		currentPersonCopy.otherNames = filteredOtherNames;
-		setCurrentPerson(currentPersonCopy);
-	}
-	
-	const onAddOfOtherNames = (event) => {
-		const tempId = "tempid_" + (new Date().getTime());
-		const emptyOtherName =  { id: tempId, value : "", nameType : ""};
-		const currentPersonCopy = {...currentPerson};
-		const updatedOtherNames = currentPersonCopy.otherNames.concat(emptyOtherName)
-		currentPersonCopy.otherNames = updatedOtherNames;
+	const onChangeOfCurrentPerson = (eventIn) => {
+		const {event, name, value } = eventIn;
+		event.preventDefault();
+		const currentPersonCopy = { ...currentPerson };
+		currentPersonCopy[name] = value;
 		setCurrentPerson(currentPersonCopy);
 	}
 	
@@ -112,39 +52,19 @@ function Data(){
 		<table>
 			<tbody>
 				<tr>
-					<th>Person ID</th>
 					<td>
-						{currentPerson.id}
+						<PersonEditor person={currentPerson} onChange={onChangeOfCurrentPerson} />
 					</td>
 				</tr>
 				<tr>
-					<th>Moniker</th>
-					<td>{currentPerson.moniker}</td>
-				</tr>
-				<tr>
-					<th>Firstname</th>
-					<td>{currentPerson.firstname}</td>
-				</tr>
-				<tr>
-					<th>Lastname</th>
-					<td>{currentPerson.lastname}</td>
-				</tr>	
-				<tr>
-					<th>Other Names</th>
-					<td className="subtableContainer">
-						<OtherNamesEditor onChange={onChangeOfOtherNames} onDelete={onDeleteOfOtherNames} onAdd={onAddOfOtherNames} otherNames={currentPerson.otherNames}/>
-					</td>
-				</tr>
-				<tr>
-					<td colSpan={2}>
-					<pre>
-						{jsonString}
-					</pre>
+					<td>
+						<pre>
+							{jsonString}
+						</pre>
 					</td>
 				</tr>								
 			</tbody>
 		</table>
-
 	);
 };
 
