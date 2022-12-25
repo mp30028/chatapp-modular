@@ -2,6 +2,10 @@ package com.zonesoft.persons.models;
 
 import static com.zonesoft.utils.helpers.ToStringBuilder.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.zonesoft.utils.helpers.ToStringBuilder;
 
 public class OtherName {
@@ -10,6 +14,10 @@ public class OtherName {
 		MIDDLE_NAME,
 		NICK_NAME,
 		ALIAS;
+		
+	    public static List<OtherNameType> getAll(){
+	        return new ArrayList<OtherNameType>(Arrays.asList(values()));
+	    }
 	}
 	
 	private String id;

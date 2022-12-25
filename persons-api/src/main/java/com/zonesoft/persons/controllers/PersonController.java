@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zonesoft.persons.events.PersistenceEvent;
 import com.zonesoft.persons.models.Person;
+import com.zonesoft.persons.models.OtherName.OtherNameType;
 import com.zonesoft.persons.services.PersonService;
 
 import java.util.List;
@@ -103,4 +104,9 @@ public class PersonController {
     public Flux<PersistenceEvent> streamAllEvents() {
         return service.streamAllEvents();
     }
+    
+	@GetMapping("/other-name-types")
+	public List<OtherNameType> fetchOtherNameTypes(){
+		return OtherNameType.getAll();
+	}
 }

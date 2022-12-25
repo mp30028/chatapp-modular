@@ -27,7 +27,7 @@ useEffect(() =>{
 },[eventsData])
 
 useEffect(() => {
-  const sse = new EventSource("http://localhost:9999/api/persons/persistence-events");
+  const sse = new EventSource("http://192.168.1.60:9999/api/persons/persistence-events");
 
 
   function getRealtimeData(eventData) {
