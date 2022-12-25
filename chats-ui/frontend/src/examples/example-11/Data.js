@@ -38,7 +38,9 @@ function Data(){
 		console.log("name=", name, "   value=", value, "   event=", event);
 		switch (value){
 			case "CREATE":
-				PersonsDataService.save(currentPerson);
+				const tempId = "tempid_" + (new Date().getTime());
+				emptyPerson.id = tempId;
+				setCurrentPerson(emptyPerson);
 				break;
 			case"DELETE":
 				PersonsDataService.remove(currentPerson);
