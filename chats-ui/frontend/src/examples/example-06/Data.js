@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PersonList from "./components/PersonList";
 import PersonEditor from "./components/PersonEditor";
-import Logger, {appendLog} from '../../components/logger/Logger';
+import Logger, {appendLog} from './components/Logger';
 import {remove, update} from './services/PersonDataService';
 
 

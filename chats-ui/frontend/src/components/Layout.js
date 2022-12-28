@@ -1,7 +1,6 @@
 import React from 'react';
-import {Outlet} from 'react-router-dom';
-import '../../css/Zonesoft.css';
- import Menu from './Menu';
+import '../css/Zonesoft.css';
+import Data from './Data';
 
 
 function Layout(){
@@ -12,19 +11,14 @@ function Layout(){
 	    	<thead>
 	    		<tr>
 	    			<th style={{ width: "100%" }}>
-				    	People Management	
+				    	Main App to manage People
 	    			</th>
 	    		</tr>
 	    	</thead>
 			<tbody>
 				<tr>
-					<td  style={{ width: "10%" }} >
-						{<Menu/>} 
-					</td>
-				</tr>
-				<tr>
 					<td  style={{ width: "100%" }}>
-						<Outlet />
+						<Data />
 					</td>
 				</tr>
 			</tbody>
