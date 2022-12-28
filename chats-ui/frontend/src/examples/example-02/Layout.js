@@ -1,6 +1,6 @@
 import React from 'react';
 import {Outlet} from 'react-router-dom';
-import '../../css/Zonesoft.css';
+import '../../common/css/Zonesoft.css';
 import Menu from './Menu';
 
 
