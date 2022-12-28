@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../css/Zonesoft.css';
+import '../../common/css/Zonesoft.css';
 import Data from './Data';
 
 function Layout(){

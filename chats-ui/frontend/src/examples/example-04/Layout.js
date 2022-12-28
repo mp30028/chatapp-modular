@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, NavLink, Routes} from 'react-router-dom';
-import '../../css/Zonesoft.css';
+import '../../common/css/Zonesoft.css';
 import FetchOnlyDataLayout from "./01-fetch-only-data/Layout";
 import FetchOnlyEventsLayout from "./02-fetch-only-events/Layout"
 import FetchBothDataAndEventsLayout from "./03-fetch-data-and-events/Layout";
