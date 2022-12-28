@@ -52,6 +52,9 @@ function Data(){
 			case"CANCEL":
 				fetchFromSource(); //Discard changes and refresh the data
 				break;
+			default:
+				fetchFromSource(currentPerson.id); //Discard changes and refresh the data
+				break;				
 		}
 	};
 	

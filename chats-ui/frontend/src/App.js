@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Routes, Route, NavLink, Outlet } from 'react-router-dom';
 import AppHome from "./Home";
-import PersonsLayout from "./components/persons/Layout";
-import PersonsData from "./components/persons/Data";
+import PersonsLayout from "./components/Layout";
+import PersonsData from "./components/Data";
 import Example01Layout from "./examples/example-01/Layout";
 import Example01About from "./examples/example-01/About";
 import Example01Home from "./examples/example-01/Home";

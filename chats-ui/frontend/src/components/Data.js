@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import PersonEditor from './components/PersonEditor';
-import PersonList from "./components/PersonList";
-import * as PersonsDataService from './services/PersonDataService';
+import PersonEditor from './PersonEditor';
+import PersonList from "./PersonList";
+import * as PersonsDataService from '../services/PersonDataService';
 
 
 function Data(){
@@ -54,7 +54,8 @@ function Data(){
 				break;
 			default:
 				fetchFromSource(currentPerson.id); //Discard changes and refresh the data
-				break;				
+				break;
+				
 		}
 	};
 	
