@@ -6,17 +6,17 @@ import Data from './Data';
 function Layout(){
 
   return (				
-	    <table className="zsft-table">
+	    <table className="zsft-table" style={{ width: "30%" }}>
 	    	<thead>
 	    		<tr>
-	    			<th style={{ width: "100%" }}>
+	    			<th >
 				    	Chat App Login
 	    			</th>
 	    		</tr>
 	    	</thead>
 			<tbody>
 				<tr>
-					<td  style={{ width: "100%" }}>
+					<td>
 						<Data />
 					</td>
 				</tr>

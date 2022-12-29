@@ -8,15 +8,14 @@ import ExamplesLayout from "./examples/Layout";
 const App = () => {
 	return (
 		<>
-		    <h1>From App Component</h1>
+		    <h1>Chat-App</h1>
+		    
 			<nav>
-				<NavLink to="/login">Chat-App-Login</NavLink><br />
-				<NavLink to="/chats">Chat-App</NavLink><br />
+				<NavLink to="/login">Chat-App</NavLink><br />
 				<NavLink to="/persons">People Management App</NavLink><br />
 				<NavLink to="/examples">Examples</NavLink><br />					
 				<NavLink to="/" >Home</NavLink><br /><br />
 			</nav>
-
 
 			<Routes>
 				<Route path="login" element={<LoginLayout />} />
@@ -27,6 +26,7 @@ const App = () => {
 				<Route index element={<AppHome />} />
 				<Route path="*" element={<p>There's nothing here: 404!</p>} />
 			</Routes>
+			
 			<main>
 				<Outlet />
 			</main>

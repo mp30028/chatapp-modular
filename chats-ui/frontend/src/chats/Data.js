@@ -2,10 +2,10 @@ import React from 'react';
 import Chat from './components/Chat';
 
 
-function Data(){
+function Data(props){
 	return(
 		<div style={{width: "100%"}}>
-			<Chat  />
+			<Chat username={props.username}  />
 		</div>
 	);
 };
