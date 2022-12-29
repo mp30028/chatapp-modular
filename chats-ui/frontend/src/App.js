@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Routes, Route, NavLink, Outlet } from 'react-router-dom';
 import AppHome from "./Home";
+import ChatsLayout from "./chats/Layout"
+import ChatsData from "./chats/Data"
 import PersonsLayout from "./persons/Layout";
 import PersonsData from "./persons/Data";
 import Example01Layout from "./examples/example-01/Layout";
@@ -25,6 +27,7 @@ const App = () => {
 		<>
 		    <h1>From App Component</h1>
 			<nav>
+				<NavLink to="/chats">Chat-App</NavLink><br />
 				<NavLink to="/persons">People Management App</NavLink><br />
 				<NavLink to="/example-01">Example 01</NavLink><br />
 				<NavLink to="/example-02">Example 02</NavLink><br />
@@ -43,6 +46,9 @@ const App = () => {
 
 
 			<Routes>
+				<Route path="chats" element={<ChatsLayout />}>
+					<Route path="data" element={<ChatsData />} />
+				</Route>
 				<Route path="persons" element={<PersonsLayout />}>
 					<Route path="data" element={<PersonsData />} />
 				</Route>
