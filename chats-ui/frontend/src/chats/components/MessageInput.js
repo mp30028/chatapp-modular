@@ -4,9 +4,11 @@ import React from 'react';
 function MessageInput(){
 
 	return(
-		<main>
-			<h2> Message Input Panel </h2>
-		</main>
+		<form>
+			<textarea rows="5" resi wrap='true' style={{width:"99%", height:"100%", border:"0", resize:"none" }}>
+  				Type your message here
+			</textarea>
+		</form>
 	);
 };
 

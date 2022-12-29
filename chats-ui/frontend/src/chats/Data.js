@@ -17,7 +17,7 @@ function Data(){
 					</td>
 				</tr>
 				<tr>
-					<td style={{verticalAlign: "bottom"}}>
+					<td>
 						<MessageInput />
 					</td>
 				</tr>			
