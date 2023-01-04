@@ -8,39 +8,39 @@ import java.time.OffsetDateTime;
 public class Message {
 	private String id = null;
 	private String messageText = null;
-	private String senderParticipantId = null;
+	private String senderPersonId = null;
 	private OffsetDateTime sentTime = null;
 	
 	public Message() {
 		super();
 	}
 	
-	public Message(String senderParticipantId, String messageText) {
+	public Message(String senderPersonId, String messageText) {
 		super();
-		this.senderParticipantId = senderParticipantId;
+		this.senderPersonId = senderPersonId;
 		this.messageText = messageText;
 		this.sentTime = OffsetDateTime.now();
 	}
 	
-	public Message(String senderParticipantId, String messageText, OffsetDateTime sentTime) {
+	public Message(String senderPersonId, String messageText, OffsetDateTime sentTime) {
 		super();
-		this.senderParticipantId = senderParticipantId;
+		this.senderPersonId = senderPersonId;
 		this.messageText = messageText;
 		this.sentTime = sentTime;
 	}
 	
-	public Message(String id, String senderParticipantId, String messageText, OffsetDateTime sentTime) {
+	public Message(String id, String senderPersonId, String messageText, OffsetDateTime sentTime) {
 		super();
 		this.id = id;
-		this.senderParticipantId = senderParticipantId;
+		this.senderPersonId = senderPersonId;
 		this.messageText = messageText;
 		this.sentTime = sentTime;
 	}
 	
-	public Message(String id, String senderParticipantId, String messageText) {
+	public Message(String id, String senderPersonId, String messageText) {
 		super();
 		this.id = id;
-		this.senderParticipantId = senderParticipantId;
+		this.senderPersonId = senderPersonId;
 		this.messageText = messageText;
 		this.sentTime = OffsetDateTime.now();
 	}
@@ -53,12 +53,12 @@ public class Message {
 		this.id = id;
 	}
 
-	public String getSenderParticipantId() {
-		return senderParticipantId;
+	public String getSenderPersonId() {
+		return senderPersonId;
 	}
 
-	public void setSenderParticipantId(String senderParticipantId) {
-		this.senderParticipantId = senderParticipantId;
+	public void setSenderPersonId(String senderPersonId) {
+		this.senderPersonId = senderPersonId;
 	}
 
 	public String getMessageText() {
@@ -85,7 +85,7 @@ public class Message {
 				lBrace, newline,
 					indent, key("message-id"), value(this.id), comma, newline,
 					indent, key("message-text"), value(this.messageText), comma,  newline,
-					indent, key("sender-participant-id"), value(this.senderParticipantId), comma, newline,
+					indent, key("sender-person-id"), value(this.senderPersonId), comma, newline,
 					indent, key("sent-time"), value(this.sentTime), newline,
 				rBrace
 			);
