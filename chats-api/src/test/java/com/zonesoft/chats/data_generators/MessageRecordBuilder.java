@@ -12,7 +12,8 @@ import com.zonesoft.utils.data_generators.IRecordBuilder;
 public class MessageRecordBuilder implements IRecordBuilder<Message> {
 	private String id = null;
 	private String messageText = null;
-	private String senderParticipantId = null;
+//	private String senderParticipantId = null;
+	private String senderPersonId = null;
 	private OffsetDateTime sentTime = null;
 	
 	public MessageRecordBuilder id() {
@@ -35,15 +36,25 @@ public class MessageRecordBuilder implements IRecordBuilder<Message> {
 		return this;
 	}
 	
-	public MessageRecordBuilder senderParticipantId() {
-		this.senderParticipantId = generateUUID();
-		return this;
-	}
+//	public MessageRecordBuilder senderParticipantId() {
+//		this.senderParticipantId = generateUUID();
+//		return this;
+//	}
+//	
+//	public MessageRecordBuilder senderParticipantId(String suppliedValue) {
+//		this.senderParticipantId = suppliedValue;
+//		return this;
+//	}
 	
-	public MessageRecordBuilder senderParticipantId(String suppliedValue) {
-		this.senderParticipantId = suppliedValue;
-		return this;
-	}
+	public MessageRecordBuilder senderPersonId() {
+	this.senderPersonId = generateUUID();
+	return this;
+}
+
+public MessageRecordBuilder senderPersonId(String suppliedValue) {
+	this.senderPersonId = suppliedValue;
+	return this;
+}
 	
 	public MessageRecordBuilder sentTime() {
 		this.sentTime = generateDateTime();
@@ -62,7 +73,7 @@ public class MessageRecordBuilder implements IRecordBuilder<Message> {
 			this.id = null;
 		}
 		if (Objects.isNull(this.messageText)) this.messageText();
-		if (Objects.isNull(this.senderParticipantId)) this.senderParticipantId();
+		if (Objects.isNull(this.senderPersonId)) this.senderPersonId();
 		if (Objects.isNull(this.sentTime)) this.sentTime();
 		return this;
 	}
@@ -74,7 +85,7 @@ public class MessageRecordBuilder implements IRecordBuilder<Message> {
 	
 	@Override
 	public Message build() {
-		Message message = new Message(this.id, this.senderParticipantId, this.messageText, this.sentTime);
+		Message message = new Message(this.id, this.senderPersonId, this.messageText, this.sentTime);
 		return message;
 	}
 

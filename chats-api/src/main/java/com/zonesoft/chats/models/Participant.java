@@ -5,7 +5,6 @@ import com.zonesoft.utils.helpers.ToStringBuilder;
 import java.time.OffsetDateTime;
 
 public class Participant {
-	private String id = null;
 	private String personId = null;
 	private String moniker = null;
 	private OffsetDateTime participationStart = null;
@@ -29,14 +28,6 @@ public class Participant {
 		this.participationStart = participationStart;
 	}
 	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-		
 	public String getPersonId() {
 		return personId;
 	}
@@ -75,7 +66,6 @@ public class Participant {
 		return new ToStringBuilder()
 			.build(
 				lBrace, newline,
-					indent, key("participant-id"), 		value(this.id), 				comma, newline,
 					indent, key("person-id"), 			value(this.personId), 			comma, newline,
 					indent, key("moniker"), 			value(this.moniker), 			comma, newline,
 					indent, key("participation-start"), value(this.participationStart), comma, newline,
