@@ -23,7 +23,7 @@ class MessageTest {
 		assertNotNull(message);
 		assertNotNull(message.getId());
 		assertNotNull(message.getMessageText());
-		assertNotNull(message.getSenderParticipantId());
+		assertNotNull(message.getSenderPersonId());
 		assertNotNull(message.getSentTime());
 	}
 
@@ -36,7 +36,7 @@ class MessageTest {
 			assertNotNull(message);
 			assertNotNull(message.getId());
 			assertNotNull(message.getMessageText());
-			assertNotNull(message.getSenderParticipantId());
+			assertNotNull(message.getSenderPersonId());
 			assertNotNull(message.getSentTime());
 		}
 	}

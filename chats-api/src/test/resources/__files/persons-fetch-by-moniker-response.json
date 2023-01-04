@@ -1,40 +1,25 @@
 [
     {
-    "firstname": "Mark",
-    "id": "30357fee-940e-4cf3-8a26-4a131b9375cf",
-    "lastname": "MURRAY",
-    "moniker": "Cous",
-    "otherNames":
-        [
+        "id": "23457264-8c9b-4248-ac0b-06d5a405eaf0",
+        "moniker": "Cous",
+        "firstname": "Nicola",
+        "lastname": "MACLEOD",
+        "otherNames": [
             {
-            "id": "969e26ea-db23-4724-8464-9232701588eb",
-            "nameType": "ALIAS",
-            "value": "Charles"
+                "id": "067f7de9-8a73-4e84-97d7-bad30b3430bf",
+                "value": "Isabella",
+                "nameType": "NICK_NAME"
             },
             {
-            "id": "0d82ddbf-3e07-423c-8ace-6ad901f1f762",
-            "nameType": "NICK_NAME",
-            "value": "Lloyd"
-            }
-        ]
-    },
-    {
-    "firstname": "Stephen",
-    "id": "8153e470-6fd8-417f-b546-886f26522e40",
-    "lastname": "SIMPSON",
-    "moniker": "Cous",
-    "otherNames":
-        [
-            {
-            "id": "8e5498dc-80bf-4e7a-b4e7-05f41f852b18",
-            "nameType": "MIDDLE_NAME",
-            "value": "Flynn"
+                "id": "a200e37a-3267-4418-9732-30d8c38feba8",
+                "value": "Claire",
+                "nameType": "NICK_NAME"
             },
             {
-            "id": "54c987f6-4ad1-4950-a86c-6529a73ec018",
-            "nameType": "MIDDLE_NAME",
-            "value": "Chance"
+                "id": "2c25d63f-d2d9-46ae-bb74-f11b6cb223a6",
+                "value": "Mila",
+                "nameType": "NICK_NAME"
             }
         ]
     }
-  ]
+]

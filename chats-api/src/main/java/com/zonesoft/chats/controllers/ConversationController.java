@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zonesoft.chats.events.PersistenceEvent;
 import com.zonesoft.chats.models.Conversation;
 import com.zonesoft.chats.services.ConversationService;
 
@@ -94,5 +96,10 @@ public class ConversationController {
     public Mono<ResponseEntity<Void>> deleteById(@PathVariable String id){
         return service.deleteById(id)
                 .map( r -> ResponseEntity.accepted().<Void>build());
-    }	
+    }
+    
+    @GetMapping(value = "/persistence-events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<PersistenceEvent> streamAllEvents() {
+        return service.streamAllEvents();
+    }
 }

@@ -94,7 +94,7 @@ public class ConversationDataGenerator {
 		List<Participant> participants = new ArrayList<Participant>();
 		for(Map<String, String> result: resultList) {
 			Participant participant = (new ParticipantRecordBuilder())
-					.id(result.get("id"))
+//					.id(result.get("id"))
 					.moniker(result.get("moniker"))
 					.withDefaults()
 					.build();

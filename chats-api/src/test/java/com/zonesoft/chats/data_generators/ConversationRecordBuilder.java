@@ -57,14 +57,14 @@ public class ConversationRecordBuilder implements IRecordBuilder<Conversation> {
 		if (Objects.isNull(this.participants)) {
 			supplier = () -> new MessageRecordBuilder().withDefaults();
 		}else {
-			supplier = () -> new MessageRecordBuilder().senderParticipantId(selectAParticipant()).withDefaults();
+			supplier = () -> new MessageRecordBuilder().senderPersonId(selectAParticipant()).withDefaults();
 		}
 		return supplier;
 	}
 	
 	private String selectAParticipant() {
 		int selectedIndex = generateRandomInt(0, this.participants.size()-1);
-		return this.participants.get(selectedIndex).getId();
+		return this.participants.get(selectedIndex).getPersonId();
 	}
 	
 	public ConversationRecordBuilder withDefaults(boolean withId) {

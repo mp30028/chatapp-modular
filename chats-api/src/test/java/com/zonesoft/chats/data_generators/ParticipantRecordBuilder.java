@@ -13,21 +13,21 @@ import com.zonesoft.utils.data_generators.IRecordBuilder;
 
 
 public class ParticipantRecordBuilder implements IRecordBuilder< Participant> {
-	private String id = null;
+//	private String id = null;
 	private String personId = null;
 	private String moniker = null;
 	private OffsetDateTime participationStart = null;
 	private OffsetDateTime participationEnd = null;
 	
-	public ParticipantRecordBuilder id() {
-		this.id = generateUUID();
-		return this;
-	}
+//	public ParticipantRecordBuilder id() {
+//		this.id = generateUUID();
+//		return this;
+//	}
 	
-	public ParticipantRecordBuilder id(String suppliedValue) {
-		this.id = suppliedValue;
-		return this;
-	}
+//	public ParticipantRecordBuilder id(String suppliedValue) {
+//		this.id = suppliedValue;
+//		return this;
+//	}
 	
 	public ParticipantRecordBuilder personId() {
 		this.personId = generateUUID();
@@ -70,12 +70,13 @@ public class ParticipantRecordBuilder implements IRecordBuilder< Participant> {
 		return this;
 	}
 	
-	public ParticipantRecordBuilder withDefaults(boolean withId) {
-		if (withId) {
-			if (Objects.isNull(this.id)) this.id();
-		}else {
-			this.id = null;
-		}
+//	public ParticipantRecordBuilder withDefaults(boolean withId) {
+//		if (withId) {
+//			if (Objects.isNull(this.id)) this.id();
+//		}else {
+//			this.id = null;
+//		}
+	public ParticipantRecordBuilder withDefaults() {
 		if (Objects.isNull(this.personId)) this.personId();
 		if (Objects.isNull(this.moniker)) this.moniker();
 		if (Objects.isNull(this.participationStart)) this.participationStart();
@@ -83,14 +84,14 @@ public class ParticipantRecordBuilder implements IRecordBuilder< Participant> {
 	}
 	
 	
-	public ParticipantRecordBuilder withDefaults() {
-		return this.withDefaults(true);
-	}
+//	public ParticipantRecordBuilder withDefaults() {
+//		return this.withDefaults(true);
+//	}
 	
 	@Override
 	public Participant build() {
 		Participant participant = new Participant(this.personId,this.moniker, this.participationStart);
-		participant.setId(this.id);
+//		participant.setId(this.id);
 		participant.setParticipationEnd(this.participationEnd);
 		return participant;
 	}
