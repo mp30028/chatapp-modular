@@ -13,7 +13,7 @@ function Data(){
 		
 	const fetchPersons = () =>{
 		fetch(
-			"http://192.168.1.60:9999/api/persons",
+			"http://localhost:9999/api/persons",
 			{
 				method: 'GET',
 				headers: {
