@@ -1,4 +1,4 @@
-const baseUrl = "http://192.168.1.60:9999";
+const baseUrl = "http://localhost:9999";
 const apiPath = "/api/persons";
 
 export const getBaseUrl = () => baseUrl;
