@@ -68,9 +68,9 @@ public class ConversationService {
 		.then(repository.deleteById(id));
     }
 	
-//	public Flux<Conversation> findByMoniker(String moniker){
-//    	return repository.findByMoniker(moniker);
-//    }
+	public Flux<Conversation> findByMoniker(String moniker){
+    	return repository.findByMoniker(moniker);
+    }
 	
 	public Flux<PersistenceEvent> streamAllEvents() {
         ChangeStreamOptions options = ChangeStreamOptions.builder()

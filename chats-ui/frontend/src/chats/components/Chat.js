@@ -15,7 +15,7 @@ function Chat(props){
 				</tr>
 				<tr>
 					<td style={{width: "20%", height: "600px"}} rowSpan="2" >
-						<Conversations />
+						<Conversations moniker={props.username} />
 					</td>
 					<td style={{width: "80%", height:"500px",verticalAlign: "top"}}>
 						<Messages  />
