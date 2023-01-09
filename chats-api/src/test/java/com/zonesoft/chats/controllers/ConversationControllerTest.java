@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -139,5 +140,24 @@ class ConversationControllerTest {
 			.jsonPath("$.participants.length()").isEqualTo(conversation.participants().size())
 			.jsonPath("$.messages.length()").isEqualTo(conversation.messages().size())
 			.consumeWith(r -> LOGGER.debug("testFindById_whenServiceReturnsARecord_thenReturns200Ok: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
+	}
+	
+	@Test
+	void testFindByMoniker_whenServiceReturnsARecord_thenReturns200Ok() {
+		Conversation conversation =  new ConversationRecordBuilder().withDefaults().build();
+		String moniker = conversation.participants().get(0).getMoniker();
+		LOGGER.debug("testFindByMoniker_whenServiceReturnsARecord_thenReturns200Ok: built-conversations={}", conversation);
+		when(mockedService.findByMoniker(moniker)).thenReturn(Flux.just(conversation));
+		client
+			.get()
+			.uri(uriBuilder -> uriBuilder.path("/api/conversations").queryParam("moniker", moniker).build())
+			.exchange()
+			.expectStatus()
+			.isOk()
+			.expectBody()
+			.jsonPath("$.id").isEqualTo(conversation.getId())
+			.jsonPath("$.participants.length()").isEqualTo(conversation.participants().size())
+			.jsonPath("$.messages.length()").isEqualTo(conversation.messages().size())
+			.consumeWith(r -> LOGGER.debug("testFindByMoniker_whenServiceReturnsARecord_thenReturns200Ok: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
 	}
 }

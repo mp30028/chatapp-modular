@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zonesoft.chats.events.PersistenceEvent;
@@ -65,24 +66,24 @@ public class ConversationController {
                 .defaultIfEmpty(ResponseEntity.noContent().build());
     }
 
-//    @GetMapping(params = {"moniker"})
-//    public Mono<ResponseEntity<List<Conversation>>> findByMoniker(@RequestParam String moniker){
-//    	Flux<Conversation> conversationFlux = service.findByMoniker(moniker);
-//    	if (Objects.nonNull(conversationFlux)) {
-//	        return conversationFlux
-//	        	.collectList()
-//	        	.map( l -> {
-//	        		if (Objects.nonNull(l) && (l.size()>0)) {
-//	        			return ResponseEntity.ok().body(l);	
-//	        		}else {
-//	        			return ResponseEntity.noContent().build();
-//	        		}
-//	        	});
-//	    }else {
-//	    	return Mono.just(ResponseEntity.noContent().build());
-//	    }
-//    	
-//    }
+    @GetMapping(params = {"moniker"})
+    public Mono<ResponseEntity<List<Conversation>>> findByMoniker(@RequestParam String moniker){
+    	Flux<Conversation> conversationFlux = service.findByMoniker(moniker);
+    	if (Objects.nonNull(conversationFlux)) {
+	        return conversationFlux
+	        	.collectList()
+	        	.map( l -> {
+	        		if (Objects.nonNull(l) && (l.size()>0)) {
+	        			return ResponseEntity.ok().body(l);	
+	        		}else {
+	        			return ResponseEntity.noContent().build();
+	        		}
+	        	});
+	    }else {
+	    	return Mono.just(ResponseEntity.noContent().build());
+	    }
+    	
+    }
     
     
     
