@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import * as DataService from "../services/ConversationDataService";
+
+function Conversations(props){
+	const [conversations, setConversations]= useState([]);
+//	const [selectedConversation, setSelectedConversation]= useState(null);
+
+	useEffect(() => {	
+		DataService.fetchByMoniker(prop.moniker).then((data) => setConversations(data));;
+	}, [setConversations]);	
 
 
-function Conversations(){
 
 	return(
 		<main>

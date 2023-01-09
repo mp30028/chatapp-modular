@@ -19,6 +19,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import com.zonesoft.chats.data_generators.ConversationRecordBuilder;
 import com.zonesoft.chats.models.Conversation;
+import com.zonesoft.chats.models.Participant;
 import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
 @Testcontainers
@@ -58,5 +59,28 @@ class ConversationRepositoryTest{
 		Long count = repository.count().block();
 		LOGGER.debug("ConversationRepositoryTest.simpleTest: Querying for count(number-of-conversations)={}", count);
 		assertEquals(conversations.size(), count);
+	}
+	
+	@Test
+	void findByMonikerTest() {
+		Supplier<ConversationRecordBuilder> supplier = (()-> new ConversationRecordBuilder().withDefaults());
+		List<Conversation> conversations = new RecordsGeneratorTemplate<ConversationRecordBuilder,Conversation>().generate(supplier);
+		
+		List<Conversation> results = repository
+		.saveAll(conversations)
+		.collectList()
+		.map(l -> {LOGGER.debug("ConversationRepositoryTest.findByMonikerTest Instantiated-conversations = {}", l); return l;})
+		.block();
+		
+		Conversation firstConversation = conversations.get(0);
+		Participant firstParticipant = firstConversation.participants().get(0);
+		String monikerToSearch = firstParticipant.getMoniker();
+		LOGGER.debug("monikerToSearch={}",monikerToSearch);
+		List<Conversation> findByMonikerResults = repository
+				.findByMoniker(monikerToSearch)
+				.collectList()
+				.map(l -> {LOGGER.debug("ConversationRepositoryTest.findByMonikerTest found-conversations = {}", l); return l;})
+				.block();
+		
 	}
 }
