@@ -5,8 +5,7 @@ import LoginLayout from "./login/Layout"
 import ChatsLayout from "./chats/Layout"
 import PersonsLayout from "./persons/Layout";
 import ExamplesLayout from "./examples/Layout";
-const App = () => {
-	return (
+const App = () => {	return (
 		<>
 		    <h1>Chat-App</h1>
 		    
