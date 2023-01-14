@@ -1,18 +1,10 @@
-const BASE_URL = "http://localhost:9999";
-const API_PATH = "/api/persons/persistence-events";
+import * as ServicePaths  from "../../common/js/ServicePaths";
+
 const INITIAL_WAIT_SECONDS = 1;
 const MAX_WAIT_SECONDS = 64;
 var retryAfter = INITIAL_WAIT_SECONDS;
 var sseSource = null;
 var messageHandler = null;	
-
-export const getBaseUrl = () => BASE_URL;
-
-export const getEventsApiPath = () => API_PATH;
-
-export const getEventsApiUrl = () => {
-	return getBaseUrl() + getEventsApiPath();	
-};
 
 const milliSecondsToWait = () => retryAfter * 1000;
 
@@ -38,7 +30,7 @@ export const setupEventSource = (onMessageHandler) => {
 		sseSource = null;
 	}
 	
-	sseSource = new EventSource(getEventsApiUrl());
+	sseSource = new EventSource(ServicePaths.getPersistenceEventsUrl("PERSONS"));
 	sseSource.onmessage = messageHandler;
 	sseSource.onopen = onopenHandler;
 	sseSource.onerror = onerrorHandler;
