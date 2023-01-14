@@ -24,7 +24,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/conversations")
+@RequestMapping("/api/chats")
 public class ConversationController {
 
 	private final ConversationService service;
