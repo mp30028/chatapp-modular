@@ -9,17 +9,22 @@ function Conversations(props){
 		DataService.fetchByMoniker(props.moniker).then((data) => setConversations(data));
 	}, [setConversations]);	
 
-
-
 	return(
-		<main>
-			<h2> Conversations Panel </h2>
-			<pre>
-				{props.moniker + "\n"}
-				
-				{JSON.stringify(conversations,null,2)}
-			</pre>
-		</main>
+		<table className="zsft-table" style={{width: "100%"}}>
+			<thead>
+				<tr>
+					<th>Conversations</th>
+					<th>.</th>
+				</tr>
+			</thead>
+			<tbody>
+				{conversations.map(c =>
+					<tr key={c.id}>
+						<td>{c.title}</td>
+					</tr>
+				)}
+			</tbody>
+	</table>
 	);
 };
 
