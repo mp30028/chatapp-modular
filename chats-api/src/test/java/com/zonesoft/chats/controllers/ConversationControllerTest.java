@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -60,7 +59,7 @@ class ConversationControllerTest {
 		LOGGER.debug("FROM: testFindAll_whenServiceReturnsEmpty_thenReturns204NoContent");
 		client
 			.get()
-			.uri(uriBuilder -> uriBuilder.path("/api/conversations").build())
+			.uri(uriBuilder -> uriBuilder.path("/api/chats").build())
 			.exchange()
 			.expectStatus()
 			.isNoContent();
@@ -75,7 +74,7 @@ class ConversationControllerTest {
 		LOGGER.debug("FROM: testFindAll_whenServiceReturnsSingleConversation_thenReturns200Ok");
 		client
 			.get()
-			.uri(uriBuilder -> uriBuilder.path("/api/conversations").build())
+			.uri(uriBuilder -> uriBuilder.path("/api/chats").build())
 			.exchange()
 			.expectStatus()
 			.isOk()
@@ -97,7 +96,7 @@ class ConversationControllerTest {
 		LOGGER.debug("FROM: testFindAll_whenServiceReturnsMultipleConversations_thenReturns200Ok");
 		client
 			.get()
-			.uri(uriBuilder -> uriBuilder.path("/api/conversations").build())
+			.uri(uriBuilder -> uriBuilder.path("/api/chats").build())
 			.exchange()
 			.expectStatus()
 			.isOk()
@@ -115,7 +114,7 @@ class ConversationControllerTest {
 		when(mockedService.findById(id)).thenReturn(Mono.empty());
 		client
 			.get()
-			.uri(uriBuilder -> uriBuilder.path("/api/conversations/{id}").build(id))
+			.uri(uriBuilder -> uriBuilder.path("/api/chats/{id}").build(id))
 			.exchange()
 			.expectStatus()
 			.isNoContent()
@@ -131,7 +130,7 @@ class ConversationControllerTest {
 		when(mockedService.findById(id)).thenReturn(Mono.just(conversation));
 		client
 			.get()
-			.uri(uriBuilder -> uriBuilder.path("/api/conversations/{id}").build(id))
+			.uri(uriBuilder -> uriBuilder.path("/api/chats/{id}").build(id))
 			.exchange()
 			.expectStatus()
 			.isOk()
@@ -145,19 +144,19 @@ class ConversationControllerTest {
 	@Test
 	void testFindByMoniker_whenServiceReturnsARecord_thenReturns200Ok() {
 		Conversation conversation =  new ConversationRecordBuilder().withDefaults().build();
-		String moniker = conversation.participants().get(0).getMoniker();
+		String moniker = "Some-Dummy-Moniker";
 		LOGGER.debug("testFindByMoniker_whenServiceReturnsARecord_thenReturns200Ok: built-conversations={}", conversation);
 		when(mockedService.findByMoniker(moniker)).thenReturn(Flux.just(conversation));
 		client
 			.get()
-			.uri(uriBuilder -> uriBuilder.path("/api/conversations").queryParam("moniker", moniker).build())
+			.uri(uriBuilder -> uriBuilder.path("/api/chats").queryParam("moniker", moniker).build())
 			.exchange()
 			.expectStatus()
 			.isOk()
 			.expectBody()
-			.jsonPath("$.id").isEqualTo(conversation.getId())
-			.jsonPath("$.participants.length()").isEqualTo(conversation.participants().size())
-			.jsonPath("$.messages.length()").isEqualTo(conversation.messages().size())
+			.jsonPath("$[0].id").isEqualTo(conversation.getId())
+			.jsonPath("$[0].participants.length()").isEqualTo(conversation.participants().size())
+			.jsonPath("$[0].messages.length()").isEqualTo(conversation.messages().size())
 			.consumeWith(r -> LOGGER.debug("testFindByMoniker_whenServiceReturnsARecord_thenReturns200Ok: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
 	}
 }

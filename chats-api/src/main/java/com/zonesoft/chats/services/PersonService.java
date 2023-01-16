@@ -26,8 +26,8 @@ public class PersonService {
 		this.builder = builder;
 	}
 	
-	public Mono<List<Tuple2<String, String>>> fetchByMoniker(String moniker){
-		Mono<List<Tuple2<String, String>>> response = builder.build()
+	public Mono<String> fetchPersonIdByMoniker(String moniker){
+		Mono<String> response = builder.build()
 			.get()
 			.uri(uriBuilder -> {
 				LOGGER.debug("fetchByMoniker: path= {}", builder.getPath());
@@ -36,7 +36,15 @@ public class PersonService {
 			.retrieve()
 			.bodyToMono(String.class)
 			.map(s -> {LOGGER.debug("fetchByMoniker: result(json)={}",s); return s;})
-			.map(s -> {List<Tuple2<String, String>> parseResult = JsonPath.parse(s).read("$[*]['id','moniker']"); return parseResult;});
+			.map(s -> {List<String> parseResult = JsonPath.parse(s).read("$[*]['id']"); return parseResult;})
+			.flatMap((l) -> {
+				if (l.size()>0) {
+					String personId = l.get(0);
+					return Mono.just(personId);
+				}else {
+					return Mono.empty();
+				}
+			});
 		return response;
 	}
 	

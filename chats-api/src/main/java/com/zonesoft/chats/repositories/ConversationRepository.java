@@ -11,6 +11,6 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface ConversationRepository extends ReactiveMongoRepository<Conversation, String> {
 
-	  @Query("{ 'participants.moniker' : ?0 }")
-	  Flux<Conversation> findByMoniker(String moniker);
+	  @Query("{ 'participants.personId' : ?0 }")
+	  Flux<Conversation> findByParticipantPersonId(String participantPersonId);
 }

@@ -6,7 +6,6 @@ import java.time.OffsetDateTime;
 
 public class Participant {
 	private String personId = null;
-	private String moniker = null;
 	private OffsetDateTime participationStart = null;
 	private OffsetDateTime participationEnd = null;
 	
@@ -14,17 +13,15 @@ public class Participant {
 		super();
 	}
 	
-	public Participant(String personId, String moniker) {
+	public Participant(String personId) {
 		super();
 		this.personId = personId;
-		this.moniker = moniker;
 		this.participationStart = OffsetDateTime.now();
 	}
 	
-	public Participant(String personId, String moniker, OffsetDateTime participationStart) {
+	public Participant(String personId, OffsetDateTime participationStart) {
 		super();
 		this.personId = personId;
-		this.moniker = moniker;
 		this.participationStart = participationStart;
 	}
 	
@@ -36,14 +33,6 @@ public class Participant {
 		this.personId = personId;
 	}
 
-	public String getMoniker() {
-		return moniker;
-	}
-	
-	public void setMoniker(String moniker) {
-		this.moniker = moniker;
-	}
-
 	public OffsetDateTime getParticipationStart() {
 		return participationStart;
 	}
@@ -52,7 +41,6 @@ public class Participant {
 		this.participationStart = participationStart;
 	}
 	
-
 	public OffsetDateTime getParticipationEnd() {
 		return participationEnd;
 	}
@@ -66,10 +54,9 @@ public class Participant {
 		return new ToStringBuilder()
 			.build(
 				lBrace, newline,
-					indent, key("person-id"), 			value(this.personId), 			comma, newline,
-					indent, key("moniker"), 			value(this.moniker), 			comma, newline,
-					indent, key("participation-start"), value(this.participationStart), comma, newline,
-					indent, key("participation-end"), 	value(this.participationEnd), 	newline,
+					indent, key("personId"), 			value(this.personId), 			comma, newline,
+					indent, key("participationStart"), value(this.participationStart), comma, newline,
+					indent, key("participationEnd"), 	value(this.participationEnd), 	newline,
 				rBrace
 			);
 	}

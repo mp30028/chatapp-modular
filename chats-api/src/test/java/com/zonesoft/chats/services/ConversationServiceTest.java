@@ -14,23 +14,26 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.zonesoft.chats.data_generators.ConversationRecordBuilder;
 import com.zonesoft.chats.data_generators.ParticipantRecordBuilder;
-//import com.zonesoft.chats.events.PersistenceEventRepository;
 import com.zonesoft.chats.models.Conversation;
 import com.zonesoft.chats.models.Participant;
 import com.zonesoft.chats.repositories.ConversationRepository;
 
+
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 class ConversationServiceTest {
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationServiceTest.class);
 	private ReactiveMongoTemplate mockReactiveTemplate;
 	
 	private PersonService mockPersonService;
@@ -83,19 +86,21 @@ class ConversationServiceTest {
 	void testFindByMoniker_GivenASingleConversationWithTestMoniker_ReturnsFluxWithSingleConversation() {
 		String testPersonId = "TEST-PERSON-ID-0001";
 		String testMoniker = "GUINEA-PIG";
-		int NUMBER_OF_OTHER_PARTICIPANTS = 3;
+		int NUMBER_OF_OTHER_PARTICIPANTS = 4;
+
 		List<Participant> participants = new ArrayList<>();
+		
 		//Add the participant to be searched for.
 		participants.add(
 				new ParticipantRecordBuilder()
-				.moniker(testMoniker)
 				.personId(testPersonId)
 				.participationStart(OffsetDateTime.now(ZoneId.of("Z")))
 				.build()
 		);
 		
 		//Add a few other participants
-		for (int j=0; j < NUMBER_OF_OTHER_PARTICIPANTS; j++ ) {
+		//Note: start with j=1, as first participant already added
+		for (int j=1; j < NUMBER_OF_OTHER_PARTICIPANTS; j++ ) {
 			participants.add(
 					new ParticipantRecordBuilder()
 					.withDefaults()
@@ -104,8 +109,11 @@ class ConversationServiceTest {
 		}
 		Conversation conversation = new ConversationRecordBuilder().participants(participants).withDefaults().build();
 		Flux<Conversation> conversationFlux = Flux.just(conversation);
-		when(mockRepository.findByMoniker(testMoniker)).thenReturn(conversationFlux);
-		 Flux<Conversation> resultFlux = this.service.findByMoniker(testMoniker);
-		 assertEquals(conversationFlux,resultFlux);
+		when(mockPersonService.fetchPersonIdByMoniker(testMoniker)).thenReturn(Mono.just(testPersonId));
+		when(mockRepository.findByParticipantPersonId(testPersonId)).thenReturn(conversationFlux);
+		 List<Conversation> findResult = this.service.findByMoniker(testMoniker).collectList().block();
+		 assertEquals(1, findResult.size());
+		 LOGGER.debug("findResult.get(0).getTitle()={}",findResult.get(0).getTitle());
+		 assertEquals(conversation, findResult.get(0));
 	}
 }

@@ -2,6 +2,8 @@ package com.zonesoft.chats.services;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ChangeStreamEvent;
 import org.springframework.data.mongodb.core.ChangeStreamOptions;
@@ -20,15 +22,17 @@ import reactor.core.publisher.SignalType;
 
 @Service
 public class ConversationService {
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationService.class);
 	private final ConversationRepository repository;
 	private final ReactiveMongoTemplate reactiveTemplate;
+	private final PersonService personService;
 	
 	@Autowired
 	public ConversationService(ConversationRepository repository, PersonService personsService, ReactiveMongoTemplate reactiveTemplate) {
 		super();
 		this.repository = repository;
 		this.reactiveTemplate = reactiveTemplate;
+		this.personService = personsService;
 	}
 	
 	public Mono<Conversation> insert(Conversation conversation){
@@ -52,24 +56,34 @@ public class ConversationService {
     }
     
 	public Mono<Void> deleteAll(){
-//    	return repository.deleteAll();
 		return findAll()
-		.collectList()
-		.map((l) -> getEventWriter(PersistenceEventType.DELETE_ALL, l))
-		.map((w) -> {w.accept(SignalType.ON_COMPLETE); return true;})
-		.then(repository.deleteAll());
+			.collectList()
+			.map((l) -> getEventWriter(PersistenceEventType.DELETE_ALL, l))
+			.map((w) -> {w.accept(SignalType.ON_COMPLETE); return true;})
+			.then(repository.deleteAll());
     }
     
 	public Mono<Void> deleteById(String id){
-//    	return repository.deleteById(id);
 		return findById(id)
-		.map((p) -> getEventWriter(PersistenceEventType.DELETE, p))
-		.map((w) -> {w.accept(SignalType.ON_COMPLETE); return true;})
-		.then(repository.deleteById(id));
+			.map((p) -> getEventWriter(PersistenceEventType.DELETE, p))
+			.map((w) -> {w.accept(SignalType.ON_COMPLETE); return true;})
+			.then(repository.deleteById(id));
     }
 	
 	public Flux<Conversation> findByMoniker(String moniker){
-    	return repository.findByMoniker(moniker);
+		Flux<Conversation> conversationFlux =
+			personService
+				.fetchPersonIdByMoniker(moniker)
+				.flatMap((s) -> {
+					LOGGER.debug("ConversationService.findByMoniker:moniker={}, id={}",moniker, s);
+					Mono<List<Conversation>> findResult = repository.findByParticipantPersonId(s).collectList();
+					return findResult;
+				})
+				.flatMapMany(l -> {
+					LOGGER.debug("ConversationService.findByMoniker: conversations {}",l.toString());
+					return Flux.fromIterable(l);
+				});
+		return conversationFlux;
     }
 	
 	public Flux<PersistenceEvent> streamAllEvents() {
