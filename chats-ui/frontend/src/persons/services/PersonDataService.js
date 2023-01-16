@@ -1,16 +1,8 @@
-const baseUrl = "http://localhost:9999";
-const apiPath = "/api/persons";
-
-export const getBaseUrl = () => baseUrl;
-export const getPath = () => apiPath;
-
-export const getUrl = () => {
-	return getBaseUrl() + getPath();	
-};
+import * as ServicePaths  from "../../common/js/ServicePaths";
 
 export const fetchAll = async () => {
 	const response = await fetch(
-		getUrl(), {
+		ServicePaths.getApiUrl("PERSONS"), {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json;charset=UTF-8',
@@ -22,7 +14,7 @@ export const fetchAll = async () => {
 
 export const fetchById = async (person) => {
 	const response = await fetch(
-		getUrl() + "/" + person.id, {
+		ServicePaths.getApiUrl("PERSONS") + "/" + person.id, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json;charset=UTF-8',
@@ -34,7 +26,7 @@ export const fetchById = async (person) => {
 
 export const save = async (person) => {
 	await fetch(
-		getUrl(),
+		ServicePaths.getApiUrl("PERSONS"),
 		{
 			method: 'POST',
 			headers: {
@@ -48,7 +40,7 @@ export const save = async (person) => {
 
 export const remove = async (person) => {
 	await fetch(
-		getUrl() + "/" + person.id,
+		ServicePaths.getApiUrl("PERSONS") + "/" + person.id,
 		{
 			method: 'DELETE',
 			headers: {
@@ -62,7 +54,7 @@ export const remove = async (person) => {
 export const update = async (person) => {
 	const jsonString = JSON.stringify(person, null, "    ");
 	await fetch(
-		getUrl() + "/" + person.id,
+		ServicePaths.getApiUrl("PERSONS") + "/" + person.id,
 		{
 			method: 'PUT',
 			headers: {

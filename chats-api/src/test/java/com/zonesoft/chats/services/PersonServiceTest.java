@@ -60,7 +60,6 @@ class PersonServiceTest {
 		this.service = new PersonService(webClientConfigs);		
 	}
 
-	
 	@Test
 	void testFetchAll() {
 		assertNotNull(this.service);
@@ -71,21 +70,14 @@ class PersonServiceTest {
 		LOGGER.debug("testFetchAll: result = {}, size={}", fetchResult,fetchResult.size());
 	}
 
-
 	@Test
 	void testFetchByMoniker() {
 		String moniker = "Cous";
 		assertNotNull(this.service);
-//		WIREMOCK_SERVER.stubFor(
-//				(WireMock.get(WireMock.urlEqualTo("/api/persons"))
-//				.withQueryParam("moniker",  WireMock.equalTo(moniker))
-//			)
-// Above code does not match. Looks like the query parameters get formatted as json. Probably need to change
-// the content type text
 		WIREMOCK_SERVER.stubFor(WireMock.get(WireMock.urlEqualTo("/api/persons?moniker=" + moniker))
 				.willReturn(WireMock.aResponse().withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 						.withBodyFile("persons-fetch-by-moniker-response.json")));
-		List<Tuple2<String, String>> fetchResult = this.service.fetchByMoniker(moniker).block();
-		LOGGER.debug("testFetchByMoniker: result = {}, size={}", fetchResult,fetchResult.size());
+		String fetchResult = this.service.fetchPersonIdByMoniker(moniker).block();
+		LOGGER.debug("testFetchByMoniker: fetchResult = {}", fetchResult);
 	}
 }

@@ -19,6 +19,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import com.zonesoft.chats.data_generators.ConversationRecordBuilder;
 import com.zonesoft.chats.models.Conversation;
+import com.zonesoft.chats.models.Participant;
 import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
 
 @Testcontainers
@@ -28,7 +29,9 @@ class ConversationRepositoryTest{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversationRepositoryTest.class);
 	private static final String IMAGE_NAME = "mongo:6.0.2";	
 	static final MongoDBContainer MONGODB_CONTAINER;
-
+	
+	@Autowired ConversationRepository repository;
+	
 	static {
 		LOGGER.debug("From MONGODB_CONTAINER initialisation");
 		MONGODB_CONTAINER = new MongoDBContainer(DockerImageName.parse(IMAGE_NAME));
@@ -39,24 +42,44 @@ class ConversationRepositoryTest{
 	static void setProperties(DynamicPropertyRegistry registry) {		
 		registry.add("spring.data.mongodb.uri", MONGODB_CONTAINER::getReplicaSetUrl);
 	}
-	
-	@Autowired ConversationRepository repository;
 
 	@Test
 	void simpleTest() throws InterruptedException{
+		Integer countAtStart = repository.count().block().intValue();
 		Supplier<ConversationRecordBuilder> supplier = (()-> new ConversationRecordBuilder().withDefaults());
 		List<Conversation> conversations = new RecordsGeneratorTemplate<ConversationRecordBuilder,Conversation>().generate(supplier);
-		
-		List<Conversation> results = repository
-		.saveAll(conversations)
-		.collectList()
-		.map(l -> {LOGGER.debug("ConversationRepositoryTest.simpleTest Instantiated-conversations = {}", l); return l;})
-		.block();
-		
-		LOGGER.debug("ConversationRepositoryTest.simpleTest: Insert results(number-of-conversations).size()={}", results.size());
-		assertEquals(conversations.size(), results.size());
-		Long count = repository.count().block();
+		Integer resultsSize =
+			repository
+				.saveAll(conversations)
+				.collectList()
+				.map(l -> {LOGGER.debug("ConversationRepositoryTest.simpleTest Instantiated-conversations = {}", l); return l;})
+				.map(l -> l.size())
+				.block();
+		LOGGER.debug("ConversationRepositoryTest.simpleTest: Insert results(number-of-conversations).size()={}", resultsSize);
+		assertEquals(conversations.size(), resultsSize);
+		Integer count = repository.count().block().intValue();
 		LOGGER.debug("ConversationRepositoryTest.simpleTest: Querying for count(number-of-conversations)={}", count);
-		assertEquals(conversations.size(), count);
+		assertEquals(countAtStart + conversations.size(), count);
+	}
+	
+	@Test
+	void findByParticipantPersonIdTest() {
+		Integer countAtStart = repository.count().block().intValue();
+		Supplier<ConversationRecordBuilder> supplier = (()-> new ConversationRecordBuilder().withDefaults());
+		List<Conversation> conversations = new RecordsGeneratorTemplate<ConversationRecordBuilder,Conversation>().generate(supplier);
+		repository
+			.saveAll(conversations)
+			.collectList()
+			.map(l -> {LOGGER.debug("ConversationRepositoryTest.findByMonikerTest Instantiated-conversations = {}", l); return l;})
+			.block();
+		Conversation firstConversation = conversations.get(0);
+		Participant firstParticipant = firstConversation.participants().get(0);
+		String participantPersonIdToSearch = firstParticipant.getPersonId();
+		LOGGER.debug("participantPersonIdToSearch={}",participantPersonIdToSearch);
+		repository
+			.findByParticipantPersonId(participantPersonIdToSearch)
+			.collectList()
+			.map(l -> {LOGGER.debug("ConversationRepositoryTest.findByParticipantPersonId found-conversations = {}", l); return l;})
+			.block();
 	}
 }

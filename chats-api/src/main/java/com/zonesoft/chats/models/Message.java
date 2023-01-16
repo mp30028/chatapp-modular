@@ -83,10 +83,10 @@ public class Message {
 		return new ToStringBuilder()
 			.build(
 				lBrace, newline,
-					indent, key("message-id"), value(this.id), comma, newline,
-					indent, key("message-text"), value(this.messageText), comma,  newline,
-					indent, key("sender-person-id"), value(this.senderPersonId), comma, newline,
-					indent, key("sent-time"), value(this.sentTime), newline,
+					indent, key("id"), value(this.id), comma, newline,
+					indent, key("messageText"), value(this.messageText), comma,  newline,
+					indent, key("senderPersonId"), value(this.senderPersonId), comma, newline,
+					indent, key("sentTime"), value(this.sentTime), newline,
 				rBrace
 			);
 	}

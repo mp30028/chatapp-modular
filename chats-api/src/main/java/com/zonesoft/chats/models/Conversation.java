@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "conversations")
 public class Conversation {
 	@Id private String id;
+	private String title;
 	private List<Participant> participants = new ArrayList<>(); 
 	private List<Message> messages = new ArrayList<>();
 	
@@ -24,6 +25,12 @@ public class Conversation {
 		this.id = id;
 	}
 	
+	public Conversation(String id, String title) {
+		super();
+		this.id = id;
+		this.title = title;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -32,6 +39,14 @@ public class Conversation {
 		this.id = id;
 	}
 	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public List<Participant> participants() {
 		return participants;
 	}
@@ -62,6 +77,7 @@ public class Conversation {
 		.build(
 				lBrace, newline,
 					indent, key("id"), value(this.id), comma, newline,
+					indent, key("title"), value(this.title), comma, newline,
 					indent, key("participants"), objectValue(this.participants), comma, newline,
 					indent, key("messages"), objectValue(this.messages),  newline,
 				rBrace

@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -90,12 +88,11 @@ public class ConversationDataGenerator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		List<Map<String, String>> resultList = JsonPath.parse(json).read("$[*]['id','moniker']");
+		List<String> resultList = JsonPath.parse(json).read("$[*]['id']");
 		List<Participant> participants = new ArrayList<Participant>();
-		for(Map<String, String> result: resultList) {
+		for(String result: resultList) {
 			Participant participant = (new ParticipantRecordBuilder())
-//					.id(result.get("id"))
-					.moniker(result.get("moniker"))
+					.personId(result)
 					.withDefaults()
 					.build();
 			participants.add(participant);
