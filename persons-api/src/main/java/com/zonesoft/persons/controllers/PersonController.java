@@ -61,6 +61,26 @@ public class PersonController {
 	    }
     }
 
+    @GetMapping(params = {"id"})
+    public Mono<ResponseEntity<List<Person>>> findByListOfIds(@RequestParam List<String> id){
+    	
+    	Flux<Person> personFlux = service.findByListOfIds(id);
+    	if (Objects.nonNull(personFlux)) {
+	        return personFlux
+	        	.collectList()
+	        	.map( l -> {
+	        		if (Objects.nonNull(l) && (l.size()>0)) {
+	        			return ResponseEntity.ok().body(l);	
+	        		}else {
+	        			return ResponseEntity.noContent().build();
+	        		}
+	        	});
+	    }else {
+	    	return Mono.just(ResponseEntity.noContent().build());
+	    }
+    }
+
+    
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Person>> findById(@PathVariable String id){
         Mono<Person> personMono = service.findById(id);

@@ -71,6 +71,10 @@ public class PersonService {
     	return personRepository.findById(id);
     }
     
+	public Flux<Person> findByListOfIds(List<String> listOfId){
+    	return personRepository.findByIdIn(listOfId);
+    }
+	
 	public Flux<Person> findAll(){
     	return personRepository.findAll();
     }

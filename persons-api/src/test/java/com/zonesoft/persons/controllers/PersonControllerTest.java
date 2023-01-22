@@ -4,6 +4,7 @@ package com.zonesoft.persons.controllers;
 import static org.mockito.Mockito.*;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -204,6 +205,34 @@ class PersonControllerTest {
 			.exchange()
 			.expectStatus()
 			.isNoContent();
+	}
+	
+	
+	@Test
+	void test_get_personByListOfId_returnsOK_withFoundPersons() {
+		int sizeOfList = generateRandomInt(MIN_PERSONS, PERSONS.size());
+		List<String> listOfId = new ArrayList<>();
+		List<Person> selectedPersons = new ArrayList<>();
+		for (int j=0; j < sizeOfList; j++) {
+			int selectedPersonIndex = generateRandomInt(0,sizeOfList-1);
+			Person selectedPerson = PERSONS.get(selectedPersonIndex); 
+			listOfId.add(selectedPerson.getId());
+			selectedPersons.add(selectedPerson);
+		}
+		Flux<Person> personFlux = Flux.fromIterable(selectedPersons);
+		when(service.findByListOfIds(listOfId)).thenReturn(personFlux);
+		client
+			.get()
+			.uri(uriBuilder -> uriBuilder.path("/api/persons").queryParam("id", listOfId).build())
+			.header("Content-Type", "application/json")
+			.exchange()
+			.expectStatus()
+			.isOk()
+			.expectBody()
+			.consumeWith(b -> {LOGGER.debug("body={}", b);})
+			.jsonPath("$[0].id").isEqualTo(selectedPersons.get(0).getId())
+			.jsonPath("$.length()").isEqualTo(selectedPersons.size())
+			.consumeWith(r -> LOGGER.debug("get_persons: response = {}",new String(r.getResponseBody(), StandardCharsets.UTF_8)));
 	}
 }
 
