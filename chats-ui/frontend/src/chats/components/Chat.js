@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Conversations from './conversations/Conversations';
 import Messages from './messages/Messages';
-import MessageInput from './messages/MessageInput';
 
 function Chat(props){
 	const emptyConversation = {id: "", title: "", participants: [], messages:[]};
@@ -27,12 +26,7 @@ function Chat(props){
 					<td style={{width: "80%", height:"500px",verticalAlign: "top"}}>
 						<Messages conversation={currentConversation}  />
 					</td>
-				</tr>
-				<tr>
-					<td>
-						<MessageInput />
-					</td>
-				</tr>			
+				</tr>	
 			</tbody>
 		</table>
 	);
