@@ -5,8 +5,6 @@ function Conversations(props){
 	const [conversations, setConversations]= useState([]);
 	const [selectedConversation, setSelectedConversation]= useState(null);
 	
-	console.log("props.moniker=",props.moniker);
-	
 	useEffect(() => {	
 		DataService.fetchByMoniker(props.moniker).then((data) => setConversations(data));
 	}, [setConversations]);	
