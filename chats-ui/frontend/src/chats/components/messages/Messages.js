@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Participants from './participants/Participants';
-import MessageInput from './MessageInput';
+import MessageInput from './message-input/MessageInput';
+import Dialogue from './dialogue/Dialogue';
 
 function Messages(props){
 	const emptyConversation = {id: "", title: "", participants: [], messages:[]};
@@ -12,20 +13,13 @@ function Messages(props){
 	
 	return(
 		<main>
-			<h2> Messages Panel </h2>
 			
-			<h3>{(conversation)?conversation.title : ""}</h3>
+			<h2>{(conversation)?conversation.title : ""}</h2>
 			
 			<Participants participants={(conversation)? conversation.participants : ""}/>
+			<Dialogue messages={(conversation)? conversation.messages : ""}/>			
 			
-			
-			<h2  style={{display:"block", backgroundColor: "#777", color: "white"}}>Messages</h2>
-			<pre>
-				{(conversation)? conversation.id : ""}
-			</pre>
-			<pre>
-				{(conversation)? JSON.stringify(conversation.messages,null,2): ""}
-			</pre>
+
 			
 			<h3>Message Input</h3>
 				<MessageInput />
