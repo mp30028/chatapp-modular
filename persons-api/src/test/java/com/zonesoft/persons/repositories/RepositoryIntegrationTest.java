@@ -4,7 +4,9 @@ import static com.zonesoft.utils.data_generators.Generator.generateRandomInt;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
@@ -117,5 +119,34 @@ class RepositoryIntegrationTest{
 		LOGGER.debug("test_FindByMoniker_GivenAValidMoniker_ReturnsValidPersons: monikerToFind = {}, searchResults = {}",monikerToFind, searchResults);
 	}
 	
-
+	@Test
+	void test_FindByIdIn_GivenAListOfIds_ReturnsValidPersons() {
+		personRepository.deleteAll().block();
+		List<Person> createdPersons = createAndInsertPersons();
+		List<String> idsToFind = new ArrayList<>();
+		for(Person person: createdPersons) {
+			idsToFind.add(person.getId());
+		}
+		List<Person> searchResults = personRepository.findByIdIn(idsToFind).collectList().block();
+		LOGGER.debug("test_FindByIdIn_GivenAListOfId_ReturnsValidPersons: idsToFind = {}, searchResults = {}",idsToFind, searchResults);
+		assertNotNull(searchResults);
+		for(Person person: searchResults) {
+			Optional<Person> expectedPerson = createdPersons
+					.stream()
+					.filter(p -> {	LOGGER.debug("p.getId()={},  person.getId()={}",p.getId(),person.getId());
+									return (p.getId().equals(person.getId()));
+							})
+					.findFirst();
+			assertTrue(expectedPerson.isPresent());
+			if (expectedPerson.isPresent()) {
+				Person expected = expectedPerson.get();
+				assertEquals(expected.getId(), person.getId());	
+				assertEquals(expected.getFirstname(), person.getFirstname());
+				assertEquals(expected.getLastname(), person.getLastname());
+				assertEquals(expected.getMoniker(), person.getMoniker());
+				assertEquals(expected.getOtherNames().size(), person.getOtherNames().size());
+			}
+		}	
+	}
+	
 }

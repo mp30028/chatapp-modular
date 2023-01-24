@@ -1,7 +1,7 @@
 [
     {
         "id": "0f88a7e9-9a3d-40db-9782-c16916aec192",
-        "moniker": "TickleS",
+        "moniker": "Tickle",
         "firstname": "Martin",
         "lastname": "SCOTT",
         "otherNames": [
@@ -226,6 +226,42 @@
             {
                 "id": "2c25d63f-d2d9-46ae-bb74-f11b6cb223a6",
                 "value": "Mila",
+                "nameType": "NICK_NAME"
+            }
+        ]
+    },
+    {
+        "id": "771894a0-700f-4d71-8c6c-fb98941f865b",
+        "moniker": "Carp",
+        "firstname": "Stephen",
+        "lastname": "PATERSON",
+        "otherNames": [
+            {
+                "id": "053ce366-37a2-4beb-954b-f3f56a3220f5",
+                "value": "Tristan",
+                "nameType": "MIDDLE_NAME"
+            },
+            {
+                "id": "df8514ec-cab3-4001-89e0-c8adf0bb9a8b",
+                "value": "Davis",
+                "nameType": "MIDDLE_NAME"
+            }
+        ]
+    },
+    {
+        "id": "92b33a14-e50b-49c4-9658-829e3f9ba296",
+        "moniker": "Mitty",
+        "firstname": "Paul",
+        "lastname": "BELL",
+        "otherNames": [
+            {
+                "id": "f3fea789-79d2-4c9d-b6db-fc6fd1d6883a",
+                "value": "Asher",
+                "nameType": "MIDDLE_NAME"
+            },
+            {
+                "id": "0b537fef-f6cf-4dbd-bf21-8568572e77a7",
+                "value": "Rhys",
                 "nameType": "NICK_NAME"
             }
         ]
