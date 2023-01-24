@@ -49,6 +49,7 @@ function Participants(props){
 			<table className="zsft-table" style={{display:"none"}}>
 				<thead>
 					<tr>
+						<th>ID</th>
 						<th>Moniker</th>
 						<th>--</th>
 					</tr>
@@ -56,6 +57,7 @@ function Participants(props){
 					<tbody>
 						{participants.map(p =>
 							<tr key={p.id}>
+								<td>{p.id}</td>
 								<td>{p.moniker}</td>
 								<td>
 									<input type="radio" name={"selectParticipant_" + p.id} id={"selectParticipant_" + p.id} value={p.id} onChange={selectParticipant} checked={isChecked(p.id)} />

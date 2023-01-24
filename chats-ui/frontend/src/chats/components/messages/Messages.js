@@ -16,8 +16,12 @@ function Messages(props){
 			
 			<h2>{(conversation)?conversation.title : ""}</h2>
 			
-			<Participants participants={(conversation)? conversation.participants : ""}/>
-			<Dialogue messages={(conversation)? conversation.messages : ""}/>			
+			<Participants participants={(conversation)? conversation.participants : []}/>
+			
+			<Dialogue 
+				messages={(conversation)? conversation.messages : []} 
+				participants={(conversation)? conversation.participants : []} 
+			/>			
 			
 
 			
