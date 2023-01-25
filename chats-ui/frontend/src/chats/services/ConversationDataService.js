@@ -45,3 +45,18 @@ export const fetchPersonByMoniker = async (moniker) => {
 	);
 	return await response.json();
 }
+
+export const updateWithNewMessage = async (conversationId, message) => {
+	const jsonString = JSON.stringify(message, null, "  ");
+	await fetch(
+		ServicePaths.getApiUrl("CHATS") + "/" + conversationId + "/messages",
+		{
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json;charset=UTF-8',
+				'Accept': 'application/json, text/plain'
+			},
+			body: jsonString
+		}
+	);
+}
