@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,12 +22,16 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.zonesoft.chats.data_generators.ConversationRecordBuilder;
+import com.zonesoft.chats.data_generators.MessageRecordBuilder;
 import com.zonesoft.chats.data_generators.ParticipantRecordBuilder;
+import com.zonesoft.chats.events.PersistenceEvent.PersistenceEventType;
 import com.zonesoft.chats.models.Conversation;
+import com.zonesoft.chats.models.Message;
 import com.zonesoft.chats.models.Participant;
 import com.zonesoft.chats.repositories.ConversationRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.SignalType;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -45,6 +50,7 @@ class ConversationServiceTest {
 		this.mockPersonService = mock(PersonService.class);
 		this.mockRepository = mock(ConversationRepository.class);
 		this.mockReactiveTemplate = mock(ReactiveMongoTemplate.class);
+		this.mockEventsLogger = mock(PersistenceEventsLogger.class);
 		this.service = new ConversationService(mockRepository, mockPersonService,mockEventsLogger, mockReactiveTemplate); 
 	}
 	
@@ -53,6 +59,7 @@ class ConversationServiceTest {
 		this.service= null;
 		this.mockPersonService=null;
 		this.mockRepository=null;
+		this.mockEventsLogger=null;
 	}
 	
 	@Test
@@ -113,15 +120,20 @@ class ConversationServiceTest {
 		 assertEquals(conversation, findResult.get(0));
 	}
 	
-//	@Test
-//	void testUpdateWithNewMessage_givenValidConversationIdAndMessage_ReturnsMonoWithUpdatedConversation() {
-//		Conversation conversation = new ConversationRecordBuilder().withDefaults().build();
-//		Message message = new MessageRecordBuilder().withDefaults().build();
-//		when(mockRepository.findById(conversation.getId())).thenReturn(Mono.just(conversation));
-//		when(mockRepository.save(conversation)).thenReturn(Mono.just(conversation));
-//		when(PersistenceEventsLogger.getEventWriter(PersistenceEventType.SAVE, conversation)).thenReturn(mockLogger)
-//		Conversation updatedConversation = this.service.updateWithNewMessage(conversation.getId(), message).block();
-//		 LOGGER.debug("updatedConversation.getTitle()={}",updatedConversation.getTitle());
-//		 assertNotEquals(conversation, updatedConversation);
-//	}
+	@Test
+	void testUpdateWithNewMessage_givenValidConversationIdAndMessage_ReturnsMonoWithUpdatedConversation() {
+		Conversation conversation = new ConversationRecordBuilder().withDefaults().build();
+		int initialNumberOfMessages = conversation.messages().size();
+		Message message = new MessageRecordBuilder().messageText("This is a new message").sentTime(OffsetDateTime.now()).withDefaults().build();
+		Consumer<SignalType> dummyLogger = (s ->  LOGGER.debug("From dummyLogger: SignalType={}",s));
+		when(mockRepository.findById(conversation.getId())).thenReturn(Mono.just(conversation));
+		when(mockRepository.save(conversation)).thenReturn(Mono.just(conversation));
+		when(mockEventsLogger.getEventWriter(PersistenceEventType.SAVE, conversation)).thenReturn(dummyLogger);
+		Conversation updatedConversation = this.service.updateWithNewMessage(conversation.getId(), message).block();
+		 LOGGER.debug("updatedConversation.getTitle()={}",updatedConversation.getTitle());
+		 assertNotEquals(initialNumberOfMessages, updatedConversation.messages().size());
+		 assertEquals(initialNumberOfMessages + 1, updatedConversation.messages().size());
+		 assertEquals(message, updatedConversation.messages().get(initialNumberOfMessages));
+		 assertEquals(conversation, updatedConversation);
+	}
 }
