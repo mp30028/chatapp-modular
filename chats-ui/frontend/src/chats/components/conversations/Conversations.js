@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import * as DataService from "../../services/ConversationDataService"
+import React, { useState, useEffect, useRef } from 'react';
+import * as DataService from "../../services/ConversationDataService";
+import * as EventListener from "../../services/ConversationListenerService";
+import * as DataHandler from "../../services/ConversationDataHandler";
 
 function Conversations(props){
+	const conversationsRef = useRef([]);
 	const [conversations, setConversations]= useState([]);
 	const [selectedConversation, setSelectedConversation]= useState(null);
 	
 	useEffect(() => {	
+		const onmessageHandler = (event) =>{
+			var eventData = JSON.parse(event.data);
+//			debugger;
+			var updatedData = DataHandler.doUpdate(conversationsRef.current, eventData);
+			setConversations(updatedData);
+		};
 		DataService.fetchByMoniker(props.moniker).then((data) => setConversations(data));
-	}, [setConversations]);	
+		EventListener.setupEventSource(onmessageHandler);		
+	}, [setConversations]);
 
 	useEffect(() =>{
 		if (props.selectionHandler){
@@ -15,6 +25,11 @@ function Conversations(props){
 		}
 	},[selectedConversation])
 
+	useEffect(() => {
+		conversationsRef.current = conversations;
+		if(props.updateHandler) {props.updateHandler(conversations);};
+	},[conversations]);
+	
 	const selectConversation = (event) => {
 		const targetConversation = conversations.find(c => c.id === event.target.value);
 		if (targetConversation){

@@ -9,7 +9,16 @@ function Chat(props){
 		
 	const conversationSelectionHandler = (conversation) =>{
 		setCurrentConversation(conversation);		
-	}
+	};
+	
+	const onConversationsUpdate = (conversations) =>{
+		if (currentConversation){
+			const updatedConversation = conversations.find((c) => c.id === currentConversation.id);
+			if(updatedConversation){
+				setCurrentConversation(updatedConversation);
+			};
+		}
+	};
 	
 	return(
 		<table style={{width: "100%"}}>
@@ -21,7 +30,7 @@ function Chat(props){
 				</tr>
 				<tr>
 					<td style={{width: "20%", height: "600px"}} rowSpan="2" >
-						<Conversations moniker={props.username} selectionHandler={conversationSelectionHandler}/>
+						<Conversations moniker={props.username} selectionHandler={conversationSelectionHandler} updateHandler={onConversationsUpdate}/>
 					</td>
 					<td style={{width: "80%", height:"500px",verticalAlign: "top"}}>
 						<Messages conversation={currentConversation} moniker={props.username} />

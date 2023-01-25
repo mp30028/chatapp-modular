@@ -16,7 +16,8 @@ function Messages(props){
 	}
 	
 	useEffect(() =>{
-		setConversation(props.conversation);	
+		setConversation(props.conversation);
+		console.log("FROM-MESSAGES");	
 	},[props.conversation]);
 	
 	useEffect(() =>{
