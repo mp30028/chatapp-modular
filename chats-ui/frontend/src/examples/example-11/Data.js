@@ -4,7 +4,7 @@ import * as PersonsDataService from './services/PersonDataService';
 
 
 function Data(){
-	const idToFetch =  "e30e5061-7b02-436e-8290-4e70cedcb3f3";
+	const idToFetch =  "fefbf428-714b-4eb7-9c91-9dddf5af770d";
 	const emptyPerson = {"id": "","moniker": "","firstname": "","lastname": "","otherNames": []};	
 	const [currentPerson, setCurrentPerson] = useState(emptyPerson);
 	const [jsonString, setJsonString] = useState("");

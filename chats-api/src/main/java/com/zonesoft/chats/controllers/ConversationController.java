@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zonesoft.chats.events.PersistenceEvent;
 import com.zonesoft.chats.models.Conversation;
+import com.zonesoft.chats.models.Message;
 import com.zonesoft.chats.services.ConversationService;
 
 import reactor.core.publisher.Flux;
@@ -83,9 +84,7 @@ public class ConversationController {
 	    	return Mono.just(ResponseEntity.noContent().build());
 	    }
     	
-    }
-    
-    
+    }  
     
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Conversation>> update(@PathVariable String id, @RequestBody Conversation conversation){
@@ -93,6 +92,12 @@ public class ConversationController {
                 .map( p -> ResponseEntity.accepted().body(p));
     }
 
+    @PutMapping("/{id}/messages")
+    public Mono<ResponseEntity<Conversation>> updateWithNewMessage(@PathVariable String id, @RequestBody Message message){
+        return service.updateWithNewMessage(id,message)
+                .map( p -> ResponseEntity.accepted().body(p));
+    }
+    
     @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> deleteById(@PathVariable String id){
         return service.deleteById(id)
