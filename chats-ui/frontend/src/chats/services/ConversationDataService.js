@@ -30,3 +30,18 @@ export const fetchPersonsByIds = async (ids) => {
 	);
 	return await response.json();
 }
+
+export const fetchPersonByMoniker = async (moniker) => {
+	const fetchUrl = ServicePaths.getApiUrl("PERSONS") + "?moniker=" + moniker;
+	console.log("fetchPersonByMoniker-Url = ", fetchUrl);
+	const response = await fetch(
+		fetchUrl, 
+		{	method: 'GET',
+			headers: {
+				'Content-Type': 'application/json;charset=U-8',
+				'Accept': 'application/json, text/plain'
+			}
+		}
+	);
+	return await response.json();
+}

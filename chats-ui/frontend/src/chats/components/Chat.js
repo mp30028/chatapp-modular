@@ -24,7 +24,7 @@ function Chat(props){
 						<Conversations moniker={props.username} selectionHandler={conversationSelectionHandler}/>
 					</td>
 					<td style={{width: "80%", height:"500px",verticalAlign: "top"}}>
-						<Messages conversation={currentConversation}  />
+						<Messages conversation={currentConversation} moniker={props.username} />
 					</td>
 				</tr>	
 			</tbody>

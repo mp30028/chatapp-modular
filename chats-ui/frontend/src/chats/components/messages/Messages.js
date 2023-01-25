@@ -2,14 +2,26 @@ import React, { useState, useEffect } from 'react';
 import Participants from './participants/Participants';
 import MessageInput from './message-input/MessageInput';
 import Dialogue from './dialogue/Dialogue';
+import * as DataService from "../../services/ConversationDataService"
+
 
 function Messages(props){
 	const emptyConversation = {id: "", title: "", participants: [], messages:[]};
+	const emptyUser = {personId:"", moniker:""};
 	const [conversation, setConversation] = useState(emptyConversation);
+	const [currentUser, setCurrentUser]=useState(emptyUser);
+	
+	const enrichAndSetUser = (inMoniker) => {
+		DataService.fetchPersonByMoniker(inMoniker).then((data) => setCurrentUser(Array.isArray(data)?data[0]:emptyUser));
+	}
 	
 	useEffect(() =>{
 		setConversation(props.conversation);	
 	},[props.conversation]);
+	
+	useEffect(() =>{
+		enrichAndSetUser(props.moniker);
+	},[props.moniker]);
 	
 	return(
 		<main>
@@ -21,12 +33,13 @@ function Messages(props){
 			<Dialogue 
 				messages={(conversation)? conversation.messages : []} 
 				participants={(conversation)? conversation.participants : []} 
-			/>			
+			/>
 			
-
+			<MessageInput 
+				user={currentUser} 
+				conversationId={(conversation)? conversation.id : ""} 
+			/>
 			
-			<h3>Message Input</h3>
-				<MessageInput />
 		</main>
 	);
 };
