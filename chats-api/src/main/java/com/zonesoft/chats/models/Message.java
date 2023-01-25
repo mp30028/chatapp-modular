@@ -4,9 +4,13 @@ import static com.zonesoft.utils.helpers.ToStringBuilder.*;
 import com.zonesoft.utils.helpers.ToStringBuilder;
 
 import java.time.OffsetDateTime;
+import java.util.Objects;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 public class Message {
-	private String id = null;
+	@Id private String id = null;
 	private String messageText = null;
 	private String senderPersonId = null;
 	private OffsetDateTime sentTime = null;
@@ -17,6 +21,7 @@ public class Message {
 	
 	public Message(String senderPersonId, String messageText) {
 		super();
+		this.id = ObjectId.get().toString();
 		this.senderPersonId = senderPersonId;
 		this.messageText = messageText;
 		this.sentTime = OffsetDateTime.now();
@@ -24,6 +29,7 @@ public class Message {
 	
 	public Message(String senderPersonId, String messageText, OffsetDateTime sentTime) {
 		super();
+		this.id = ObjectId.get().toString();
 		this.senderPersonId = senderPersonId;
 		this.messageText = messageText;
 		this.sentTime = sentTime;
@@ -50,7 +56,7 @@ public class Message {
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		this.id = Objects.nonNull(id) ? id : this.id;
 	}
 
 	public String getSenderPersonId() {

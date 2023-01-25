@@ -1,7 +1,10 @@
 package com.zonesoft.chats.services;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +50,12 @@ public class ConversationService {
 	}
 	
 	public Mono<Conversation> updateWithNewMessage(String id, Message message){
+		if (Objects.isNull(message.getId())){
+			message.setId(ObjectId.get().toString());
+		};
+		if (Objects.isNull(message.getSentTime())) {
+			message.setSentTime(OffsetDateTime.now());
+		};
 		Mono<Conversation> updatedConversationMono = 
 			findById(id)
 				.map((c) -> {
