@@ -18,26 +18,26 @@ import reactor.core.publisher.SignalType;
 @Service
 public class PersistenceEventsLogger {
 	
-	private static PersistenceEventRepository eventRepository;
+	private PersistenceEventRepository eventRepository;
 	
 	@Autowired
 	public PersistenceEventsLogger(PersistenceEventRepository eventRepository) {
-		PersistenceEventsLogger.eventRepository = eventRepository;
+		this.eventRepository = eventRepository;
 	}
 
-	private static void writeEvent(PersistenceEventType eventType, List<Conversation> conversations) {
+	private void writeEvent(PersistenceEventType eventType, List<Conversation> conversations) {
 		PersistenceEvent event = new PersistenceEvent(eventType,conversations);
 		Mono<PersistenceEvent> returnResult = eventRepository.insert(event);
 		returnResult.subscribe();
 	}
 	
-	public static Consumer<SignalType> getEventWriter(PersistenceEventType eventType, Conversation conversation){
+	public Consumer<SignalType> getEventWriter(PersistenceEventType eventType, Conversation conversation){
 		List<Conversation> conversations = new ArrayList<>();
 		conversations.add(conversation);
 		return getEventWriter(eventType, conversations);
 	}
 	
-	public static Consumer<SignalType> getEventWriter(PersistenceEventType eventType, List<Conversation> conversations){
+	public Consumer<SignalType> getEventWriter(PersistenceEventType eventType, List<Conversation> conversations){
 		return (s -> { if (s == SignalType.ON_COMPLETE) {writeEvent(eventType, conversations);};});
 	}
 	

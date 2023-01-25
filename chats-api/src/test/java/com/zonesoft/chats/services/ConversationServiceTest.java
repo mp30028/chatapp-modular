@@ -25,8 +25,6 @@ import com.zonesoft.chats.data_generators.ParticipantRecordBuilder;
 import com.zonesoft.chats.models.Conversation;
 import com.zonesoft.chats.models.Participant;
 import com.zonesoft.chats.repositories.ConversationRepository;
-
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -37,8 +35,8 @@ class ConversationServiceTest {
 	private ReactiveMongoTemplate mockReactiveTemplate;
 	
 	private PersonService mockPersonService;
+	private PersistenceEventsLogger mockEventsLogger;
 	private ConversationRepository mockRepository;
-//	private PersistenceEventRepository mockEventsRepository;
 	
 	private ConversationService service;
 	
@@ -46,9 +44,8 @@ class ConversationServiceTest {
 	void setupBeforeEach() {
 		this.mockPersonService = mock(PersonService.class);
 		this.mockRepository = mock(ConversationRepository.class);
-//		this.mockEventsRepository = mock(PersistenceEventRepository.class);
 		this.mockReactiveTemplate = mock(ReactiveMongoTemplate.class);
-		this.service = new ConversationService(mockRepository, mockPersonService, mockReactiveTemplate); 
+		this.service = new ConversationService(mockRepository, mockPersonService,mockEventsLogger, mockReactiveTemplate); 
 	}
 	
 	@AfterEach
@@ -71,7 +68,6 @@ class ConversationServiceTest {
 		 boolean isNullReturned = conversationFlux.all(c -> Objects.isNull(c)).block();
 		 assertTrue(isNullReturned);
 	}
-	
 	
 	@Test
 	void testFindAll_GivenASingleConversation_ReturnsFluxWithSingleConversation() {
@@ -116,4 +112,16 @@ class ConversationServiceTest {
 		 LOGGER.debug("findResult.get(0).getTitle()={}",findResult.get(0).getTitle());
 		 assertEquals(conversation, findResult.get(0));
 	}
+	
+//	@Test
+//	void testUpdateWithNewMessage_givenValidConversationIdAndMessage_ReturnsMonoWithUpdatedConversation() {
+//		Conversation conversation = new ConversationRecordBuilder().withDefaults().build();
+//		Message message = new MessageRecordBuilder().withDefaults().build();
+//		when(mockRepository.findById(conversation.getId())).thenReturn(Mono.just(conversation));
+//		when(mockRepository.save(conversation)).thenReturn(Mono.just(conversation));
+//		when(PersistenceEventsLogger.getEventWriter(PersistenceEventType.SAVE, conversation)).thenReturn(mockLogger)
+//		Conversation updatedConversation = this.service.updateWithNewMessage(conversation.getId(), message).block();
+//		 LOGGER.debug("updatedConversation.getTitle()={}",updatedConversation.getTitle());
+//		 assertNotEquals(conversation, updatedConversation);
+//	}
 }

@@ -11,10 +11,11 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Service;
 
 import com.zonesoft.chats.models.Conversation;
+import com.zonesoft.chats.models.Message;
 import com.zonesoft.chats.repositories.ConversationRepository;
 import com.zonesoft.chats.events.PersistenceEvent.PersistenceEventType;
 import com.zonesoft.chats.events.PersistenceEvent;
-import static com.zonesoft.chats.services.PersistenceEventsLogger.*;
+
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,25 +27,38 @@ public class ConversationService {
 	private final ConversationRepository repository;
 	private final ReactiveMongoTemplate reactiveTemplate;
 	private final PersonService personService;
+	private final PersistenceEventsLogger eventsLogger;
 	
 	@Autowired
-	public ConversationService(ConversationRepository repository, PersonService personsService, ReactiveMongoTemplate reactiveTemplate) {
+	public ConversationService(ConversationRepository repository, PersonService personsService,PersistenceEventsLogger eventsLogger, ReactiveMongoTemplate reactiveTemplate) {
 		super();
 		this.repository = repository;
 		this.reactiveTemplate = reactiveTemplate;
 		this.personService = personsService;
+		this.eventsLogger = eventsLogger;
 	}
 	
 	public Mono<Conversation> insert(Conversation conversation){
-		return repository.insert(conversation).doFinally(getEventWriter(PersistenceEventType.SAVE, conversation));
+		return repository.insert(conversation).doFinally(eventsLogger.getEventWriter(PersistenceEventType.SAVE, conversation));
 	}
 	
 	public Mono<Conversation> update(Conversation conversation){
-		return repository.save(conversation).doFinally(getEventWriter(PersistenceEventType.SAVE, conversation));
+		return repository.save(conversation).doFinally(eventsLogger.getEventWriter(PersistenceEventType.SAVE, conversation));
+	}
+	
+	public Mono<Conversation> updateWithNewMessage(String id, Message message){
+		Mono<Conversation> updatedConversationMono = 
+			findById(id)
+				.map((c) -> {
+						c.messages().add(message);
+						return c;
+					})
+				.flatMap((c) -> this.update(c));
+		return updatedConversationMono;
 	}
 	
 	public Flux<Conversation> saveAll(List<Conversation> conversations){
-    	return repository.saveAll(conversations).doFinally(getEventWriter(PersistenceEventType.SAVE_ALL, conversations));
+    	return repository.saveAll(conversations).doFinally(eventsLogger.getEventWriter(PersistenceEventType.SAVE_ALL, conversations));
     }
     
 	public Mono<Conversation> findById(String id){
@@ -58,14 +72,14 @@ public class ConversationService {
 	public Mono<Void> deleteAll(){
 		return findAll()
 			.collectList()
-			.map((l) -> getEventWriter(PersistenceEventType.DELETE_ALL, l))
+			.map((l) -> eventsLogger.getEventWriter(PersistenceEventType.DELETE_ALL, l))
 			.map((w) -> {w.accept(SignalType.ON_COMPLETE); return true;})
 			.then(repository.deleteAll());
     }
     
 	public Mono<Void> deleteById(String id){
 		return findById(id)
-			.map((p) -> getEventWriter(PersistenceEventType.DELETE, p))
+			.map((p) -> eventsLogger.getEventWriter(PersistenceEventType.DELETE, p))
 			.map((w) -> {w.accept(SignalType.ON_COMPLETE); return true;})
 			.then(repository.deleteById(id));
     }
