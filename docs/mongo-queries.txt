@@ -1,0 +1,5 @@
+db.conversations.find({'_id':ObjectId("63cd1dc3990ad90b88c94035")})
+
+db.conversations.update({'_id':ObjectId("63cd1dc3990ad90b88c94035")}, {$pull :{ messages:{_id:null}}})
+
+db.conversations.update({'_id':ObjectId("63cd1dc3990ad90b88c94035")}, {$pull :{ messages:{messageText: 'Let us try this', senderPersonId: 'fefbf428-714b-4eb7-9c91-9dddf5af770d'}}})
