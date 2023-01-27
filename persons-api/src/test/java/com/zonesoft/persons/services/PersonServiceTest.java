@@ -13,8 +13,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 
 import com.zonesoft.persons.data_generators.PersonRecordBuilder;
+import com.zonesoft.persons.events.PersistenceEventRepository;
 import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.repositories.PersonRepository;
 import com.zonesoft.utils.data_generators.RecordsGeneratorTemplate;
@@ -24,21 +26,26 @@ import reactor.core.publisher.Flux;
 class PersonServiceTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PersonServiceTest.class);
-	
-	PersonRepository mockRepository;
-	PersonService service;
+	private ReactiveMongoTemplate mockReactiveTemplate;	
+	private PersonRepository mockRepository;
+	private PersistenceEventRepository mockEventRepository;
+	private PersonService service;
 	
 	@BeforeEach
 	void setupBeforeEach() {
-		mockRepository = mock(PersonRepository.class);
-		service = new PersonService(mockRepository);
+		this.mockRepository = mock(PersonRepository.class);
+		this.mockReactiveTemplate = mock(ReactiveMongoTemplate.class);
+		this.mockEventRepository = mock(PersistenceEventRepository.class);
+		service = new PersonService(mockRepository,mockEventRepository,mockReactiveTemplate);
 	}
 	
 	
 	@AfterEach
 	void cleanupAfterEach() {
-		service = null;
-		mockRepository = null;
+		this.service = null;
+		this.mockRepository = null;
+		this.mockEventRepository = null;
+		this.mockReactiveTemplate = null;
 	}
 	
 	@Test
