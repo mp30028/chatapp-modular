@@ -10,41 +10,43 @@
   <description>REST API to manage chats</description>
   
    <dependencies>
-	<dependency>
-		<groupId>com.zonesoft</groupId>
-		<artifactId>utils</artifactId>
-		<version>1.0.0</version>
-	</dependency>
-
-<!-- 	<dependency> -->
-<!-- 	  <groupId>com.github.tomakehurst</groupId> -->
-<!-- 	  <artifactId>wiremock-jre8</artifactId> -->
-<!-- 	  <version>2.35.0</version> -->
-<!-- 	  <scope>test</scope> -->
-<!-- 	</dependency> -->
-
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.github.tomakehurst</groupId> -->
-<!-- 			<artifactId>wiremock</artifactId> -->
-<!-- 			<version>2.27.2</version> -->
-<!-- 			<scope>test</scope> -->
-<!-- 		</dependency> -->
-
-
+		<dependency>
+			<groupId>com.zonesoft</groupId>
+			<artifactId>utils</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 		<dependency>
 		    <groupId>org.springframework.cloud</groupId>
 		    <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
 		    <version>3.1.5</version>
 		    <scope>test</scope>
 		</dependency>
-
 		<dependency>
 		    <groupId>com.jayway.jsonpath</groupId>
 		    <artifactId>json-path</artifactId>
 		    <version>2.7.0</version>
 		</dependency>
-
-	
   </dependencies> 
-  
+ 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${maven.version}</version>
+				<configuration>
+					<mainClass>com.zonesoft.chats.ChatsApiApp</mainClass>
+					<layout>JAR</layout>
+				</configuration>
+				<executions>
+				    <execution>
+				        <goals>
+				            <goal>repackage</goal>
+				        </goals>
+				    </execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
 </project>
