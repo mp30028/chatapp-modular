@@ -14,8 +14,6 @@ import java.util.List;
 public class Person {
 	
 	@Id private String id;
-
-
 	private String moniker;
 	private String firstname;
 	private String lastname;
@@ -28,7 +26,6 @@ public class Person {
 		this.lastname = lastname;
 		this.moniker = moniker;
 	}
-	
 	
 	public Person(String moniker, String firstname, String lastname) {
 		super();
@@ -85,10 +82,6 @@ public class Person {
 	public List<OtherName> getOtherNames(){
 		return this.otherNames;
 	}
-	
-//	public void setOtherNames(List<OtherName> otherNames){
-//		this.otherNames = otherNames;
-//	}
 	
 	@Override
 	public String toString() {		

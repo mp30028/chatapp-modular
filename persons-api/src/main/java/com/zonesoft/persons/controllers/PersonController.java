@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zonesoft.persons.events.PersistenceEvent;
-import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.models.OtherName.OtherNameType;
+import com.zonesoft.persons.models.Person;
 import com.zonesoft.persons.services.PersonService;
 
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -30,7 +31,7 @@ public class PersonController {
     
 	private final PersonService service;
     
-//    @Autowired
+	@Autowired
     public PersonController(PersonService service) {
     	super();
     	this.service = service;
@@ -63,7 +64,6 @@ public class PersonController {
 
     @GetMapping(params = {"id"})
     public Mono<ResponseEntity<List<Person>>> findByListOfIds(@RequestParam List<String> id){
-    	
     	Flux<Person> personFlux = service.findByListOfIds(id);
     	if (Objects.nonNull(personFlux)) {
 	        return personFlux
@@ -80,7 +80,6 @@ public class PersonController {
 	    }
     }
 
-    
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Person>> findById(@PathVariable String id){
         Mono<Person> personMono = service.findById(id);

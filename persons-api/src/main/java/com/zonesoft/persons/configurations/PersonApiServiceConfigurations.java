@@ -26,7 +26,7 @@ public class PersonApiServiceConfigurations {
 	public WebFluxConfigurer corsConfigurer() {
 		return new WebFluxConfigurer() {
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:8080","http://localhost:3000","http://192.168.1.60:8080","http://192.168.1.60:3000" ).allowedMethods("GET", "POST", "PUT", "DELETE");
+				registry.addMapping("/**").allowedOrigins("http://localhost:8080","http://localhost:3000","http://192.168.1.60:8080","http://192.168.1.60:3000","http://localhost:1111" ).allowedMethods("GET", "POST", "PUT", "DELETE");
 //				registry.addMapping("/**").allowedOrigins("http://localhost:8080","http://localhost:3000","http://192.168.1.60:8080","http://192.168.1.60:3000" );
 //				registry.addMapping("/**").allowedOrigins("http://localhost:3000");
 			}

@@ -1,19 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   
   <modelVersion>4.0.0</modelVersion>
-  
-  
-  
   <groupId>com.zonesoft</groupId>
-  
   <artifactId>chatapp-modular</artifactId>
-  
   <version>1.0.0</version>
-  
   <packaging>pom</packaging>
-  
   <name>chatapp-modular</name>
-  
   <description>chatapp parent project</description>
   
 	<properties>
@@ -21,12 +13,11 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 		<java.version>17</java.version>
-		<springboot.version>2.7.7</springboot.version>
+		<springboot.version>2.7.8</springboot.version>
 		<testcontainers.version>1.17.6</testcontainers.version>
-		<maven.version>3.10.1</maven.version>
+ 		<maven.version>3.0.2</maven.version> 
 		<mavensurefire.version>3.0.0-M7</mavensurefire.version>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-<!-- 		<node.version>v16.14.2</node.version> -->
 		<node.version>v18.12.1</node.version>
 		<yarn.version>v1.22.19</yarn.version>
 		<frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
@@ -41,27 +32,22 @@
     	<module>chats-ui</module>
     </modules>
 
-
 	<dependencies>
-
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot</artifactId>
 		    <version>${springboot.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 			<version>${springboot.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
 			<version>${springboot.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -69,36 +55,28 @@
 			<optional>true</optional>
 			<version>${springboot.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 			<version>${springboot.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 			<version>${springboot.version}</version>
 		</dependency>
-		
 	    <dependency>
 	      <groupId>org.testcontainers</groupId>
 	      <artifactId>junit-jupiter</artifactId>
 	      <scope>test</scope>
 	    </dependency>
-	    
 	    <dependency>
 	      <groupId>org.testcontainers</groupId>
 	      <artifactId>mongodb</artifactId>
 	      <scope>test</scope>
-<!-- 	      <version>${testcontainers.version}</version> -->
 	    </dependency>
-
-
-
 	</dependencies>
 
 	<dependencyManagement>
@@ -116,11 +94,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${maven.version}</version>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
