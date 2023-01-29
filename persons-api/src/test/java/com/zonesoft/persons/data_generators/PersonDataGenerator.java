@@ -40,7 +40,7 @@ public class PersonDataGenerator {
 	@Test
 	void deleteAndCreateDummyData() {
 		if (isDataToBeRegenerated){
-//			deleteAllPersonInDb();
+			deleteAllPersonInDb();
 			savePersonsToDb(generatePersons());
 		}
 		List<Person> fetchedPersons = fetchPersonsFromDb();
